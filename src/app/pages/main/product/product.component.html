@@ -1,0 +1,34 @@
+<p>Adott termék</p>
+<div class="container">
+    <img src="/assets/img/{{imageSource}}.png" alt="Product">
+    <div>
+        <div *ngIf="comments.length">
+            <table>
+                <tr>
+                    <th>Felhasználónév</th>
+                    <th>Komment</th>
+                    <th>Dátum</th>
+                </tr>
+                <tr *ngFor="let comment of comments">
+                    <td>{{comment.username}}</td>
+                    <td>{{comment.comment}}</td>
+                    <td>{{comment.date | date: 'yyyy. MM. dd. hh:mm:ss'}}</td>
+                </tr>
+            </table>
+        </div>
+        <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
+            <div>
+                <label for="username">Felhasználónév:</label>
+                <!-- <input type="text" [(ngModel)]="commentObject['username']" /> -->
+                <input type="text" formControlName="username" />
+            </div>
+            <div>
+                <!-- <textarea rows="10" cols="70" [(ngModel)]="commentObject['comment']"></textarea> -->
+                <textarea rows="10" cols="70" formControlName="comment"></textarea>
+            </div>
+            <div>
+                <button type="submit">Hozzáadás</button>
+            </div>
+        </form>
+    </div>
+</div>

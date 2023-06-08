@@ -1,0 +1,33 @@
+<div class="registration_component">
+    <div class="div-flex">
+        <h1>Regisztráció</h1>
+        <form [formGroup]="signUpForm" (ngSubmit)="registration()">
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" formControlName="email">
+            </div>
+            <div>
+                <label for="password">Jelszó:</label>
+                <input type="password" formControlName="password">
+            </div>
+            <div>
+                <label for="rePassword">Jelszó ismét:</label>
+                <input type="password" formControlName="rePassword">
+            </div>
+            <div formGroupName="name">
+                <div>
+                    <label for="lastname">Vezetéknév:</label>
+                    <input type="text" formControlName="lastname">
+                </div>
+                <div>
+                    <label for="firstname">Keresztnév:</label>
+                    <input type="text" formControlName="firstname">
+                </div>
+            </div>
+            <div>
+                <button type="submit">Regisztráció</button>
+                <button [routerLink]="'/login'">Bejelentkezés</button>
+            </div>
+        </form>
+    </div>
+</div>

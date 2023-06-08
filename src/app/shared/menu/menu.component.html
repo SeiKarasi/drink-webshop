@@ -1,0 +1,22 @@
+<!-- Ha változik a #pageValue változó értéke akkor hívódik meg a change output direktíva, 
+     Általa pedig a menuSwitch függvény mely megkapja a pageValue értékét! -->
+<select [(ngModel)]="currentPage" (change)="menuSwitch()">
+    <option value="main">Főoldal</option>
+    <option value="aboutus">Rólunk</option>
+    <option value="blog">Blog</option>
+    <option value="login">Bejelentkezés</option>
+    <option value="registration">Regisztráció</option>
+</select>
+<div>Kategóriák:
+    <select>
+        <option>Minden</option>
+        <option>Sörök</option>
+        <option>Borok</option>
+        <option>Pezsgők</option>
+        <option>Whisky-k</option>
+        <option>Vodkák</option>
+        <option>Pálinkák</option>
+        <option>Keserűk</option>
+        <option>Üdítők</option>
+    </select>
+</div>

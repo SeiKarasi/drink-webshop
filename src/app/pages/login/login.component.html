@@ -1,0 +1,21 @@
+<div class="login_component">
+    <div class="div-flex">
+        <h1>Bejelentkezés</h1>
+        <form [formGroup]="LoginForm" (ngSubmit)="login()">
+            <div>
+                <label for="email">Email:</label>
+                <input id="email" type="text" formControlName="email">
+            </div>
+            <div>
+                <label for="password">Jelszó:</label>
+                <input id="password" type="password" formControlName="password">
+            </div>
+            <div>
+                <button type="submit">Bejelentkezés</button>
+                <button [routerLink]="'/registration'">Regisztráció</button>
+            </div>
+            <!-- AsyncPipe -->
+            <p>{{ loadingObservation| async}}</p>
+        </form>
+    </div>
+</div>

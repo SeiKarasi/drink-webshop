@@ -1,0 +1,26 @@
+<div id='flex'>
+    <div class='title'>Hamarosan kapható termékek</div>
+    <div class='image-container'>
+        <div class='image' *ngFor='let image of comingSoonImages'>
+            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        </div>
+    </div>
+    <div class='title'>Új termékek</div>
+    <div class='image-container'>
+        <div class='image' *ngFor='let image of comingSoonImages'>
+            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        </div>
+    </div>
+    <div class='title'>Kedvezményes termékek</div>
+    <div class='image-container'>
+        <div class='image' *ngFor='let image of comingSoonImages'>
+            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        </div>
+    </div>
+    <div class='title'>Kifutó termékek</div>
+    <div class='image-container'>
+        <div class='image' *ngFor='let image of comingSoonImages'>
+            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        </div>
+    </div>
+</div>
