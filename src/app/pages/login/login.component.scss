@@ -13,3 +13,17 @@
 form div {
     padding: 5px;
 }
+
+form {
+    display: inline-grid;
+    width: 50%;
+    align-self: center;
+}
+
+.buttons {
+    padding: 5px;
+}
+
+button {
+    width: 130px;
+}

@@ -1,6 +1,9 @@
 export interface User {
+    id: string;
     email: string;
-    password: string;
+    // nem kéne letárolni
+    // password: string;
+    username: string;
     name: {
         firstname: string;
         lastname: string;

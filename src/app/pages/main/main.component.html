@@ -1,26 +1,74 @@
 <div id='flex'>
     <div class='title'>Hamarosan kapható termékek</div>
     <div class='image-container'>
-        <div class='image' *ngFor='let image of comingSoonImages'>
-            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        <div>
+            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+        </div>
+        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
+                <div class="productname">{{product.name}}</div>
+                <span *ngFor='let loadedImage of loadedImages'>
+                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                </span>
+                <div class="productname">{{product.price}} Ft</div>
+            </button>
+        </div>
+        <div>
+            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
         </div>
     </div>
     <div class='title'>Új termékek</div>
     <div class='image-container'>
-        <div class='image' *ngFor='let image of comingSoonImages'>
-            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        <div>
+            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+        </div>
+        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
+                <div class="productname">{{product.name}}</div>
+                <span *ngFor='let loadedImage of loadedImages'>
+                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                </span>
+                <div class="productname">{{product.price}} Ft</div>
+            </button>
+        </div>
+        <div>
+            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
         </div>
     </div>
     <div class='title'>Kedvezményes termékek</div>
     <div class='image-container'>
-        <div class='image' *ngFor='let image of comingSoonImages'>
-            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        <div>
+            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+        </div>
+        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
+                <div class="productname">{{product.name}}</div>
+                <span *ngFor='let loadedImage of loadedImages'>
+                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                </span>
+                <div class="productname">{{product.price}} Ft</div>
+            </button>
+        </div>
+        <div>
+            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
         </div>
     </div>
     <div class='title'>Kifutó termékek</div>
     <div class='image-container'>
-        <div class='image' *ngFor='let image of comingSoonImages'>
-            <button (click)="navigateThisProduct()" [routerLink]="'/main/product/' + image"><img [src]="'assets/img/' + image + '.png'" alt='Image'></button>
+        <div>
+            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+        </div>
+        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
+                <div class="productname">{{product.name}}</div>
+                <span *ngFor='let loadedImage of loadedImages'>
+                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                </span>
+                <div class="productname">{{product.price}} Ft</div>
+            </button>
+        </div>
+        <div>
+            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
         </div>
     </div>
 </div>

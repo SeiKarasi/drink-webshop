@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FakeLoadingService } from '../../shared/services/fake-loading.service';
 import { Subscription, Observable} from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,20 +11,24 @@ import { Subscription, Observable} from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  LoginForm = new FormGroup({
+  usersForm = new FormGroup ({
     email: new FormControl(''),
-    password: new FormControl('')
+    password:new FormControl(''),
   });
+  
 
   loadingSubscription?: Subscription;
   loadingObservation?: Observable<boolean>;
 
-  constructor(private router: Router, private loadingService: FakeLoadingService) { }
+  loginLoading: boolean = false;
+
+  constructor(private router: Router, private loadingService: FakeLoadingService, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   async login() {
+    this.loginLoading = true;
     // then akkor fut le, amikor a return ténylegesen lefut az adott Promiseban
     // catch akkor fut le, ha hiba van benne
     // finally mindig lefut
@@ -57,11 +62,27 @@ export class LoginComponent implements OnInit, OnDestroy {
     // Observable
     // Ha nem zárjuk be akkor memory leak
     // ezért le kell iratkozni ha már nem használjuk
-    this.loadingObservation = this.loadingService.loadingWithObservable(this.LoginForm.get('email')?.value, this.LoginForm.get('password')?.value);
-    this.loadingSubscription = this.loadingObservation.subscribe((data: boolean) => {
-      console.log(data);
-      
-    });
+   /* this.loadingObservation = this.loadingService.loadingWithObservable(this.usersForm.get('email')?.value, this.usersForm.get('password')?.value);
+    this.loadingSubscription = this.loadingObservation.subscribe({
+      next: (data: boolean) => {
+      this.router.navigateByUrl('/main');
+      }, error: (error) => {
+        this.loginLoading = false;
+        console.error(error);
+      }, complete: () => {
+        this.loginLoading = false;
+        console.log('finally');
+      }
+    }); */
+    this.authService.login(this.usersForm.get('email')?.value, this.usersForm.get('password')?.value)
+    .then(credential => {
+      console.log(credential);
+      this.router.navigateByUrl('/main');
+      this.loginLoading = false;
+    }).catch(error => {
+      console.error(error);
+      this.loginLoading = false;
+    })
   }
 
   // leiratkozunk róla amikor a komponens megszűnik

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProductService } from '../../shared/services/product.service';
+import { Product } from '../../shared/models/Product';
 
 @Component({
   selector: 'app-main',
@@ -7,14 +9,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  comingSoonImages: Array<any> = ['blue_cola_drink', 'extreme_cola_drink', 'orange_cola_drink2',
-   'orange_cola_drink', 'snake_whisky_drink'];
 
-  constructor(private router : Router) { }
+  productObject?: Array<Product>;
+  loadedImages: Array<string> = [];
+  currentStartIndex = 0;
+  currentEndIndex = 4;
+
+  constructor(private router: Router, private productService: ProductService) { }
 
   ngOnInit(): void {
+    this.productService.loadImageMeta('').subscribe((data: Array<Product>) => {
+      console.log(data);
+      this.productObject = data;
+      if (this.productObject) {
+        for (let i = 0; i < this.productObject.length; i++) {
+          this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
+            this.loadedImages?.push(data);
+          });
+        }
+      }
+    });
   }
 
-  navigateThisProduct(){}
+  navigateThisProduct() {
+  }
 
+  nextProduct(){
+    if(this.currentEndIndex == this.productObject?.length){
+      console.error("Nincs előrefele már több termék!");
+    } else {
+      this.currentStartIndex++;
+      this.currentEndIndex++;
+    } 
+  }
+
+  previousProduct(){
+    if(this.currentStartIndex == 0){
+      console.error("Nincs visszafele több termék!")
+    } else {
+      this.currentStartIndex--;
+      this.currentEndIndex--;
+    }
+  }
 }

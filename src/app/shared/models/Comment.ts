@@ -1,5 +1,8 @@
 export interface Comment {
+    id: string;
     username: string;
     comment: string;
-    date: Date;
+    // Könnyebb így használni itt
+    date: number;
+    productId?: string;
 }

@@ -1,4 +1,34 @@
 @font-face {
     font-family: 'RubikWetPaint';
-    src: url('../assets/fonts/RubikWetPaint-Regular.ttf') format('truetype');
+    src: url('assets/fonts/RubikWetPaint-Regular.ttf') format('truetype');
   }
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Mindenhol ezt a betöltődést akarom használni
+.loading-spinner {
+  position: fixed;
+  z-index: 1000;
+  height: 1em;
+  width: 1em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+// szürkíteni a hátteret amikor töltődés van
+.loading-spinner::before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, 0.3);
+}

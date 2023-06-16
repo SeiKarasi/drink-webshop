@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "trinkydrinky-webshop": {
+      "hosting": {
+        "drink-webshop": [
+          "trinkydrinky-webshop"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "trinkydrinky-webshop"
+  }
+}

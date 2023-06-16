@@ -1,12 +1,38 @@
 <!-- Ha változik a #pageValue változó értéke akkor hívódik meg a change output direktíva, 
      Általa pedig a menuSwitch függvény mely megkapja a pageValue értékét! -->
-<select [(ngModel)]="currentPage" (change)="menuSwitch()">
+<!-- <select [(ngModel)]="currentPage" (change)="menuSwitch()">
     <option value="main">Főoldal</option>
     <option value="aboutus">Rólunk</option>
     <option value="blog">Blog</option>
     <option value="login">Bejelentkezés</option>
     <option value="registration">Regisztráció</option>
-</select>
+</select> -->
+<mat-nav-list>
+    <a mat-list-item routerLink="/main" (click)="close()">
+        <mat-icon>grid_view</mat-icon>
+        <span>Főoldal</span>
+    </a>
+    <a mat-list-item routerLink="/aboutus" (click)="close()">
+        <mat-icon>info</mat-icon>
+        <span>Rólunk</span>
+    </a>
+    <a mat-list-item routerLink="/blog" (click)="close()">
+        <mat-icon>info</mat-icon>
+        <span>Blog</span>
+    </a>
+    <a mat-list-item routerLink="/login" (click)="close()" *ngIf="!(loggedInUser)">
+        <mat-icon>login</mat-icon>
+        <span>Bejelentkezés</span>
+    </a>
+    <a mat-list-item routerLink="/login" (click)="close(true)" *ngIf="loggedInUser">
+        <mat-icon>logout</mat-icon>
+        <span>Kijelentkezés</span>
+    </a>
+    <a mat-list-item routerLink="/registration" (click)="close()" *ngIf="!(loggedInUser)">
+        <mat-icon>app_registration</mat-icon>
+        <span>Regisztráció</span>
+    </a>
+</mat-nav-list>
 <div>Kategóriák:
     <select>
         <option>Minden</option>

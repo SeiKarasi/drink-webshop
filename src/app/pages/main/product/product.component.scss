@@ -1,13 +1,45 @@
+body {
+    height: 100vh;
+}
+
 .container {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid ;
+    text-align: center;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    word-wrap: break-word;
+}
+
+h2 {
+    margin-top: 20px;
 }
 
 form {
+    text-align: center;
+}
+
+.div-card {
+    padding: 50px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-card-content {
     text-align: center;
 }
