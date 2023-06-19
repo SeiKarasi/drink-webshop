@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FakeLoadingService } from '../../shared/services/fake-loading.service';
 import { Subscription, Observable} from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +22,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginLoading: boolean = false;
 
-  constructor(private router: Router, private loadingService: FakeLoadingService, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -78,9 +81,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     .then(credential => {
       console.log(credential);
       this.router.navigateByUrl('/main');
+      this.toastr.success("Sikeres bejelentkezés!", "Bejelentkezés");
       this.loginLoading = false;
     }).catch(error => {
       console.error(error);
+      this.toastr.error("Sikertelen bejelentkezés!", "Bejelentkezés");
       this.loginLoading = false;
     })
   }

@@ -1,23 +1,40 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
-        <app-menu (selectedPage)="switchPage($event)" [currentPage]="page" (onCloseSidenav)="onCloseSidenav($event, sidenav)" [loggedInUser]="loggedInUser" (onLogout)="logout($event)"></app-menu>
+        <app-menu (selectedPage)="switchPage($event)" [currentPage]="page"
+            (onCloseSidenav)="onCloseSidenav($event, sidenav)" [loggedInUser]="loggedInUser"
+            (onLogout)="logout($event)"></app-menu>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="secondary">
+        <mat-toolbar color="secondary" class="app-toolbar">
             <div fxHide.gt-xs>
                 <button mat-icon-button (click)="onToggleSidenav(sidenav)">
                     <mat-icon>menu</mat-icon>
                 </button>
             </div>
-            <div>TrinkyDrinky</div>
-            <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
-                <ul fxLayout fxLayoutGap="10px" class="navigation-items">
-                    <li><a routerLink="/main">Főoldal</a></li>
-                    <li><a routerLink="/aboutus">Rólunk</a></li>
-                    <li><a routerLink="/blog" [ngClass]="{'disabled-link': !loggedInUser}">Blog</a></li>
-                    <li *ngIf="!(loggedInUser)"><a routerLink="/login">Bejelentkezés</a></li>
-                    <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()">Kijelentkezés</a></li>
-                    <li *ngIf="!(loggedInUser)"><a routerLink="/registration">Regisztráció</a></li>
+            <div id="title">
+                Trinky<span class="highlight">D</span>rinky
+                <mat-icon id="liquor">liquor</mat-icon>
+            </div>
+            <div fxFlex fxLayout="column" fxHide.xs>
+                <ul fxLayout fxLayoutGap="10px" fxLayoutAlign="flex-end" class="navigation-items" id="nav-item1">
+                    <li><a routerLink="/main" routerLinkActive="active">Főoldal</a></li>
+                    <li><a routerLink="/aboutus" routerLinkActive="active">Rólunk</a></li>
+                    <li><a routerLink="/blog" [ngClass]="{'disabled-link': !loggedInUser}" routerLinkActive="active">Blog</a></li>
+                    <li *ngIf="!(loggedInUser)"><a routerLink="/login" routerLinkActive="active">Bejelentkezés</a></li>
+                    <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()" routerLinkActive="active">Kijelentkezés</a></li>
+                    <li *ngIf="!(loggedInUser)"><a routerLink="/registration" routerLinkActive="active">Regisztráció</a></li>
+                </ul>
+                <ul fxLayout fxLayoutGap="10px" fxLayoutAlign="center" class="navigation-items" id="nav-item2">
+                    <li><a [routerLink]="'/category/' + 'All'">Minden</a></li>
+                    <li><a [routerLink]="'/category/' + 'Beer'">Sörök</a></li>
+                    <li><a [routerLink]="'/category/' + 'Wine'">Borok</a></li>
+                    <li><a [routerLink]="'/category/' + 'Champagne'">Pezsgők</a></li>
+                    <li><a [routerLink]="'/category/' + 'Whisky'">Whisky-k</a></li>
+                    <li><a [routerLink]="'/category/' + 'Vodka'">Vodkák</a></li>
+                    <li><a [routerLink]="'/category/' + 'Gin'">Ginek</a></li>
+                    <li><a [routerLink]="'/category/' + 'Firewater'">Pálinkák</a></li>
+                    <li><a [routerLink]="'/category/' + 'Bitter'">Keserűk</a></li>
+                    <li><a [routerLink]="'/category/' + 'Drink'">Üdítők</a></li>
                 </ul>
             </div>
         </mat-toolbar>

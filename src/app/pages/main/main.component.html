@@ -1,74 +1,130 @@
 <div id='flex'>
-    <div class='title'>Hamarosan kapható termékek</div>
-    <div class='image-container'>
-        <div>
-            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+    <span class="plexi-layer">
+        <div class='title'>Hamarosan kapható termékek</div>
+        <div class='image-container'>
+            <div>
+                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            </div>
+            <div class='productdata'
+                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                <button class="zoom-button" (click)="navigateThisProduct()"
+                    [routerLink]="'/main/product/' + product.id">
+                    <div class="productname">{{product.name}}</div>
+                    <span *ngFor='let loadedImage of loadedImages'>
+                        <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                    </span>
+                    <div class="productprice">{{product.price}} Ft</div>
+                    <div class="button-container">
+                        <div>
+                            <p class="productcount">Mennyiség</p>
+                            <div><button type="button" mat-raised-button color="accent"
+                                    (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="productcount">{{this.productCounts[product.id] || 1}}</div>
+                            <div><button type="button" mat-raised-button color="accent"
+                                    (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                            </div>
+                        </div>
+                        <button class="cart" type="button" mat-raised-button color="accent"
+                            (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                    </div>
+                </button>
+            </div>
+            <div>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            </div>
         </div>
-        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
-            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
-                <div class="productname">{{product.name}}</div>
-                <span *ngFor='let loadedImage of loadedImages'>
-                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
-                </span>
-                <div class="productname">{{product.price}} Ft</div>
-            </button>
+        <div class='title'>Új termékek</div>
+        <div class='image-container'>
+            <div>
+                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            </div>
+            <div class='productdata'
+                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                <button class="zoom-button" (click)="navigateThisProduct()"
+                    [routerLink]="'/main/product/' + product.id">
+                    <div class="productname">{{product.name}}</div>
+                    <span *ngFor='let loadedImage of loadedImages'>
+                        <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                    </span>
+                    <div class="productprice">{{product.price}} Ft</div>
+                    <div class="button-container">
+                        <div>
+                            <p class="productcount">Mennyiség</p>
+                            <div><button type="button" mat-raised-button color="accent"
+                                    (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="productcount">{{this.productCounts[product.id] || 1}}</div>
+                            <div><button type="button" mat-raised-button color="accent"
+                                    (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                            </div>
+                        </div>
+                        <button class="cart" type="button" mat-raised-button color="accent"
+                            (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                    </div>
+                </button>
+            </div>
+            <div>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            </div>
         </div>
-        <div>
-            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+        <div class='title'>Kedvezményes termékek</div>
+        <div class='image-container'>
+            <div>
+                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            </div>
+            <div class='productdata'
+                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                <button class="zoom-button" (click)="navigateThisProduct()"
+                    [routerLink]="'/main/product/' + product.id">
+                    <div class="productname">{{product.name}}</div>
+                    <span *ngFor='let loadedImage of loadedImages'>
+                        <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                    </span>
+                    <div class="productprice">{{product.price}} Ft</div>
+                    <div class="button-container">
+                        <div>
+                            <p class="productcount">Mennyiség</p>
+                            <div><button type="button" mat-raised-button color="accent" (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button></div>
+                            <div class="productcount">{{this.productCounts[product.id] || 1}}</div>
+                            <div><button type="button" mat-raised-button color="accent" (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button></div>
+                        </div>
+                        <button class="cart" type="button" mat-raised-button color="accent" (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                    </div>
+                </button>
+            </div>
+            <div>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            </div>
         </div>
-    </div>
-    <div class='title'>Új termékek</div>
-    <div class='image-container'>
-        <div>
-            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+        <div class='title'>Kifutó termékek</div>
+        <div class='image-container'>
+            <div>
+                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            </div>
+            <div class='productdata'
+                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                <button class="zoom-button" (click)="navigateThisProduct()"
+                    [routerLink]="'/main/product/' + product.id">
+                    <div class="productname">{{product.name}}</div>
+                    <span *ngFor='let loadedImage of loadedImages'>
+                        <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                    </span>
+                    <div class="productprice">{{product.price}} Ft</div>
+                    <div class="button-container">
+                        <div>
+                            <p class="productcount">Mennyiség</p>
+                            <div><button type="button" mat-raised-button color="accent" (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button></div>
+                            <div class="productcount">{{this.productCounts[product.id] || 1}}</div>
+                            <div><button type="button" mat-raised-button color="accent" (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button></div>
+                        </div>
+                        <button class="cart" type="button" mat-raised-button color="accent" (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                    </div>
+                </button>
+            </div>
+            <div>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            </div>
         </div>
-        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
-            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
-                <div class="productname">{{product.name}}</div>
-                <span *ngFor='let loadedImage of loadedImages'>
-                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
-                </span>
-                <div class="productname">{{product.price}} Ft</div>
-            </button>
-        </div>
-        <div>
-            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
-        </div>
-    </div>
-    <div class='title'>Kedvezményes termékek</div>
-    <div class='image-container'>
-        <div>
-            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
-        </div>
-        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
-            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
-                <div class="productname">{{product.name}}</div>
-                <span *ngFor='let loadedImage of loadedImages'>
-                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
-                </span>
-                <div class="productname">{{product.price}} Ft</div>
-            </button>
-        </div>
-        <div>
-            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
-        </div>
-    </div>
-    <div class='title'>Kifutó termékek</div>
-    <div class='image-container'>
-        <div>
-            <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
-        </div>
-        <div class='productdata' *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
-            <button class="zoom-button" (click)="navigateThisProduct()" [routerLink]="'/main/product/' + product.id">
-                <div class="productname">{{product.name}}</div>
-                <span *ngFor='let loadedImage of loadedImages'>
-                    <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
-                </span>
-                <div class="productname">{{product.price}} Ft</div>
-            </button>
-        </div>
-        <div>
-            <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
-        </div>
-    </div>
+    </span>
 </div>

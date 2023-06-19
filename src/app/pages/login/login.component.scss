@@ -3,11 +3,22 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    height: 100%;
+    align-items: center;
+    height: 100vh;
+    background-color: #696969;
 }
 
 .login_component {
     height: 100vh;
+    margin: 0 auto;
+}
+
+mat-card {
+    width: 50%;
+}
+
+.mat-card-title {
+    font-size: 150%;
 }
 
 form div {
@@ -21,9 +32,15 @@ form {
 }
 
 .buttons {
-    padding: 5px;
+    padding: 10px;
+}
+
+button:hover {
+    transition: transform 0.5s;
+    transform: scale(1.2);
 }
 
 button {
     width: 130px;
 }
+

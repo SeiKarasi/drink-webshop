@@ -30,7 +30,6 @@ export class CommentService {
   }
 
   // Delete
-  // NINCS HASZNÁLVA
   delete(id: string){
     return this.afs.collection<Comment>(this.collectionName).doc(id).delete();
   }

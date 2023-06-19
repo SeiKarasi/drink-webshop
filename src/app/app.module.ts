@@ -20,7 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatListModule} from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,12 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     FlexLayoutModule,
     MatListModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      preventDuplicates: true,
+      positionClass: 'toast-top-center'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

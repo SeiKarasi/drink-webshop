@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { Product } from '../../shared/models/Product';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-main',
@@ -14,11 +15,12 @@ export class MainComponent implements OnInit {
   loadedImages: Array<string> = [];
   currentStartIndex = 0;
   currentEndIndex = 4;
+  productCounts: { [productId: string]: number } = {};
 
-  constructor(private router: Router, private productService: ProductService) { }
+  constructor(private router: Router, private productService: ProductService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.productService.loadImageMeta('').subscribe((data: Array<Product>) => {
+    this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
       console.log(data);
       this.productObject = data;
       if (this.productObject) {
@@ -50,5 +52,27 @@ export class MainComponent implements OnInit {
       this.currentStartIndex--;
       this.currentEndIndex--;
     }
+  }
+
+  // product.id alapján megy ami egyedi
+  increaseCount(productId: string) {
+    if (!this.productCounts[productId]) {
+      this.productCounts[productId] = 1;
+    }
+    this.productCounts[productId]++;
+  }
+
+  decreaseCount(productId: string) {
+    if (this.productCounts[productId] > 1) {
+      this.productCounts[productId]--;
+    }
+  }
+
+
+  addToCart(product: Product, productId: string) {
+    if (!this.productCounts[productId]) {
+      this.productCounts[productId] = 1;
+    }
+    this.toastr.success(this.productCounts[productId] + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
   }
 }

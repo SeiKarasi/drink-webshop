@@ -1,23 +1,61 @@
+mat-sidenav-container {
+    background-image: url('../assets/img/fahatter2.jpg');
+    background-size: 1000px;
+}
+
 a {
     text-decoration: none;
     color: white;
 }
 
 a:hover, a:active {
-    color: red;
+    color: brown;
 }
 
 .navigation-items {
     list-style: none;
+    font-size: 110%;
     padding: 0;
     margin: 0;
+}
+
+.navigation-items a.active {
+    color: brown;
+}
+
+#nav-item1 {
+    font-size: 130%;
+    padding-bottom: 40px;
 }
 
 mat-sidenav {
     width: 250px;
 }
 
+
 .disabled-link {
     pointer-events: none;
     color: gray; 
+}
+
+.app-toolbar {
+    height: 15vh; /* A menüsor magasságának beállítása */
+  }
+
+#title {
+    font-family:'RubikWetPaint';
+    font-weight: bolder;
+    font-size: 250%;
+}
+
+#title::first-letter {
+    font-size: 1.5em;
+}
+
+.highlight {
+    font-size: 1.5em;
+}
+
+#liquor {
+    font-size: 80%;
 }

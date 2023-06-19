@@ -28,6 +28,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule),
     canActivate: [NotAuthGuard]
   },
+  { 
+    path: 'category',
+    loadChildren: () => import('./pages/category/category.module').then(m => m.CategoryModule) 
+  },
   {
     path: '**',
     redirectTo: '/main'

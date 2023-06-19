@@ -42,4 +42,27 @@ mat-form-field {
 
 mat-card-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.mat-card-title {
+    font-size: 150%;
+}
+
+div p {
+    font-size: 150%;
+}
+
+
+img {
+    width: 40%;
+    
+  }
+  
+
+.long-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }

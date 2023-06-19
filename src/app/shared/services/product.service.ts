@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { Product } from '../models/Product';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -11,17 +9,19 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class ProductService {
 
-  // HTTP kérés
 
   collectionName = 'Products';
   constructor(
-    private http: HttpClient,
     private afs: AngularFirestore,
     private storage: AngularFireStorage) { }
 
-  loadImageMeta(metaUrl: string): Observable<Array<Product>> {
+  loadImageMeta(): Observable<Array<Product>> {
      return this.afs.collection<Product>(this.collectionName).valueChanges();
      //return this.http.get(environment.hostUrl + '/assets/' + metaUrl) as Observable<Array<Product>>;
+  }
+
+  loadImageMetaByCategory(category: string){
+    return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category)).valueChanges();
   }
 
   loadImage(imageUrls: string) {

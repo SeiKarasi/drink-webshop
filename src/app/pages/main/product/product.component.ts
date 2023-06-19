@@ -41,7 +41,7 @@ export class ProductComponent implements OnInit {
       this.imageSource = param.imageSource as string;
     });
     console.log(this.imageSource);
-    this.productService.loadImageMeta('').subscribe((data: Array<Product>) => {
+    this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
       console.log(data);
       for(let i = 0; i < data.length; i++){
         if(this.imageSource == data[i]['id']){
@@ -78,8 +78,7 @@ export class ProductComponent implements OnInit {
     let formGroup = this.fBuilder.group(model);
     // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('username')?.addValidators([Validators.required]);
-    formGroup.get('comment')?.addValidators([Validators.required, Validators.minLength(10)]);
-    //formGroup.get('username')?.disable();
+    formGroup.get('comment')?.addValidators([Validators.required, Validators.minLength(3)]);
     return formGroup;
   }
 
@@ -97,7 +96,7 @@ export class ProductComponent implements OnInit {
         
         this.commentService.create(this.commentsForm.value).then(_ => {
           console.log('Sikeres komment hozzáadás!');
-          this.commentsForm.reset();
+          this.commentsForm.get('comment')?.reset();
         }).catch(error => {
           console.error(error);
         })

@@ -36,32 +36,41 @@
         <!--grow shrink basis -->
         <span fxFlex="1 1 50%">
             <mat-card-header>
-                <mat-card-title>{{this.actProduct?.name}}</mat-card-title>
+                <div class="mat-card-title">
+                    <mat-card-title>{{this.actProduct?.name}}</mat-card-title>
+                </div>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content fxLayout>
                 <img src="{{this.loadedImage}}" alt="Product">
-                <div>{{this.actProduct?.long_description}}</div>
+                <div>
+                    <p class="long-text">Leírás: {{this.actProduct?.short_description}}</p>
+                    <p>Alkohol tartalom: {{this.actProduct?.alcohol}}</p>
+                    <p>Ár: {{this.actProduct?.price}} Ft</p>
+                </div>
             </mat-card-content>
         </span>
-        <span *ngIf="this.user" fxFlex="1 1 50%">
+        <span fxFlex="1 1 50%">
             <mat-card-actions id="addComment">
-                <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
-                    <div>
-                        <mat-form-field>
-                            <mat-label for="username">Felhasználónév:</mat-label>
-                            <input matInput type="text" formControlName="username"/>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <mat-label for="comment">Komment: </mat-label>
-                            <textarea matInput id="comment" rows="10" cols="70" formControlName="comment"></textarea>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <button mat-raised-button color="primary" type="submit">Hozzáadás</button>
-                    </div>
-                </form>
+                <fieldset [disabled]="!this.user">
+                    <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
+                        <div>
+                            <mat-form-field>
+                                <mat-label for="username">Felhasználónév:</mat-label>
+                                <input matInput type="text" formControlName="username" readonly/>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <mat-label for="comment">Komment: </mat-label>
+                                <textarea matInput id="comment" rows="10" cols="70"
+                                    formControlName="comment"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <button mat-raised-button color="primary" type="submit" [disabled]="!this.user">Hozzáadás</button>
+                        </div>
+                    </form>
+                </fieldset>
             </mat-card-actions>
         </span>
     </mat-card>
@@ -79,7 +88,9 @@
                     <td>{{comment.username}}</td>
                     <td>{{comment.comment}}</td>
                     <td>{{comment.date | dateFormat }}</td>
-                    <td><button mat-raised-button color="primary" (click)="deleteComment(comment.id, comment.username)">Törlés <mat-icon>delete</mat-icon></button></td>
+                    <td><button mat-raised-button color="primary"
+                            (click)="deleteComment(comment.id, comment.username)">Törlés
+                            <mat-icon>delete</mat-icon></button></td>
                 </tr>
             </table>
         </div>
