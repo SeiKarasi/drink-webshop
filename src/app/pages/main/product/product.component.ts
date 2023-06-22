@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Comment } from '../../../shared/models/Comment';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ProductService } from '../../../shared/services/product.service';
@@ -33,7 +33,8 @@ export class ProductComponent implements OnInit {
     private fBuilder: FormBuilder,
     private productService: ProductService,
     private commentService: CommentService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private router: Router) { }
 
   // a params egy adatfolyam (Observable), ezért kell feliratkozni
   ngOnInit(): void {

@@ -9,20 +9,62 @@ body {
     flex-wrap: wrap;
 }
 
-table, th, td {
-    border: 1px solid ;
+td {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 20px;  
+    background-color: #696969;
+    word-wrap: break-word;
 }
 
 table {
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    border-collapse: collapse;
+    border-spacing: 20px;
 }
 
-td {
-    word-wrap: break-word;
+#commenttitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 250%;
+    border: 10px solid #14d8e6;
+    background-color: #14d8e6;
+    color: black;
+    font-weight: bolder;
+    border-radius: 20px;
 }
+
+#commentuser {
+    font-size: 200%;
+    border: 10px solid #14d8e6;
+    background-color: #14d8e6;
+    color: black;
+    border-radius: 20px;
+}
+
+.commentdescription {
+    font-size: 140%;
+    max-width: 250px;
+    overflow: auto;
+    border: 10px solid #14d8e6;
+    background-color: #14d8e6;
+    color: black;
+    border-radius: 20px;
+}
+
+.commentusername {
+    border: 10px solid #14d8e6;
+    border-radius: 20px;
+    width: 20%;
+    font-weight: bolder;
+}
+
+.commentdeletebutton {
+    float: right;
+    height: 120%;
+}
+
 
 h2 {
     margin-top: 20px;
@@ -38,6 +80,27 @@ form {
 
 mat-form-field {
     width: 100%;
+}
+
+fieldset {
+    background-color: lightgrey;
+    color: black;
+    border: 10px solid grey;
+    border-radius: 5px;
+}
+
+// aláhúzás a kommentnél
+::ng-deep .mat-focused .mat-form-field-ripple  {
+    background-color: grey !important;
+    
+}
+
+mat-label {
+    color: black;
+}
+
+#addCommentUsername {
+    font-size: 140%;
 }
 
 mat-card-content {
@@ -58,11 +121,35 @@ div p {
 
 img {
     width: 40%;
-    
-  }
-  
+    border: 10px solid grey;
+    border-radius: 5px;
+
+}
 
 .long-text {
     word-wrap: break-word;
     overflow-wrap: break-word;
-  }
+}
+
+#addComment {
+    margin-top: 80%;
+}
+
+#loginButton {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+#loginButton:hover {
+    transition: transform 0.3s;
+    transform: scale(1.1);
+}
+
+#loginButton button {
+    font-size: 140%;
+    width: 80%;
+    line-height: 300%;
+}
+
+

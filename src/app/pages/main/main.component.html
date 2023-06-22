@@ -2,8 +2,8 @@
     <span class="plexi-layer">
         <div class='title'>Hamarosan kapható termékek</div>
         <div class='image-container'>
-            <div>
-                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            <div id="previousButton">
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
                 *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
@@ -30,14 +30,14 @@
                     </div>
                 </button>
             </div>
-            <div>
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            <div id="forwardButton">
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
         <div class='title'>Új termékek</div>
         <div class='image-container'>
-            <div>
-                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            <div id="previousButton">
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
                 *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
@@ -64,14 +64,14 @@
                     </div>
                 </button>
             </div>
-            <div>
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            <div id="forwardButton">
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
         <div class='title'>Kedvezményes termékek</div>
         <div class='image-container'>
-            <div>
-                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            <div id="previousButton">
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
                 *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
@@ -93,14 +93,14 @@
                     </div>
                 </button>
             </div>
-            <div>
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            <div id="forwardButton">
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
         <div class='title'>Kifutó termékek</div>
         <div class='image-container'>
-            <div>
-                <button id="previousButton" class="custom-mat-fab" mat-fab (click)="previousProduct()">VISSZA</button>
+            <div id="previousButton">
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
                 *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
@@ -122,8 +122,8 @@
                     </div>
                 </button>
             </div>
-            <div>
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()">TOVÁBB</button>
+            <div id="forwardButton">
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
     </span>

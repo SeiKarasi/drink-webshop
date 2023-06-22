@@ -14,7 +14,7 @@
 .title {
     text-align: center;
     padding: 6%;
-    font-family: 'RubikWetPaint';
+    font-family: 'Rubik Wet Paint';
     font-size: 80px;
     z-index: 2;
 }
@@ -38,7 +38,7 @@
 
 .productdata {
     flex: 1;
-    padding-left: 3%;
+    padding-left: 2%;
     // A végén levő kilógást megakadályozza
     padding-bottom: 3%;
 }
@@ -93,12 +93,30 @@
 }
 
 .custom-mat-fab {
-    width: 160px;
+    width: 80px;
     height: 100px;
+    position: relative;
+    // elrejti a belőle esetleges kilógó részeket
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #previousButton {
-    margin-left: 10%;
+    margin-left: 5%;
+}
+
+#forwardButton {
+    margin-right: 5%;
+}
+
+.arrows {
+    font-size: 500%;
+    font-weight: bolder;
+    position: relative;
+    right: 20px;
+    transform: translateY(-100%);
 }
 
 

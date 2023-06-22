@@ -4,6 +4,8 @@ import { User } from '../../shared/models/User';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 // EZT KELL FOLYTATNI MERT MÉG MINDIG NEM MEGFELELŐ HOGY UGYANZ LEGYEN A KÉT JELSZÓ
 @Component({
@@ -24,12 +26,14 @@ export class RegistrationComponent implements OnInit {
       lastname: ''
     })
   });
+  loginLoading: boolean = false;
 
   constructor(
     private fBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -60,6 +64,7 @@ export class RegistrationComponent implements OnInit {
 
 
   registration() {
+    this.loginLoading = true;
     // Ha a validátorok mindegyik helyes csak akkor fut le!
     /* if (this.usersForm.valid) {
       if (this.usersForm.get('email') && this.usersForm.get('password')) {
@@ -76,22 +81,27 @@ export class RegistrationComponent implements OnInit {
         const user: User = {
           id: credential.user?.uid as string,
           email: this.usersForm.get('email')?.value,
-          username: this.usersForm.get('username')?.value,
+          username: this.usersForm.get('username')?.value ? this.usersForm.get('username')?.value
+          : this.usersForm.get('email')?.value?.split('@')[0] as string,
           name: {
             firstname: this.usersForm.get('name.firstname')?.value,
             lastname: this.usersForm.get('name.lastname')?.value
           }
         };
-        this.userService.create(user).then(_ => {
+        this.userService.create(user).then(_ => {  
           console.log('Felhasználó hozzáadása sikeres');
           this.router.navigateByUrl('/main');
+          this.toastr.success("Sikeres regisztráció!", "Regisztráció");
         }).catch(error => {
+          this.toastr.error("Sikertelen regisztráció!", "Regisztráció");
           console.error(error);
         });
       }).catch(error => {
+        this.toastr.error("Sikertelen regisztráció!", "Regisztráció");
         console.error(error);
       });
     } else {
+      this.toastr.error("A jelszó és a jelszó ismét nem egyezik!", "Regisztráció");
       console.error('A két jelszó nem egyezik meg!');
     }
   }

@@ -1,36 +1,3 @@
-<!-- <p>Adott termék</p>
-<div class="container">
-    <img src="/assets/img/{{imageSource}}.png" alt="Product">
-    <div>
-        <div *ngIf="comments.length">
-            <table>
-                <tr>
-                    <th>Felhasználónév</th>
-                    <th>Komment</th>
-                    <th>Dátum</th>
-                </tr>
-                <tr *ngFor="let comment of comments">
-                    <td>{{comment.username}}</td>
-                    <td>{{comment.comment}}</td>
-                    <td>{{comment.date | date: 'yyyy. MM. dd. hh:mm:ss'}}</td>
-                </tr>
-            </table>
-        </div>
-        <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
-            <div>
-                <label for="username">Felhasználónév:</label>
-                <input type="text" formControlName="username" />
-            </div>
-            <div>
-                <textarea rows="10" cols="70" formControlName="comment"></textarea>
-            </div>
-            <div>
-                <button type="submit">Hozzáadás</button>
-            </div>
-        </form>
-    </div>
-</div> -->
-
 <div class="div-card">
     <mat-card fxLayout fxLayoutGap="20px">
         <!--grow shrink basis -->
@@ -54,9 +21,9 @@
                 <fieldset [disabled]="!this.user">
                     <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
                         <div>
-                            <mat-form-field>
+                            <mat-form-field id="addCommentUsername">
                                 <mat-label for="username">Felhasználónév:</mat-label>
-                                <input matInput type="text" formControlName="username" readonly/>
+                                <input matInput type="text" formControlName="username" readonly />
                             </mat-form-field>
                         </div>
                         <div>
@@ -67,30 +34,38 @@
                             </mat-form-field>
                         </div>
                         <div>
-                            <button mat-raised-button color="primary" type="submit" [disabled]="!this.user">Hozzáadás</button>
+                            <button mat-raised-button color="accent" type="submit"
+                                [disabled]="!this.user">Hozzáadás</button>
                         </div>
                     </form>
                 </fieldset>
+                <div *ngIf="!this.user" id="loginButton">
+                    <button mat-raised-button color="accent" routerLink="/login">Jelentkezz be, hogy hozzászólást
+                        írj</button>
+                </div>
             </mat-card-actions>
         </span>
     </mat-card>
     <div>
-        <h2 *ngIf="comments.length" class="comments">Hozzászólások:</h2>
+        <h2 *ngIf="comments.length" id="commenttitle">Hozzászólások:</h2>
         <div *ngIf="comments.length">
             <table>
                 <tr>
-                    <th>Felhasználónév</th>
-                    <th>Hozzászólás</th>
-                    <th>Dátum</th>
+                    <th id="commentuser">Felhasználók:</th>
+                    <th></th>
                     <th></th>
                 </tr>
-                <tr *ngFor="let comment of comments">
-                    <td>{{comment.username}}</td>
-                    <td>{{comment.comment}}</td>
-                    <td>{{comment.date | dateFormat }}</td>
-                    <td><button mat-raised-button color="primary"
-                            (click)="deleteComment(comment.id, comment.username)">Törlés
-                            <mat-icon>delete</mat-icon></button></td>
+                <tr class="commentdata" *ngFor="let comment of comments">
+                    <td class="commentusername"><span>{{comment.username}}</span> ({{comment.date | dateFormat }})</td>
+                    <td class="commentdescription">
+                        <span>{{comment.comment}}</span>
+                        <span class="commentdeletebutton">
+                            <button mat-raised-button color="accent" *ngIf="this.user && this.user.username == comment.username"
+                                (click)="deleteComment(comment.id, comment.username)">Törlés
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </span>
+                    </td>
                 </tr>
             </table>
         </div>

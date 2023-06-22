@@ -32,6 +32,11 @@ const routes: Routes = [
     path: 'category',
     loadChildren: () => import('./pages/category/category.module').then(m => m.CategoryModule) 
   },
+  { 
+    path: 'shopping_bag',
+    loadChildren: () => import('./pages/shopping-bag/shopping-bag.module').then(m => m.ShoppingBagModule),
+    canActivate: [AuthGuard] 
+  },
   {
     path: '**',
     redirectTo: '/main'

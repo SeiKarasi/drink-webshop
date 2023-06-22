@@ -14,6 +14,7 @@ export class CategoryComponent implements OnInit {
   productObject?: Array<Product>;
   loadedImages: Array<string> = [];
   category?: string;
+  productCounts: { [productId: string]: number } = {};
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -56,7 +57,25 @@ export class CategoryComponent implements OnInit {
   navigateThisProduct() {
   }
 
-  addToCart(product: Product) {
-    this.toastr.success(product.name + ' sikeresen a kosárba került!', 'Kosár');
-  }
+    // product.id alapján megy ami egyedi
+    increaseCount(productId: string) {
+      if (!this.productCounts[productId]) {
+        this.productCounts[productId] = 1;
+      }
+      this.productCounts[productId]++;
+    }
+  
+    decreaseCount(productId: string) {
+      if (this.productCounts[productId] > 1) {
+        this.productCounts[productId]--;
+      }
+    }
+  
+  
+    addToCart(product: Product, productId: string) {
+      if (!this.productCounts[productId]) {
+        this.productCounts[productId] = 1;
+      }
+      this.toastr.success(this.productCounts[productId] + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
+    }
 }

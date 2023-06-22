@@ -19,8 +19,20 @@
                         <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
                     </span>
                     <div class="productprice">{{product.price}} Ft</div>
-                    <button class="cart" mat-raised-button color="accent" (click)="addToCart(product); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
-                </button>
+                    <div class="button-container">
+                        <div>
+                            <p class="productcount">Mennyiség</p>
+                            <div><button type="button" mat-raised-button color="accent"
+                                    (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="productcount">{{this.productCounts[product.id] || 1}}</div>
+                            <div><button type="button" mat-raised-button color="accent"
+                                    (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                            </div>
+                        </div>
+                        <button class="cart" type="button" mat-raised-button color="accent"
+                            (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                    </div>                </button>
             </div>
         </div>
     </span>

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription, Observable} from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  async login() {
+  login() {
     this.loginLoading = true;
     // then akkor fut le, amikor a return ténylegesen lefut az adott Promiseban
     // catch akkor fut le, ha hiba van benne

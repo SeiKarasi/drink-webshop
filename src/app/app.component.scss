@@ -1,5 +1,5 @@
 mat-sidenav-container {
-    background-image: url('../assets/img/fahatter2.jpg');
+    background-image: url('../assets/img/woodBackground.jpg');
     background-size: 1000px;
 }
 
@@ -9,7 +9,7 @@ a {
 }
 
 a:hover, a:active {
-    color: brown;
+    color: #14d8e6;
 }
 
 .navigation-items {
@@ -20,7 +20,7 @@ a:hover, a:active {
 }
 
 .navigation-items a.active {
-    color: brown;
+    color: #14d8e6;
 }
 
 #nav-item1 {
@@ -43,9 +43,9 @@ mat-sidenav {
   }
 
 #title {
-    font-family:'RubikWetPaint';
+    font-family:'Rubik Wet Paint';
     font-weight: bolder;
-    font-size: 250%;
+    font-size: 300%;
 }
 
 #title::first-letter {
@@ -58,4 +58,10 @@ mat-sidenav {
 
 #liquor {
     font-size: 80%;
+}
+
+#shopping_bag {
+    font-size: 200%;
+    position: relative;
+    right: 100%;
 }
