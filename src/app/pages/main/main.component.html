@@ -3,16 +3,17 @@
         <div class='title'>Hamarosan kapható termékek</div>
         <div class='image-container'>
             <div id="previousButton">
-                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
+                <button class="custom-mat-fab" mat-fab (click)="previousProduct('soon')"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
-                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                *ngFor='let product of productSoonObject?.slice(this.currentStartIndex[0], this.currentEndIndex[0])'>
                 <button class="zoom-button" (click)="navigateThisProduct()"
                     [routerLink]="'/main/product/' + product.id">
                     <div class="productname">{{product.name}}</div>
-                    <span *ngFor='let loadedImage of loadedImages'>
-                        <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
+                    <span *ngFor='let loadedImage of loadedSoonImages'>
+                        <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>  
                     </span>
+                    <button mat-fab class="marker">HAMAROSAN<br/>ÉRKEZIK</button>
                     <div class="productprice">{{product.price}} Ft</div>
                     <div class="button-container">
                         <div>
@@ -31,22 +32,23 @@
                 </button>
             </div>
             <div id="forwardButton">
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct('soon')"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
         <div class='title'>Új termékek</div>
         <div class='image-container'>
             <div id="previousButton">
-                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct('new')"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
-                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                *ngFor='let product of productNewObject?.slice(this.currentStartIndex[1], this.currentEndIndex[1])'>
                 <button class="zoom-button" (click)="navigateThisProduct()"
                     [routerLink]="'/main/product/' + product.id">
                     <div class="productname">{{product.name}}</div>
-                    <span *ngFor='let loadedImage of loadedImages'>
+                    <span *ngFor='let loadedImage of loadedNewImages'>
                         <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
                     </span>
+                    <button mat-fab class="marker">ÚJ<br/>TERMÉK</button>
                     <div class="productprice">{{product.price}} Ft</div>
                     <div class="button-container">
                         <div>
@@ -65,22 +67,23 @@
                 </button>
             </div>
             <div id="forwardButton">
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct('new')"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
         <div class='title'>Kedvezményes termékek</div>
         <div class='image-container'>
             <div id="previousButton">
-                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct('discount')"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
-                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                *ngFor='let product of productDiscountObject?.slice(this.currentStartIndex[2], this.currentEndIndex[2])'>
                 <button class="zoom-button" (click)="navigateThisProduct()"
                     [routerLink]="'/main/product/' + product.id">
                     <div class="productname">{{product.name}}</div>
-                    <span *ngFor='let loadedImage of loadedImages'>
+                    <span *ngFor='let loadedImage of loadedDiscountImages'>
                         <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
                     </span>
+                    <button mat-fab class="marker">-50%<br/>AKCIÓ</button>
                     <div class="productprice">{{product.price}} Ft</div>
                     <div class="button-container">
                         <div>
@@ -94,22 +97,23 @@
                 </button>
             </div>
             <div id="forwardButton">
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct('discount')"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
         <div class='title'>Kifutó termékek</div>
         <div class='image-container'>
             <div id="previousButton">
-                <button  class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
+                <button  class="custom-mat-fab" mat-fab (click)="previousProduct('sale')"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
             </div>
             <div class='productdata'
-                *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+                *ngFor='let product of productSaleObject?.slice(this.currentStartIndex[3], this.currentEndIndex[3])'>
                 <button class="zoom-button" (click)="navigateThisProduct()"
                     [routerLink]="'/main/product/' + product.id">
                     <div class="productname">{{product.name}}</div>
-                    <span *ngFor='let loadedImage of loadedImages'>
+                    <span *ngFor='let loadedImage of loadedSaleImages'>
                         <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>
                     </span>
+                    <button mat-fab class="marker">KIÁRUSÍTÁS</button>
                     <div class="productprice">{{product.price}} Ft</div>
                     <div class="button-container">
                         <div>
@@ -123,7 +127,7 @@
                 </button>
             </div>
             <div id="forwardButton">
-                <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
+                <button class="custom-mat-fab" mat-fab (click)="nextProduct('sale')"><mat-icon class="arrows">arrow_forward_ios_new</mat-icon></button>
             </div>
         </div>
     </span>

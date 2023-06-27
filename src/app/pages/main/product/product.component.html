@@ -8,7 +8,21 @@
                 </div>
             </mat-card-header>
             <mat-card-content fxLayout>
-                <img src="{{this.loadedImage}}" alt="Product">
+                <div fxLayout="column">
+                    <img src="{{this.loadedImage}}" alt="Product">
+                    <div fxLayout="column" fxLayoutGap="15px" id="count">
+                        <p>Mennyiség</p>
+                        <div><button type="button" mat-raised-button color="accent"
+                                (click)="increaseCount(); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                        </div>
+                        <p>{{this.productCount}}</p>
+                        <div><button type="button" mat-raised-button color="accent"
+                                (click)="decreaseCount(); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                        </div>
+                        <button class="cart" type="button" mat-raised-button color="accent"
+                            (click)="addToCart(); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                    </div>
+                </div>
                 <div>
                     <p class="long-text">Leírás: {{this.actProduct?.short_description}}</p>
                     <p>Alkohol tartalom: {{this.actProduct?.alcohol}}</p>
@@ -47,7 +61,9 @@
         </span>
     </mat-card>
     <div>
-        <h2 *ngIf="comments.length" id="commenttitle">Hozzászólások:</h2>
+        <h2 class="commenttitle">Hozzászólások:</h2>
+        <div class="commenttitle" *ngIf="comments.length == 0">Ehhez a termékhez még nem szóltak hozzá, légy te az első!
+        </div>
         <div *ngIf="comments.length">
             <table>
                 <tr>
@@ -60,7 +76,8 @@
                     <td class="commentdescription">
                         <span>{{comment.comment}}</span>
                         <span class="commentdeletebutton">
-                            <button mat-raised-button color="accent" *ngIf="this.user && this.user.username == comment.username"
+                            <button mat-raised-button color="accent"
+                                *ngIf="this.user && this.user.username == comment.username"
                                 (click)="deleteComment(comment.id, comment.username)">Törlés
                                 <mat-icon>delete</mat-icon>
                             </button>

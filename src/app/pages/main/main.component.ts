@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { Product } from '../../shared/models/Product';
@@ -9,48 +9,175 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
-  productObject?: Array<Product>;
-  loadedImages: Array<string> = [];
-  currentStartIndex = 0;
-  currentEndIndex = 4;
+  productSoonObject?: Array<Product>;
+  productNewObject?: Array<Product>;
+  productDiscountObject?: Array<Product>;
+  productSaleObject?: Array<Product>;
+
+  loadedSoonImages: Array<string> = [];
+  loadedNewImages: Array<string> = [];
+  loadedDiscountImages: Array<string> = [];
+  loadedSaleImages: Array<string> = [];
+
+  currentStartIndex = [0, 0, 0, 0];
+  currentEndIndex = [4, 4, 4, 4];
+
   productCounts: { [productId: string]: number } = {};
 
   constructor(private router: Router, private productService: ProductService, private toastr: ToastrService) { }
 
+  ngOnDestroy(): void {
+    this.productSoonObject = [];
+    this.productNewObject = [];
+    this.productDiscountObject = [];
+    this.productSaleObject = [];
+  
+    this.loadedSoonImages = [];
+    this.loadedNewImages = [];
+    this.loadedDiscountImages = [];
+    this.loadedSaleImages = [];
+  }
+
   ngOnInit(): void {
-    this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
+    this.productService.loadImageMetaByMarker("soon").subscribe((data: Array<Product>) => {
       console.log(data);
-      this.productObject = data;
-      if (this.productObject) {
-        for (let i = 0; i < this.productObject.length; i++) {
-          this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
-            this.loadedImages?.push(data);
+      if(this.productSoonObject !== data){
+        this.productSoonObject = data;
+      }   
+      if (this.productSoonObject) {
+        for (let i = 0; i < this.productSoonObject.length; i++) {
+          this.productService.loadImage(this.productSoonObject[i].photo_url).subscribe(data => {
+            if(!this.loadedSoonImages.includes(data)){
+              this.loadedSoonImages?.push(data);
+            } 
+          });
+        }
+      }
+    });
+    this.productService.loadImageMetaByMarker("new").subscribe((data: Array<Product>) => {
+      console.log(data);
+      if(this.productNewObject !== data){
+        this.productNewObject = data;
+      }   
+      if (this.productNewObject) {
+        for (let i = 0; i < this.productNewObject.length; i++) {
+          this.productService.loadImage(this.productNewObject[i].photo_url).subscribe(data => {
+            if(!this.loadedNewImages.includes(data)){
+              this.loadedNewImages?.push(data);
+            } 
+          });
+        }
+      }
+    });
+    this.productService.loadImageMetaByMarker("discount").subscribe((data: Array<Product>) => {
+      console.log(data);
+      if(this.productDiscountObject !== data){
+        this.productDiscountObject = data;
+      }   
+      if (this.productDiscountObject) {
+        for (let i = 0; i < this.productDiscountObject.length; i++) {
+          this.productService.loadImage(this.productDiscountObject[i].photo_url).subscribe(data => {
+            if(!this.loadedDiscountImages.includes(data)){
+              this.loadedDiscountImages?.push(data);
+            } 
+          });
+        }
+      }
+    });
+    this.productService.loadImageMetaByMarker("sale").subscribe((data: Array<Product>) => {
+      console.log(data);
+      if(this.productSaleObject !== data){
+        this.productSaleObject = data;
+      } 
+      if (this.productSaleObject) {
+        for (let i = 0; i < this.productSaleObject.length; i++) {
+          this.productService.loadImage(this.productSaleObject[i].photo_url).subscribe(data => {
+            if(!this.loadedSaleImages.includes(data)){
+              this.loadedSaleImages?.push(data);
+            } 
           });
         }
       }
     });
   }
 
+
+
   navigateThisProduct() {
   }
 
-  nextProduct(){
-    if(this.currentEndIndex == this.productObject?.length){
-      console.error("Nincs előrefele már több termék!");
-    } else {
-      this.currentStartIndex++;
-      this.currentEndIndex++;
-    } 
+  nextProduct(marker: string) {
+    if (marker === "soon") {
+      if (this.currentEndIndex[0] == this.productSoonObject?.length) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs előrefele már több termék!");
+      } else {
+        this.currentStartIndex[0]++;
+        this.currentEndIndex[0]++;
+      }
+    } else if (marker === "new") {
+      if (this.currentEndIndex[1] == this.productNewObject?.length) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs előrefele már több termék!");
+      } else {
+        this.currentStartIndex[1]++;
+        this.currentEndIndex[1]++;
+      }
+    } else if (marker === "discount") {
+      if (this.currentEndIndex[2] == this.productDiscountObject?.length) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs előrefele már több termék!");
+      } else {
+        this.currentStartIndex[2]++;
+        this.currentEndIndex[2]++;
+      }
+    } else if (marker === "sale") {
+      if (this.currentEndIndex[3] == this.productSaleObject?.length) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs előrefele már több termék!");
+      } else {
+        this.currentStartIndex[3]++;
+        this.currentEndIndex[3]++;
+      }
+    }
   }
 
-  previousProduct(){
-    if(this.currentStartIndex == 0){
-      console.error("Nincs visszafele több termék!")
-    } else {
-      this.currentStartIndex--;
-      this.currentEndIndex--;
+
+  previousProduct(marker: string) {
+    if (marker === "soon") {
+      if (this.currentStartIndex[0] == 0) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs visszafele több termék!")
+      } else {
+        this.currentStartIndex[0]--;
+        this.currentEndIndex[0]--;
+      }
+    } else if (marker === "new") {
+      if (this.currentStartIndex[1] == 0) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs visszafele több termék!")
+      } else {
+        this.currentStartIndex[1]--;
+        this.currentEndIndex[1]--;
+      }
+    } else if (marker === "discount") {
+      if (this.currentStartIndex[2] == 0) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs visszafele több termék!")
+      } else {
+        this.currentStartIndex[2]--;
+        this.currentEndIndex[2]--;
+      }
+    } else if (marker === "sale") {
+      if (this.currentStartIndex[3] == 0) {
+        this.toastr.info("Nincs már több termék!", "Termék");
+        console.error("Nincs visszafele több termék!")
+      } else {
+        this.currentStartIndex[3]--;
+        this.currentEndIndex[3]--;
+      }
     }
   }
 

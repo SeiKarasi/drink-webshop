@@ -1,16 +1,16 @@
 <div id='flex'>
     <span class="plexi-layer">
-        <div class='title' *ngIf="this.category == 'All'">Minden termék</div>
-        <div class='title' *ngIf="this.category == 'Beer'">Sörök</div>
-        <div class='title' *ngIf="this.category == 'Wine'">Borok</div>
-        <div class='title' *ngIf="this.category == 'Champagne'">Pezsgők</div>
-        <div class='title' *ngIf="this.category == 'Whisky'">Whisky-k</div>
-        <div class='title' *ngIf="this.category == 'Vodka'">Vodkák</div>
-        <div class='title' *ngIf="this.category == 'Gin'">Ginek</div>
-        <div class='title' *ngIf="this.category == 'Firewater'">Pálinkák</div>
-        <div class='title' *ngIf="this.category == 'Bitter'">Keserűk</div>
-        <div class='title' *ngIf="this.category == 'Drink'">Üdítők</div>
-        <div class='image-container'>
+        <div class='title' *ngIf="this.category === 'All'">Összes</div>
+        <div class='title' *ngIf="this.category === 'Beer'">Sörök</div>
+        <div class='title' *ngIf="this.category === 'Wine'">Borok</div>
+        <div class='title' *ngIf="this.category === 'Champagne'">Pezsgők</div>
+        <div class='title' *ngIf="this.category === 'Whisky'">Whisky-k</div>
+        <div class='title' *ngIf="this.category === 'Vodka'">Vodkák</div>
+        <div class='title' *ngIf="this.category === 'Gin'">Ginek</div>
+        <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
+        <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
+        <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
+        <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
             <div class='productdata' *ngFor='let product of productObject'>
                 <button class="zoom-button" (click)="navigateThisProduct()"
                     [routerLink]="'/main/product/' + product.id">
@@ -32,7 +32,8 @@
                         </div>
                         <button class="cart" type="button" mat-raised-button color="accent"
                             (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
-                    </div>                </button>
+                    </div>
+                </button>
             </div>
         </div>
     </span>

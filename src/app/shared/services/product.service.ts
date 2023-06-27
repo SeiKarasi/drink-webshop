@@ -24,6 +24,10 @@ export class ProductService {
     return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category)).valueChanges();
   }
 
+  loadImageMetaByMarker(marker: string){
+    return this.afs.collection<Product>(this.collectionName, ref => ref.where('marker', '==', marker)).valueChanges();
+  }
+
   loadImage(imageUrls: string) {
     //return this.http.get(environment.hostUrl + '/assets/img' + imageUrl, {responseType: 'blob'});
     return this.storage.ref(imageUrls).getDownloadURL();

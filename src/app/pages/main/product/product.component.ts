@@ -7,6 +7,7 @@ import { Product } from '../../../shared/models/Product';
 import { CommentService } from '../../../shared/services/comment.service';
 import { UserService } from '../../../shared/services/user.service';
 import { User } from '../../../shared/models/User';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -28,13 +29,16 @@ export class ProductComponent implements OnInit {
     productId: this.actProduct?.id
   });
 
+  productCount: number = 1;
+
   constructor(
     private actRoute: ActivatedRoute,
     private fBuilder: FormBuilder,
     private productService: ProductService,
     private commentService: CommentService,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router,
+    private toastr: ToastrService) { }
 
   // a params egy adatfolyam (Observable), ezért kell feliratkozni
   ngOnInit(): void {
@@ -111,5 +115,19 @@ export class ProductComponent implements OnInit {
     } else {
       console.log('Más hozzászólását nem törölheted!');
     }
+  }
+
+  increaseCount() {
+    this.productCount++;
+  }
+
+  decreaseCount() {
+    if (this.productCount > 1) {
+      this.productCount--;
+    }
+  }
+
+  addToCart() {
+    this.toastr.success(this.productCount + " db " + this.actProduct?.name + ' sikeresen a kosárba került!', 'Kosár');
   }
 }

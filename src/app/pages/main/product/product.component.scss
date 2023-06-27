@@ -23,7 +23,7 @@ table {
     border-spacing: 20px;
 }
 
-#commenttitle {
+.commenttitle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,7 +92,6 @@ fieldset {
 // aláhúzás a kommentnél
 ::ng-deep .mat-focused .mat-form-field-ripple  {
     background-color: grey !important;
-    
 }
 
 mat-label {
@@ -120,7 +119,7 @@ div p {
 
 
 img {
-    width: 40%;
+    width: 300px;
     border: 10px solid grey;
     border-radius: 5px;
 
@@ -150,6 +149,27 @@ img {
     font-size: 140%;
     width: 80%;
     line-height: 300%;
+}
+
+// kurzor szín
+input, textarea {
+    caret-color: #14d8e6;
+}
+
+#count {
+    padding-top: 10%;
+}
+
+.cart {
+    text-align: center;
+    align-self: center;
+    width: 75%;
+    height: 100px;
+}
+
+.cart:hover {
+    transition: transform 0.4s;
+    transform: scale(1.05);
 }
 
 

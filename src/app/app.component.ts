@@ -15,10 +15,16 @@ export class AppComponent implements OnInit {
 
   loggedInUser?: firebase.default.User | null;
 
+  activeLink?: string;
+
   // a constructor paraméterei: paraméter adattagok
   // (egyenlő azzal, mint ha létrehoztunk volna egy adattagot
   // és a paraméterben érkezőt adtuk volna neki értékül)
   constructor(private router: Router, private authService: AuthService){
+  }
+
+  setActiveLink(link: string) {
+    this.activeLink = link;
   }
 
   ngOnInit(){

@@ -37,9 +37,28 @@ form {
 }
 
 .buttons {
-    padding: 5px;
+    padding: 10px;
+}
+
+button:hover {
+    transition: transform 0.5s;
+    transform: scale(1.2);
 }
 
 button {
     width: 130px;
+}
+
+// aláhúzás a kommentnél
+::ng-deep .mat-focused .mat-form-field-ripple  {
+    background-color: grey !important;
+}
+
+mat-label {
+    color: white;
+}
+
+// kurzus szín
+input {
+    caret-color: #14d8e6;
 }

@@ -82,7 +82,7 @@
 
 .cart:hover {
     transition: transform 0.4s;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .button-container {
@@ -117,6 +117,19 @@
     position: relative;
     right: 20px;
     transform: translateY(-100%);
+}
+
+.marker {
+    font-size: 150%;
+    font-weight: bolder;
+    color: white;
+    transform: rotate(-20deg);
+    position: absolute;
+    bottom: 24%;
+    right: 3%;
+    width: 140px;
+    height: 140px;
+    background-color: red;
 }
 
 

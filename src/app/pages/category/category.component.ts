@@ -23,35 +23,45 @@ export class CategoryComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.actRoute.params.subscribe((param: any) => {
-      this.category = param.category as string;
-      console.log(this.category);
-      if(this.category == 'All'){
-        this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
+      this.actRoute.params.subscribe((param: any) => {
+        this.category = param.category as string;
+        console.log(this.category);
+        this.productObject = [];
+        this.loadedImages = [];
+        if(this.category === 'All'){
+          this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
+            console.log(data);
+            if(this.productObject !== data){
+              this.productObject = data;
+            }
+            if (this.productObject) {
+              for (let i = 0; i < this.productObject.length; i++) {
+                this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
+                  if(!this.loadedImages.includes(data)){
+                    this.loadedImages?.push(data);
+                  }     
+                });
+              }
+            }
+          });
+        } else {
+        this.productService.loadImageMetaByCategory(this.category).subscribe((data: Array<Product>) => {
           console.log(data);
-          this.productObject = data;
+          if(this.productObject !== data){
+            this.productObject = data;
+          }   
           if (this.productObject) {
             for (let i = 0; i < this.productObject.length; i++) {
               this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
-                this.loadedImages?.push(data);
+                if(!this.loadedImages.includes(data)){
+                  this.loadedImages?.push(data);
+                } 
               });
             }
           }
         });
-      } else {
-      this.productService.loadImageMetaByCategory(this.category).subscribe((data: Array<Product>) => {
-        console.log(data);
-        this.productObject = data;
-        if (this.productObject) {
-          for (let i = 0; i < this.productObject.length; i++) {
-            this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
-              this.loadedImages?.push(data);
-            });
-          }
-        }
-      });
-    }
-  });
+      }
+    });
 }
 
   navigateThisProduct() {
