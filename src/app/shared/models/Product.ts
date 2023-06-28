@@ -6,4 +6,5 @@ export interface Product {
     long_description: string;
     price: number;
     alcohol: string;
+    marker: string;
 }

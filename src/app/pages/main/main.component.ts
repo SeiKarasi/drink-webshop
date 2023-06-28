@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { Product } from '../../shared/models/Product';
@@ -26,14 +26,62 @@ export class MainComponent implements OnInit, OnDestroy {
 
   productCounts: { [productId: string]: number } = {};
 
+  windowWidth: number = window.innerWidth;
+  windowHeight: number = window.innerHeight;
+
+  // Kizárólag arra szolgál, hogy ne fusson le minden egyes pixel változásnál egy for ciklus
+  isWindowHelpers: Array<boolean> = [false, false, false, false];
+
   constructor(private router: Router, private productService: ProductService, private toastr: ToastrService) { }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event) {
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
+    if (this.windowWidth > 1676 && this.isWindowHelpers[0] === false) {
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 4 + this.currentStartIndex[i];
+        console.log(this.currentEndIndex[i]);
+      }
+      this.isWindowHelpers[0] = true;
+      this.isWindowHelpers[1] = false;
+    } else if (this.windowWidth < 1676 && this.windowWidth > 1282
+      && this.isWindowHelpers[1] === false) {
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 3 + this.currentStartIndex[i];
+        console.log(this.currentEndIndex[i]);
+      }
+      this.isWindowHelpers[0] = false;
+      this.isWindowHelpers[1] = true;
+      this.isWindowHelpers[2] = false;
+    } else if (this.windowWidth < 1282 && this.windowWidth > 740
+      && this.isWindowHelpers[2] === false) {
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 2 + this.currentStartIndex[i];
+        console.log(this.currentEndIndex[i]);
+      }
+      this.isWindowHelpers[1] = false;
+      this.isWindowHelpers[2] = true;
+      this.isWindowHelpers[3] = false;
+    } else if (this.windowWidth < 740 && this.isWindowHelpers[3] === false) {
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 1 + this.currentStartIndex[i];
+        console.log(this.currentEndIndex[i]);
+      }
+      this.isWindowHelpers[2] = false;
+      this.isWindowHelpers[3] = true;
+    }
+    // Képernyő méret változásának kezelése
+    //console.log('Szélesség:' + this.windowWidth);
+    //console.log('Magasság:' + this.windowHeight);
+  }
 
   ngOnDestroy(): void {
     this.productSoonObject = [];
     this.productNewObject = [];
     this.productDiscountObject = [];
     this.productSaleObject = [];
-  
+
     this.loadedSoonImages = [];
     this.loadedNewImages = [];
     this.loadedDiscountImages = [];
@@ -41,62 +89,84 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.windowWidth > 1676) {
+      this.isWindowHelpers[0] = true;
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 4;
+      }
+    } else if (this.windowWidth < 1676 && this.windowWidth > 1282) {
+      this.isWindowHelpers[1] = true;
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 3;
+      }
+    } else if (this.windowWidth < 1282 && this.windowWidth > 700) {
+      this.isWindowHelpers[2] = true;
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 2;
+      }
+    } else if (this.windowWidth < 700) {
+      this.isWindowHelpers[3] = true;
+      for (let i = 0; i < this.currentEndIndex.length; i++) {
+        this.currentEndIndex[i] = 1;
+      }
+    }
+
     this.productService.loadImageMetaByMarker("soon").subscribe((data: Array<Product>) => {
       console.log(data);
-      if(this.productSoonObject !== data){
+      if (this.productSoonObject !== data) {
         this.productSoonObject = data;
-      }   
+      }
       if (this.productSoonObject) {
         for (let i = 0; i < this.productSoonObject.length; i++) {
           this.productService.loadImage(this.productSoonObject[i].photo_url).subscribe(data => {
-            if(!this.loadedSoonImages.includes(data)){
+            if (!this.loadedSoonImages.includes(data)) {
               this.loadedSoonImages?.push(data);
-            } 
+            }
           });
         }
       }
     });
     this.productService.loadImageMetaByMarker("new").subscribe((data: Array<Product>) => {
       console.log(data);
-      if(this.productNewObject !== data){
+      if (this.productNewObject !== data) {
         this.productNewObject = data;
-      }   
+      }
       if (this.productNewObject) {
         for (let i = 0; i < this.productNewObject.length; i++) {
           this.productService.loadImage(this.productNewObject[i].photo_url).subscribe(data => {
-            if(!this.loadedNewImages.includes(data)){
+            if (!this.loadedNewImages.includes(data)) {
               this.loadedNewImages?.push(data);
-            } 
+            }
           });
         }
       }
     });
     this.productService.loadImageMetaByMarker("discount").subscribe((data: Array<Product>) => {
       console.log(data);
-      if(this.productDiscountObject !== data){
+      if (this.productDiscountObject !== data) {
         this.productDiscountObject = data;
-      }   
+      }
       if (this.productDiscountObject) {
         for (let i = 0; i < this.productDiscountObject.length; i++) {
           this.productService.loadImage(this.productDiscountObject[i].photo_url).subscribe(data => {
-            if(!this.loadedDiscountImages.includes(data)){
+            if (!this.loadedDiscountImages.includes(data)) {
               this.loadedDiscountImages?.push(data);
-            } 
+            }
           });
         }
       }
     });
     this.productService.loadImageMetaByMarker("sale").subscribe((data: Array<Product>) => {
       console.log(data);
-      if(this.productSaleObject !== data){
+      if (this.productSaleObject !== data) {
         this.productSaleObject = data;
-      } 
+      }
       if (this.productSaleObject) {
         for (let i = 0; i < this.productSaleObject.length; i++) {
           this.productService.loadImage(this.productSaleObject[i].photo_url).subscribe(data => {
-            if(!this.loadedSaleImages.includes(data)){
+            if (!this.loadedSaleImages.includes(data)) {
               this.loadedSaleImages?.push(data);
-            } 
+            }
           });
         }
       }
