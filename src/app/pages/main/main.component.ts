@@ -40,7 +40,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.windowHeight = window.innerHeight;
     if (this.windowWidth > 1676 && this.isWindowHelpers[0] === false) {
       for (let i = 0; i < this.currentEndIndex.length; i++) {
-        this.currentEndIndex[i] = 4 + this.currentStartIndex[i];
+        if((4 + this.currentStartIndex[i]) < this.loadedSoonImages?.length){
+          this.currentEndIndex[i] = 4 + this.currentStartIndex[i];
+        } else {
+          this.currentStartIndex[i]--;
+        }
+        
         console.log(this.currentEndIndex[i]);
       }
       this.isWindowHelpers[0] = true;
@@ -48,7 +53,11 @@ export class MainComponent implements OnInit, OnDestroy {
     } else if (this.windowWidth < 1676 && this.windowWidth > 1282
       && this.isWindowHelpers[1] === false) {
       for (let i = 0; i < this.currentEndIndex.length; i++) {
-        this.currentEndIndex[i] = 3 + this.currentStartIndex[i];
+        if((3 + this.currentStartIndex[i]) < this.loadedNewImages?.length){
+          this.currentEndIndex[i] = 3 + this.currentStartIndex[i];
+        } else {
+          this.currentStartIndex[i]--;
+        }
         console.log(this.currentEndIndex[i]);
       }
       this.isWindowHelpers[0] = false;
@@ -57,7 +66,11 @@ export class MainComponent implements OnInit, OnDestroy {
     } else if (this.windowWidth < 1282 && this.windowWidth > 740
       && this.isWindowHelpers[2] === false) {
       for (let i = 0; i < this.currentEndIndex.length; i++) {
-        this.currentEndIndex[i] = 2 + this.currentStartIndex[i];
+        if((2 + this.currentStartIndex[i]) < this.loadedDiscountImages?.length){
+          this.currentEndIndex[i] = 2 + this.currentStartIndex[i];
+        } else {
+          this.currentStartIndex[i]--;
+        }
         console.log(this.currentEndIndex[i]);
       }
       this.isWindowHelpers[1] = false;
@@ -65,7 +78,11 @@ export class MainComponent implements OnInit, OnDestroy {
       this.isWindowHelpers[3] = false;
     } else if (this.windowWidth < 740 && this.isWindowHelpers[3] === false) {
       for (let i = 0; i < this.currentEndIndex.length; i++) {
-        this.currentEndIndex[i] = 1 + this.currentStartIndex[i];
+        if((1 + this.currentStartIndex[i]) < this.loadedSoonImages?.length){
+          this.currentEndIndex[i] = 1 + this.currentStartIndex[i];
+        } else {
+          this.currentStartIndex[i]--;
+        }
         console.log(this.currentEndIndex[i]);
       }
       this.isWindowHelpers[2] = false;
