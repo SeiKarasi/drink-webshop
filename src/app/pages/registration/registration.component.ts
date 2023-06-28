@@ -92,13 +92,16 @@ export class RegistrationComponent implements OnInit {
           console.log('Felhasználó hozzáadása sikeres');
           this.router.navigateByUrl('/main');
           this.toastr.success("Sikeres regisztráció!", "Regisztráció");
+          this.loginLoading = false;
         }).catch(error => {
           this.toastr.error("Sikertelen regisztráció!", "Regisztráció");
           console.error(error);
+          this.loginLoading = false;
         });
       }).catch(error => {
         this.toastr.error("Sikertelen regisztráció!", "Regisztráció");
         console.error(error);
+        this.loginLoading = false;
       });
     } else {
       this.toastr.error("A jelszó és a jelszó ismét nem egyezik!", "Regisztráció");
