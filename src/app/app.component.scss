@@ -48,12 +48,6 @@ mat-sidenav {
     font-size: 300%;
 }
 
-@media (max-width: 700px) {
-    #title {
-    font-size: 200%;
-    }
-}
-
 .highlight {
     font-size: 1.5em;
 }
@@ -70,4 +64,15 @@ mat-sidenav {
 
 #menuicon {
     font-size: 500%;
+}
+
+
+@media (max-width: 700px) {
+    #title {
+        font-size: 170%;
+    }
+
+    #menuicon {
+        font-size: 365%;
+    }
 }

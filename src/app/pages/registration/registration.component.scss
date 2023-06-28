@@ -36,6 +36,11 @@ form {
     display: inline-grid;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
 .buttons {
     padding: 10px;
 }
@@ -61,4 +66,36 @@ mat-label {
 // kurzus szín
 input {
     caret-color: #14d8e6;
+}
+
+@media (max-width: 900px) {
+    mat-card {
+        width: 70%;
+    }
+
+    button:hover {
+        transition: transform 0.3s;
+        transform: scale(1.05);
+    }
+
+    .mat-card-title {
+        font-size: 130%;
+    }
+
+    form {
+        display: block;
+    }
+
+    .buttons {
+        padding: 5px;
+    }
+
+    button {
+        width: 110px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-start;
+    }
 }

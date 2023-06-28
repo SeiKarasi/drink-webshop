@@ -32,17 +32,41 @@
         <mat-icon>app_registration</mat-icon>
         <span>Regisztráció</span>
     </a>
+    <h1>Kategóriák</h1>
+    <a mat-list-item routerLink="/category/All" (click)="close()">
+        <mat-icon>local_bar</mat-icon>
+        <span>Minden</span>
+    </a>
+    <a mat-list-item routerLink="/category/Beer" (click)="close()">
+        <mat-icon>sports_bar</mat-icon>
+        <span>Sörök</span>
+    </a>
+    <a mat-list-item routerLink="/category/Wine" (click)="close()">
+        <mat-icon>wine_bar</mat-icon>
+        <span>Borok</span>
+    </a>
+    <a mat-list-item routerLink="/category/Champagne" (click)="close()">
+        <mat-icon>brunch_dining</mat-icon>
+        <span>Pezsgők</span>
+    </a>
+    <a mat-list-item routerLink="/category/Whisky" (click)="close()">
+        <mat-icon>liquor</mat-icon>
+        <span>Whisky-k</span>
+    </a>
+    <a mat-list-item routerLink="/category/Vodka" (click)="close()">
+        <mat-icon>liquor</mat-icon>
+        <span>Vodkák</span>
+    </a>
+    <a mat-list-item routerLink="/category/Firewater" (click)="close()">
+        <mat-icon>liquor</mat-icon>
+        <span>Pálinkák</span>
+    </a>
+    <a mat-list-item routerLink="/category/Bitter" (click)="close()">
+        <mat-icon>liquor</mat-icon>
+        <span>Keserűk</span>
+    </a>
+    <a mat-list-item routerLink="/category/Drink" (click)="close()">
+        <mat-icon>local_cafe</mat-icon>
+        <span>Üdítők</span>
+    </a>
 </mat-nav-list>
-<div>Kategóriák:
-    <select>
-        <option>Minden</option>
-        <option>Sörök</option>
-        <option>Borok</option>
-        <option>Pezsgők</option>
-        <option>Whisky-k</option>
-        <option>Vodkák</option>
-        <option>Pálinkák</option>
-        <option>Keserűk</option>
-        <option>Üdítők</option>
-    </select>
-</div>

@@ -1,7 +1,7 @@
 #flex {
     display: flex;
     flex-direction: column;
-    justify-content: center;    
+    justify-content: center;
 }
 
 .plexi-layer {
@@ -9,23 +9,16 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 1;
-  }
+}
 
 .title {
     text-align: center;
     padding: 8%;
-    font-family:'Rubik Wet Paint';
+    font-family: 'Rubik Wet Paint';
     font-size: 85px;
     z-index: 2;
 }
 
-
-@media (max-width: 1100px) {
-    .title {
-    font-size: 70px;
-    padding: 12%;
-    }
-}
 
 .image-container {
     display: flex;
@@ -72,7 +65,7 @@
 }
 
 .zoom-button {
-    cursor:pointer;
+    cursor: pointer;
     width: 300px;
     height: 950px;
     position: relative;
@@ -80,11 +73,11 @@
     padding: 0;
     border: 10px solid grey;
     border-radius: 10px;
-  }
-  
+}
+
 .zoom-button:hover {
     transition: transform 0.3s;
-    transform: scale(1.1);
+    transform: scale(1.075);
 }
 
 .cart:hover {
@@ -97,4 +90,39 @@
     flex-direction: row;
     justify-content: center;
     gap: 10%;
+}
+
+@media (max-width: 1100px) {
+    .title {
+        font-size: 70px;
+        padding: 12%;
+    }
+
+    .zoom-button {
+        width: 230px;
+        height: 670px;
+        margin: 5%;
+        margin-bottom: 10%;
+    }
+
+    .productdata img {
+        width: 150px;
+        height: 400px;
+    }
+
+    .productname {
+        font-size: 140%;
+    }
+
+    .productprice {
+        font-size: 130%;
+    }
+    
+    .productcount {
+        font-size: 120%;
+    }
+
+    .cart {
+        font-size: 85%;
+    }
 }

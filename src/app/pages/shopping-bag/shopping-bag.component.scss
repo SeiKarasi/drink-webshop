@@ -14,3 +14,18 @@
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 1;
   }
+
+  span {
+    padding: 1%;
+  }
+
+  @media (max-width: 1100px) {
+    .flex-container {
+      font-size: 350%;
+    }
+
+    span {
+      padding: 1%;
+      padding-bottom: 20%;
+    }
+  }

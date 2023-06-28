@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
   // a constructor paraméterei: paraméter adattagok
   // (egyenlő azzal, mint ha létrehoztunk volna egy adattagot
   // és a paraméterben érkezőt adtuk volna neki értékül)
-  constructor(private router: Router, private authService: AuthService){
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService){
   }
 
   setActiveLink(link: string) {
@@ -66,9 +70,11 @@ export class AppComponent implements OnInit {
 
   logout(_?: boolean){
     this.authService.logout().then(() => {
+      this.toastr.success('Sikeres kijelentkezés!', 'Kijelentkezés');
       console.log('Sikeres kijelentkezés!');
     }).catch(error => {
       console.error(error);
     });
   }
+  
 }

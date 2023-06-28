@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AboutusRoutingModule } from './aboutus-routing.module';
 import { AboutusComponent } from './aboutus.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { AboutusComponent } from './aboutus.component';
   ],
   imports: [
     CommonModule,
-    AboutusRoutingModule
+    AboutusRoutingModule,
+    FlexLayoutModule
   ]
 })
 export class AboutusModule { }
