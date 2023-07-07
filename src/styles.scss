@@ -14,6 +14,8 @@ body { margin: 0; font-family: 'Courier New', Courier, monospace; }
   right: 0;
 }
 
+
+
 // szürkíteni a hátteret amikor töltődés van
 .loading-spinner::before {
   content: '';

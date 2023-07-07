@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RegistrationRoutingModule } from './registration-routing.module';
-import { RegistrationComponent } from './registration.component';
+import { NewProductRoutingModule } from './new-product-routing.module';
+import { NewProductComponent } from './new-product.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,11 +15,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    RegistrationComponent
+    NewProductComponent
   ],
   imports: [
     CommonModule,
-    RegistrationRoutingModule,
+    NewProductRoutingModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -29,4 +29,4 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule
   ]
 })
-export class RegistrationModule { }
+export class NewProductModule { }

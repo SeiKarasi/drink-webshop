@@ -1,0 +1,48 @@
+<span class="loading-spinner" *ngIf="loginLoading"><mat-spinner color="accent"></mat-spinner></span>
+<div class="newProductComponent">
+    <div class="div-flex">
+        <mat-card fxLayout="column" fxLayoutGap="30px">
+            <mat-card-header fxLayoutAlign="center">
+                <span class="mat-card-title"><mat-card-title>Termék hozzáadás</mat-card-title></span> 
+             </mat-card-header>
+             <mat-card-content>
+            <form [formGroup]="productsForm" (ngSubmit)="addProduct()">
+                <mat-form-field>
+                    <mat-label for="id">ID:</mat-label>
+                    <input matInput type="text" formControlName="id">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="name">Terméknév:</mat-label>
+                    <input matInput type="text" formControlName="name">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="category">Kategória:</mat-label>
+                    <input matInput type="text" formControlName="category">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="short_description">Leírás:</mat-label>
+                    <input matInput type="text" formControlName="short_description">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="alcohol">Alkohol tartalom:</mat-label>
+                    <input matInput type="number" formControlName="alcohol">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="marker">Cimke:</mat-label>
+                    <input matInput type="text" formControlName="marker">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label for="price">Ár:</mat-label>
+                    <input matInput type="number" formControlName="price">
+                </mat-form-field>
+                <div class="button-container">
+                    <span class="buttons"><button mat-raised-button color="accent"
+                            type="submit">Hozzáad</button></span>
+                    <span class="buttons"><button mat-raised-button color="accent"
+                            (click)="goBack()">Mégse</button></span>
+                </div>
+            </form>
+        </mat-card-content>
+        </mat-card>
+    </div>
+</div>

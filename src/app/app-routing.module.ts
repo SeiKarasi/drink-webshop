@@ -34,9 +34,9 @@ const routes: Routes = [
   },
   { 
     path: 'shopping_bag',
-    loadChildren: () => import('./pages/shopping-bag/shopping-bag.module').then(m => m.ShoppingBagModule),
-    canActivate: [AuthGuard] 
+    loadChildren: () => import('./pages/shopping-bag/shopping-bag.module').then(m => m.ShoppingBagModule)
   },
+  { path: 'newProduct', loadChildren: () => import('./pages/new-product/new-product.module').then(m => m.NewProductModule) },
   {
     path: '**',
     redirectTo: '/main'

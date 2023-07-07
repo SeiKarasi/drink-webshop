@@ -4,11 +4,11 @@
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     background-color: #696969;
 }
 
-.login_component {
+.newProductComponent {
     height: 100vh;
     margin: 0 auto;
 }
@@ -31,6 +31,11 @@ form {
     align-self: center;
 }
 
+.nameForm {
+    width: 100%;
+    display: inline-grid;
+}
+
 .button-container {
     display: flex;
     justify-content: center;
@@ -50,7 +55,7 @@ button {
 }
 
 // aláhúzás a kommentnél
-::ng-deep .mat-focused .mat-form-field-ripple {
+::ng-deep .mat-focused .mat-form-field-ripple  {
     background-color: grey !important;
 }
 
@@ -58,11 +63,10 @@ mat-label {
     color: white;
 }
 
-// kurzor szín
+// kurzus szín
 input {
     caret-color: #14d8e6;
 }
-
 
 @media (max-width: 900px) {
     mat-card {
@@ -94,5 +98,4 @@ input {
         display: flex;
         justify-content: flex-start;
     }
-
 }

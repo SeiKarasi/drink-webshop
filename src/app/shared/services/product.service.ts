@@ -20,6 +20,11 @@ export class ProductService {
      //return this.http.get(environment.hostUrl + '/assets/' + metaUrl) as Observable<Array<Product>>;
   }
 
+  // id alapján kérünk le, tehát csak 1 lehet
+  loadImageMetaByProductID(id: string) {
+        return this.afs.collection<Product>(this.collectionName, ref => ref.where('id', '==', id)).valueChanges();
+  }
+
   loadImageMetaByCategory(category: string){
     return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category)).valueChanges();
   }
@@ -31,5 +36,9 @@ export class ProductService {
   loadImage(imageUrls: string) {
     //return this.http.get(environment.hostUrl + '/assets/img' + imageUrl, {responseType: 'blob'});
     return this.storage.ref(imageUrls).getDownloadURL();
+  }
+
+  create(product: Product){
+    return this.afs.collection<Product>(this.collectionName).doc(product.id).set(product);
   }
 }

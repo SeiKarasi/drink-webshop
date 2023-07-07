@@ -8,7 +8,8 @@ a {
     color: white;
 }
 
-a:hover, a:active {
+a:hover,
+a:active {
     color: #14d8e6;
 }
 
@@ -35,15 +36,16 @@ mat-sidenav {
 
 .disabled-link {
     pointer-events: none;
-    color: gray; 
+    color: gray;
 }
 
 .app-toolbar {
-    height: 15vh; /* A menüsor magasságának beállítása */
-  }
+    height: 15vh;
+    /* A menüsor magasságának beállítása */
+}
 
 #title {
-    font-family:'Rubik Wet Paint';
+    font-family: 'Rubik Wet Paint';
     font-weight: bolder;
     font-size: 300%;
 }
@@ -64,6 +66,22 @@ mat-sidenav {
 
 #menuicon {
     font-size: 500%;
+}
+
+#game {
+    display: inline-block;
+    margin-right: 200px;
+    margin-top: 20px;
+    font-size: 250%;
+    font-family: 'Rubik Wet Paint';
+    letter-spacing: 10px;
+    transform: rotate(-10deg);
+    
+}
+
+#game:hover, #game:active {
+    text-shadow: 5px 5px whitesmoke;
+    transform: scale(1.3);
 }
 
 

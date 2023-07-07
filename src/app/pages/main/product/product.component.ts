@@ -21,6 +21,9 @@ export class ProductComponent implements OnInit {
   actProduct?: Product;
   loadedImage?: string;
 
+  similarProducts?: Array<Product>;
+  similarLoadedImages?: Array<string> = [];
+
   commentsForm = this.createForm({
     id: '',
     username: '',
@@ -44,29 +47,49 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.actRoute.params.subscribe((param: any) => {
       this.imageSource = param.imageSource as string;
-    });
-    console.log(this.imageSource);
-    this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
-      console.log(data);
-      for(let i = 0; i < data.length; i++){
-        if(this.imageSource == data[i]['id']){
-          this.actProduct = data[i];
+      console.log(this.imageSource);
+      this.productService.loadImageMetaByProductID(this.imageSource).subscribe((data: Array<Product>) => {
+        console.log(data);
+        if (this.imageSource === data[0]['id']) {
+          this.actProduct = data[0];
           console.log(this.actProduct);
+          this.productService.loadImageMetaByCategory(this.actProduct?.category).subscribe((data: Array<Product>) => {
+            const index = data.findIndex(product => product.id === this.actProduct?.id);
+            if (index !== -1) {
+              data.splice(index, 1);
+            }
+            if(data.length > 8 ){
+              this.similarProducts = data.slice(0, 8);
+            } else {
+              this.similarProducts = data;
+            }
+            
+            if (this.similarProducts) {
+              for (let i = 0; i < this.similarProducts.length; i++) {
+                this.productService.loadImage(this.similarProducts[i].photo_url).subscribe(data => {
+                  if(!this.similarLoadedImages?.includes(data)){
+                    this.similarLoadedImages?.push(data);
+                  }
+                });
+              }
+            }
+          });
         }
-      }
-      if(this.actProduct?.id){
-        this.commentsForm.get('productId')?.setValue(this.actProduct.id);
-        this.productService.loadImage(this.actProduct.photo_url).subscribe(data => {
-          this.loadedImage = data;
-        });
-        this.commentService.getCommentsByProductId(this.actProduct.id).subscribe(comments => {
-          this.comments = comments;
-        })
-      }
+        if (this.actProduct?.id) {
+          this.commentsForm.get('productId')?.setValue(this.actProduct.id);
+          this.productService.loadImage(this.actProduct.photo_url).subscribe(data => {
+            this.loadedImage = data;
+          });
+          this.commentService.getCommentsByProductId(this.actProduct.id).subscribe(comments => {
+            this.comments = comments;
+          })
+        }
+      });
     });
 
+
     const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
-    if(user != null){
+    if (user != null) {
       this.userService.getById(user.uid).subscribe(data => {
         this.user = data;
         this.commentsForm.get('username')?.setValue(this.user?.username);
@@ -76,6 +99,9 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  navigateThisProduct() {
+
+  }
 
   // Arra kell, hogy garantálni tudjuk a Comment típust
   // simán az fBuilder.grouppal ez nem tehető meg!
@@ -98,7 +124,7 @@ export class ProductComponent implements OnInit {
         // Ennek segítségével új objektumot hozunk létre mindig
         //this.comments.push({ ...this.commentsForm.value });
 
-        
+
         this.commentService.create(this.commentsForm.value).then(_ => {
           console.log('Sikeres komment hozzáadás!');
           this.commentsForm.get('comment')?.reset();
@@ -109,8 +135,8 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  deleteComment(commentId: string, username: string){
-    if(this.user?.username === username){
+  deleteComment(commentId: string, username: string) {
+    if (this.user?.username === username) {
       this.commentService.delete(commentId);
     } else {
       console.log('Más hozzászólását nem törölheted!');

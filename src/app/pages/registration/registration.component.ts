@@ -7,7 +7,6 @@ import { UserService } from '../../shared/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 
 
-// EZT KELL FOLYTATNI MERT MÉG MINDIG NEM MEGFELELŐ HOGY UGYANZ LEGYEN A KÉT JELSZÓ
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',

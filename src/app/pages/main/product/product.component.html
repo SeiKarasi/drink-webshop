@@ -24,13 +24,28 @@
                     </div>
                 </div>
                 <div>
-                    <p class="long-text">Leírás: {{this.actProduct?.short_description}}</p>
-                    <p>Alkohol tartalom: {{this.actProduct?.alcohol}}</p>
+                    <p class="long-text"><span id="description">Leírás: </span><br><span>{{this.actProduct?.short_description}}</span></p>
+                    <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol > 0">Alkohol tartalom: {{this.actProduct.alcohol}}%</p>
+                    <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol === 0">Alkoholmentes</p>     
                     <p>Ár: {{this.actProduct?.price}} Ft</p>
                 </div>
             </mat-card-content>
         </span>
         <span fxFlex="1 1 50%">
+            <span>
+                <h2 class="similarProductTitle">Hasonló termékek</h2>
+                <div class="image-container">
+                    <div *ngFor='let product of similarProducts; let i = index' [ngClass]="{'second-row': i >= 4}">
+                        <button class="similarProductButton" (click)="navigateThisProduct()"
+                            [routerLink]="'/main/product/' + product.id">
+                            <span *ngFor='let loadedImage of similarLoadedImages'>
+                                <img class="similarImage" *ngIf="this.loadedImage.includes(product.id)"
+                                    [src]="this.loadedImage" alt='Image'>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </span>
             <mat-card-actions id="addComment">
                 <fieldset [disabled]="!this.user">
                     <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
@@ -43,8 +58,7 @@
                         <div>
                             <mat-form-field>
                                 <mat-label for="comment">Komment: </mat-label>
-                                <textarea matInput id="comment" rows="10" cols="70"
-                                    formControlName="comment"></textarea>
+                                <textarea matInput id="comment" rows="7" formControlName="comment"></textarea>
                             </mat-form-field>
                         </div>
                         <div>

@@ -4,7 +4,8 @@ export interface Product {
     photo_url: string;
     short_description: string;
     long_description: string;
+    category: string;
     price: number;
-    alcohol: string;
+    alcohol: number;
     marker: string;
 }
