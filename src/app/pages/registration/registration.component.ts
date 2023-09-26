@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { User } from '../../shared/models/User';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
@@ -29,7 +29,7 @@ export class RegistrationComponent implements OnInit {
   loginLoading: boolean = false;
 
   constructor(
-    private fBuilder: FormBuilder,
+    private fBuilder: UntypedFormBuilder,
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
@@ -38,7 +38,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
+  passwordMatchValidator(formGroup: UntypedFormGroup) {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = formGroup.get('password')?.value;
       const rePassword = formGroup.get('rePassword')?.value;

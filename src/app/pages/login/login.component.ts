@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, Observable} from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
@@ -12,9 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  usersForm = new FormGroup ({
-    email: new FormControl(''),
-    password:new FormControl(''),
+  usersForm = new UntypedFormGroup ({
+    email: new UntypedFormControl(''),
+    password:new UntypedFormControl(''),
   });
   
 

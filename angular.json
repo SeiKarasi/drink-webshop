@@ -120,5 +120,7 @@
       }
     }
   },
-  "defaultProject": "drink-webshop"
+  "cli": {
+    "analytics": false
+  }
 }

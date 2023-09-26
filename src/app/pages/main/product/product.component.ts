@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comment } from '../../../shared/models/Comment';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ProductService } from '../../../shared/services/product.service';
 import { Product } from '../../../shared/models/Product';
 import { CommentService } from '../../../shared/services/comment.service';
@@ -36,7 +36,7 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private actRoute: ActivatedRoute,
-    private fBuilder: FormBuilder,
+    private fBuilder: UntypedFormBuilder,
     private productService: ProductService,
     private commentService: CommentService,
     private userService: UserService,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { Product } from '../../shared/models/Product';
 import { Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
@@ -21,16 +21,16 @@ export class NewProductComponent implements OnInit {
     photo_url: '',
     short_description: '',
     long_description: '',
-    category: new FormControl('Drink'),
+    category: new UntypedFormControl('Drink'),
     price: null,
     alcohol: null,
-    marker: new FormControl('-')
+    marker: new UntypedFormControl('-')
   });
   loginLoading: boolean = false;
 
 
   constructor(
-    private fBuilder: FormBuilder,
+    private fBuilder: UntypedFormBuilder,
     private router: Router,
     private productService: ProductService,
     private toastr: ToastrService,
