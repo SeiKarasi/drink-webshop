@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { Product } from '../../shared/models/Product';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../../shared/services/user.service';
+import { User } from '../../shared/models/User';
 
 @Component({
   selector: 'app-main',
@@ -10,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
+
+  user?: User;
 
   productSoonObject?: Array<Product>;
   productNewObject?: Array<Product>;
@@ -26,13 +30,15 @@ export class MainComponent implements OnInit, OnDestroy {
 
   productCounts: { [productId: string]: number } = {};
 
+  discount = false;
+
   windowWidth: number = window.innerWidth;
   windowHeight: number = window.innerHeight;
 
   // Kizárólag arra szolgál, hogy ne fusson le minden egyes pixel változásnál egy for ciklus
   isWindowHelpers: Array<boolean> = [false, false, false, false];
 
-  constructor(private router: Router, private productService: ProductService, private toastr: ToastrService) { }
+  constructor(private router: Router, private productService: ProductService, private toastr: ToastrService, private userService: UserService,) { }
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
@@ -106,6 +112,15 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
+    if (user != null) {
+      this.userService.getById(user.uid).subscribe(data => {
+        this.user = data;
+      }, error => {
+        console.error(error);
+      });
+    }
+
     if (this.windowWidth > 1676) {
       this.isWindowHelpers[0] = true;
       for (let i = 0; i < this.currentEndIndex.length; i++) {

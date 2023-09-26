@@ -34,6 +34,11 @@ export class UserService {
     return this.afs.collection<User>(this.collectionName).doc(user.id).set(user);
   }
 
+  updateDiscountToLink(userId: string, discountToLink: boolean) {
+    const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
+    return userRef.update({ discountToLink : discountToLink });
+  }
+
   // Delete
   // NINCS HASZNÁLVA
   delete(id: string){

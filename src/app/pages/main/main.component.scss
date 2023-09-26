@@ -70,7 +70,6 @@
 }
 
 .productname {
-    padding-top: 5%;
     padding-bottom: 5%;
     font-size: 200%;
     font-weight: bolder;
@@ -82,6 +81,18 @@
     font-size: 200%;
     font-weight: bolder;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.originalPriceLineThrough {
+    text-decoration: line-through;
+}
+
+.discountProductPrice {
+    font-size: 245%;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: -9%;
+    color: red;
 }
 
 .productcount {

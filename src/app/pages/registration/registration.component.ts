@@ -23,7 +23,8 @@ export class RegistrationComponent implements OnInit {
     name: this.fBuilder.group({
       firstname: '',
       lastname: ''
-    })
+    }),
+    discountToLink: false
   });
   loginLoading: boolean = false;
 
@@ -85,7 +86,8 @@ export class RegistrationComponent implements OnInit {
           name: {
             firstname: this.usersForm.get('name.firstname')?.value,
             lastname: this.usersForm.get('name.lastname')?.value
-          }
+          },
+          discountToLink: false
         };
         this.userService.create(user).then(_ => {  
           console.log('Felhasználó hozzáadása sikeres');

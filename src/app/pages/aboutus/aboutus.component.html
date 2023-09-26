@@ -1,3 +1,31 @@
-<div class="plexi-layer">
-    <div class="flex-container"><span>Fejlesztés</span><span> alatt...</span></div>
+<div id="plexi-layer">
+    <h1>Bemutatkozás</h1>
+    <div id="introduction">
+        Ez egy Magyarországon felépült képzeletbeli vállalat, mely a TrinkyDrinky nevet kapta,
+        mely mindent megtesz annak érdekében, hogy kielégítse ügyfeleit. A weboldalon szabadon
+        vásárolhatóak alkoholos és alkoholmentes készítmények egyaránt. A különlegesség,
+        hogy egy játék keretein belül akciókat szerezhetsz. A platform kielégít mindenféle igényt,
+        az italaink egyediek és különlegesek, melyeket mi fejlesztettünk ki. Az ízvilág teljesen
+        újszerű. Együtt dolgozunk különféle más képzeletbeli márkákkal, melyek csak számunkra
+        biztosítsák a termékeiket. Habár a piacon, mint üzletlánc nem vagyunk jelen fizikálisan,
+        ezen okból kifolyólag csak rendelés lehetséges. Termékeink a képzelet világában 14 napon
+        belül megérkeznek bármely címre. Egyelőre csak Magyarország teljes területén. Azonban az
+        innovatív fejlesztéseknek köszönhetően reméljük, hogy hamarosan külföldön is áttörést érhetünk
+        el.
+    </div>
+    <div id="footer-container">
+        <div id="discountLink">
+            Újszerűségünk okán ezen linkre kattintva 5% kedvezményt biztosítunk minden 
+            regisztrált felhasználónak minden termékünkre a feltüntetett és a játékkal
+            szerzett akciókhoz bónuszként!
+            <br><a *ngIf='this.user' (click)="Discount()">Kattints az akcióhoz!</a>
+                <a id="loginToDiscount" *ngIf='!this.user' (click)="LoginToDiscount()">Kattints az akcióhoz!</a>
+        </div>
+        
+        <footer>
+            <mat-icon>sell</mat-icon>
+            Köszönjük, hogy elolvastad a bemutatkozásunkat. Kellemes vásárlást kívánunk.
+            <mat-icon>sell</mat-icon>
+        </footer>   
+    </div>
 </div>

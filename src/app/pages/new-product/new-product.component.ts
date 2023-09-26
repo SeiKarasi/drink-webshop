@@ -1,45 +1,58 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Product } from '../../shared/models/Product';
 import { Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
-
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 @Component({
   selector: 'app-new-product',
   templateUrl: './new-product.component.html',
   styleUrls: ['./new-product.component.scss']
 })
 export class NewProductComponent implements OnInit {
+  imageFile?: any;
+  imageFilePath?: string;
 
-  products: Array<Product> = [];
   productsForm = this.createForm({
     id: '',
     name: '',
     photo_url: '',
     short_description: '',
     long_description: '',
-    category: '',
+    category: new FormControl('Drink'),
     price: null,
     alcohol: null,
-    marker: ''
+    marker: new FormControl('-')
   });
   loginLoading: boolean = false;
+
 
   constructor(
     private fBuilder: FormBuilder,
     private router: Router,
     private productService: ProductService,
     private toastr: ToastrService,
-    private location: Location) { }
+    private location: Location,
+    private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
+
+  async onFileSelected(event: any) {
+    if (this.productsForm.get('id')?.value) {
+      this.imageFile = event.target.files[0];
+    } else {
+      this.toastr.error("Sikertelen kép választás! Add meg az ID mezőt mielőtt képet választanál!", "Kép");
+      event.target.value = '';
+    }
+  }
+
 
   // Arra kell, hogy garantálni tudjuk a User típust
   // simán az fBuilder.grouppal ez nem tehető meg!
@@ -54,15 +67,14 @@ export class NewProductComponent implements OnInit {
   }
 
 
-  // ITT KELL FOLYTATNI
   async addProduct() {
     this.loginLoading = true;
     if (this.productsForm.get('id')?.value && this.productsForm.get('name')?.value
-    && this.productsForm.get('price')?.value && this.productsForm.get('category')?.value) {
+      && this.productsForm.get('price')?.value && this.productsForm.get('category')?.value && this.imageFile) {
       const product: Product = {
         id: this.productsForm.get('id')?.value,
         name: this.productsForm.get('name')?.value,
-        photo_url: 'images/' + this.productsForm.get('id')?.value + ".jpg",
+        photo_url: 'images/' + this.productsForm.get('id')?.value + '.png',
         short_description: this.productsForm.get('short_description')?.value,
         long_description: '-',
         category: this.productsForm.get('category')?.value,
@@ -70,8 +82,15 @@ export class NewProductComponent implements OnInit {
         alcohol: this.productsForm.get('alcohol')?.value | 0,
         marker: this.productsForm.get('marker')?.value
       };
-
+      this.imageFilePath = 'images/' + this.productsForm.get('id')?.value + '.png';
+      const task = this.storage.upload(this.imageFilePath, this.imageFile);
+      try {
+        await task;
+      } catch (error) {
+        console.log('Hiba történt a feltöltés során:', error);
+      }
       await this.productService.create(product).then(_ => {
+
         console.log('Termék hozzáadása sikeres');
         this.router.navigateByUrl('/main');
         this.toastr.success("Sikeres termék felvitel!", "Termék");
