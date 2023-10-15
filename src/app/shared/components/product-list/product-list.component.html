@@ -1,0 +1,38 @@
+<div class='image-container'>
+    <div id="previousButton">
+        <button class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="backarrows arrows">arrow_back_ios_new</mat-icon></button>
+    </div>
+    <div class='productdata'
+        *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
+        <button class="zoom-button" (click)="navigateThisProduct()"
+            [routerLink]="'/main/product/' + product.id">
+            <div class="productname">{{product.name}}</div>
+            <span *ngFor='let loadedImage of loadedImages'>
+                <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>  
+            </span>
+            <button mat-fab class="marker">{{this.markerFirstWord}}<br/>{{this.markerSecondWord}}</button>
+            <div class="productprice" 
+            [ngClass]="this.user?.discountToLink === true || this.marker=='discount' ? 'originalPriceLineThrough' : ''">
+                {{product.price}} Ft</div>
+            <div class="discountProductPrice" *ngIf="this.user?.discountToLink !== true && this.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
+            <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{this.marker =='discount' ? (product.price * 0.95) : (product.price * 0.45) | number:'1.0-0'}} Ft</div>
+            <div class="button-container">
+                <div class="pt-6">
+                    <p class="productcount">Mennyiség</p>
+                    <div><button type="button" mat-raised-button color="accent"
+                            (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                    </div>
+                    <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
+                    <div><button type="button" mat-raised-button color="accent"
+                            (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                    </div>
+                </div>
+                <button class="cart" type="button" mat-raised-button color="accent"
+                    (click)="onAddToCart(product); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+            </div>
+        </button>
+    </div>
+    <div id="forwardButton">
+        <button class="custom-mat-fab" mat-fab (click)="nextProduct()"><mat-icon class="nextarrows arrows">arrow_forward_ios_new</mat-icon></button>
+    </div>
+</div>

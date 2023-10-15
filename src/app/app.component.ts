@@ -4,6 +4,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from './shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Cart, CartItem } from './shared/models/Cart';
+import { CartService } from './shared/services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,20 @@ export class AppComponent implements OnInit {
   loggedInUser?: firebase.default.User | null;
 
   activeLink?: string;
+  itemsQuantity = 0;
+  _cart: Cart = {items: []};
+  get cart(): Cart {
+    return this._cart;
+  }
+  set cart(cart: Cart){
+    this._cart = cart;
+
+    this.itemsQuantity = cart.items
+    .map((item => item.quantity))
+    .reduce((prev, current) => prev + current, 0 );
+  }
+
+
 
   // a constructor paraméterei: paraméter adattagok
   // (egyenlő azzal, mint ha létrehoztunk volna egy adattagot
@@ -24,7 +40,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private toastr: ToastrService){
+    private toastr: ToastrService,
+    private cartService: CartService){
   }
 
   setActiveLink(link: string) {
@@ -49,7 +66,11 @@ export class AppComponent implements OnInit {
     }, error => {
       console.log(error);
       localStorage.setItem('user', JSON.stringify('null'));
-    })
+    });
+
+    this.cartService.cart.subscribe((cart) => {
+      this.cart = cart;
+    });
   }
 
   // Cseréli a page adattag értékét a selectedPage által!
@@ -75,6 +96,14 @@ export class AppComponent implements OnInit {
     }).catch(error => {
       console.error(error);
     });
+  }
+
+  getTotal(items: Array<CartItem>): number {
+    return this.cartService.getTotal(items);
+  }
+
+  onClearCart() {
+    this.cartService.clearCart();
   }
   
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../shared/models/Product';
 import { ProductService } from '../../shared/services/product.service';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from 'src/app/shared/services/cart.service';
 
 @Component({
   selector: 'app-category',
@@ -14,13 +15,14 @@ export class CategoryComponent implements OnInit {
   productObject?: Array<Product>;
   loadedImages: Array<string> = [];
   category?: string;
-  productCounts: { [productId: string]: number } = {};
+  productQuantity: { [productId: string]: number } = {};
 
   constructor(
     private actRoute: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private cartService: CartService) { }
 
   ngOnInit(): void {
       this.actRoute.params.subscribe((param: any) => {
@@ -69,23 +71,32 @@ export class CategoryComponent implements OnInit {
 
     // product.id alapján megy ami egyedi
     increaseCount(productId: string) {
-      if (!this.productCounts[productId]) {
-        this.productCounts[productId] = 1;
+      if (!this.productQuantity[productId]) {
+        this.productQuantity[productId] = 1;
       }
-      this.productCounts[productId]++;
+      this.productQuantity[productId]++;
     }
   
     decreaseCount(productId: string) {
-      if (this.productCounts[productId] > 1) {
-        this.productCounts[productId]--;
+      if (this.productQuantity[productId] > 1) {
+        this.productQuantity[productId]--;
       }
     }
   
   
-    addToCart(product: Product, productId: string) {
-      if (!this.productCounts[productId]) {
-        this.productCounts[productId] = 1;
+    onAddToCart(product: Product): void {
+      const quantity = this.productQuantity[product.id] || 0;
+      this.cartService.addToCart({
+        product : product.photo_url,
+        name: product.name,
+        price: product.price,
+        quantity: quantity === 0 ? quantity + 1 : quantity,
+        id: product.id
+      });
+      if (!this.productQuantity[product.id]) {
+        this.productQuantity[product.id] = 1;
       }
-      this.toastr.success(this.productCounts[productId] + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
+      this.toastr.success(this.productQuantity[product.id] + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
+      this.productQuantity[product.id] = 1;
     }
 }

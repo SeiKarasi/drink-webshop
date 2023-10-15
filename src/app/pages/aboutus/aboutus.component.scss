@@ -1,7 +1,7 @@
 h1 {
   font-weight: bolder;
-  padding-top: 5%;
-  padding-bottom: 5%;
+  padding-top: 4%;
+  padding-bottom: 14%;
   text-align: center;
   font-size: 400%;
   z-index: 2;
@@ -18,7 +18,7 @@ h1 {
   line-height: 150%;
   z-index: 2;
   margin: auto;
-  padding-bottom: 7%;
+  padding-bottom: 18.5%;
 
 }
 
@@ -26,12 +26,16 @@ h1 {
   background-color: black;
 }
 
-#discountLink {
-  padding-top: 5%;
-  height: 5vh;
+#discountLinkDescription {
+  padding-top: 2%;
+  height: 8vh;
   text-align: center;
   font-size: 130%;
   z-index: 2;
+}
+
+#link {
+  padding-top: 0.5%;
 }
 
 a {
@@ -46,7 +50,7 @@ a:hover, a:active {
 }
 
 footer {
-  padding-top: 1%;
+  padding-top: 0.5%;
   height: 5vh;
   text-align: center;
   font-size: 130%;

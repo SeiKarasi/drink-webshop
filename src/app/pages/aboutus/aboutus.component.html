@@ -14,12 +14,12 @@
         el.
     </div>
     <div id="footer-container">
-        <div id="discountLink">
+        <div id="discountLinkDescription">
             Újszerűségünk okán ezen linkre kattintva 5% kedvezményt biztosítunk minden 
             regisztrált felhasználónak minden termékünkre a feltüntetett és a játékkal
-            szerzett akciókhoz bónuszként!
-            <br><a *ngIf='this.user' (click)="Discount()">Kattints az akcióhoz!</a>
-                <a id="loginToDiscount" *ngIf='!this.user' (click)="LoginToDiscount()">Kattints az akcióhoz!</a>
+            szerzett akciókhoz bónuszként!<br>
+            <p id="link"><a *ngIf='this.user' (click)="Discount()">Kattints az akcióhoz!</a>
+                <a id="loginToDiscount" *ngIf='!this.user' (click)="LoginToDiscount()">Kattints az akcióhoz!</a></p>
         </div>
         
         <footer>

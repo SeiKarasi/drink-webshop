@@ -1,4 +1,4 @@
-<div id='flex'>
+<div id='div-flex'>
     <span class="plexi-layer">
         <div class='title' *ngIf="this.category === 'All'">Minden</div>
         <div class='title' *ngIf="this.category === 'Beer'">Sörök</div>
@@ -22,20 +22,21 @@
                     <button *ngIf="product.marker === 'new'" mat-fab class="marker">ÚJ<br />TERMÉK</button>
                     <button *ngIf="product.marker === 'discount'" mat-fab class="marker">-50%<br />AKCIÓ</button>
                     <button *ngIf="product.marker === 'sale'" mat-fab class="marker">KIÁRUSÍTÁS</button>
-                    <div class="productprice">{{product.price}} Ft</div>
+                    <div class="productprice" [ngClass]="product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
+                    <div *ngIf="product.marker === 'discount'" class="discountProductPrice">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
                     <div class="button-container">
                         <div>
                             <p class="productcount">Mennyiség</p>
                             <div><button type="button" mat-raised-button color="accent"
                                     (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
                             </div>
-                            <div class="productcount">{{this.productCounts[product.id] || 1}}</div>
+                            <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
                             <div><button type="button" mat-raised-button color="accent"
                                     (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
                             </div>
                         </div>
                         <button class="cart" type="button" mat-raised-button color="accent"
-                            (click)="addToCart(product, product.id); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                            (click)="onAddToCart(product); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
                     </div>
                 </button>
             </div>

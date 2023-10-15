@@ -22,11 +22,45 @@
                         <div fxFlex fxLayout="column" fxHide.md fxHide.sm fxHide.xs>
                                 <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="flex-end" class="navigation-items"
                                         id="nav-item1">
-                                        <li><a routerLink="/shopping_bag" routerLinkActive="active" id="game">Game</a>
+                                        <li><a routerLink="/game" routerLinkActive="active" id="game">Játék</a>
                                         </li>
-                                        <li><a routerLink="/shopping_bag" routerLinkActive="active"><mat-icon
-                                                                id="shopping_bag"
-                                                                (click)="setActiveLink('/')">shopping_bag</mat-icon></a>
+                                        <li><button mat-icon-button [matMenuTriggerFor]="menu">
+                                                <mat-icon id="shopping_bag"
+                                                          (click)="setActiveLink('/')"
+                                                          [matBadge]='itemsQuantity'
+                                                          [matBadgeHidden]="!itemsQuantity"
+                                                           matBadgeColor="warn">
+                                                          shopping_cart
+                                                </mat-icon></button>
+                                                <mat-menu #menu="matMenu">
+                                                        <div class="p-3 divide-y divide-solid bg-white">
+                                                            <div class="pb-3 flex justify-between">
+                                                                <span class="mr-16">{{itemsQuantity}} Termék</span>
+                                                                <a routerLink="/shopping_bag" routerLinkActive="active">Kosár</a>
+                                                            </div>
+                                                            <div *ngIf="_cart.items.length" class="py-3">
+                                                                <div
+                                                                *ngFor="let item of _cart.items" 
+                                                                class="flex justify-between font-light mb-3">
+                                                                    <span class="mr-4">{{item.name}} x {{item.quantity}}</span>
+                                                                    <span class="font-bold">{{item.price}} Ft</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex justify-between py-3 font-light">Teljes ár: 
+                                                                <span class="font-bold">{{getTotal(_cart.items)}} Ft</span>
+                                                            </div>
+                                                            <div class="pt-3 flex justify-between">
+                                                                <button
+                                                                (click)="onClearCart()"
+                                                                class="bg-rose-600 text-white rounded-full w-9 h-9">
+                                                                    <mat-icon>remove_shopping_cart</mat-icon>
+                                                                </button>
+                                                                <button routerLink="/shopping_bag" routerLinkActive="active" class="bg-green-600 text-white rounded-full w-9 h-9">
+                                                                    <mat-icon>shopping_cart</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </mat-menu>
                                         </li>
                                         <li><a routerLink="/main" routerLinkActive="active"
                                                         (click)="setActiveLink('/')">Főoldal</a></li>

@@ -1,4 +1,4 @@
-#flex {
+#div-flex {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,9 +30,9 @@
 .productdata img {
     width: 200px;
     height: 500px;
-    object-fit: cover;
     border: 6px solid #000;
     border-radius: 5px;
+    display: inline-block;
 }
 
 
@@ -44,14 +44,14 @@
 }
 
 .productname {
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-bottom: 10%;
     font-size: 200%;
     font-weight: bolder;
     font-family: 'Courier New', Courier, monospace;
 }
 
 .productprice {
+    padding-top: 5%;
     padding-bottom: 5%;
     font-size: 200%;
     font-weight: bolder;
@@ -64,6 +64,17 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
+.originalPriceLineThrough {
+    text-decoration: line-through;
+}
+
+.discountProductPrice {
+    font-size: 240%;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    color: red;
+}
+
 .zoom-button {
     cursor: pointer;
     width: 300px;
@@ -73,6 +84,8 @@
     padding: 0;
     border: 10px solid grey;
     border-radius: 10px;
+    background-color: #F3F3F3;
+    color: black;
 }
 
 .zoom-button:hover {
@@ -106,8 +119,8 @@
 }
 
 #addProduct {
-    font-size: 1000%;
-    margin-right: 38%;
+    transform: scale(8);
+    color: grey;
 }
 
 #addProductButton {

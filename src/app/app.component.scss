@@ -3,11 +3,6 @@ mat-sidenav-container {
     background-size: 1000px;
 }
 
-a {
-    text-decoration: none;
-    color: white;
-}
-
 a:hover,
 a:active {
     color: #14d8e6;
@@ -55,17 +50,18 @@ mat-sidenav {
 }
 
 #liquor {
-    font-size: 80%;
+    transform: scale(1.7);
 }
 
 #shopping_bag {
-    font-size: 200%;
+    transform: scale(1.8);
     position: relative;
     right: 100%;
+    top: 35%;
 }
 
 #menuicon {
-    font-size: 500%;
+    transform: scale(5);
 }
 
 #game {
@@ -91,6 +87,6 @@ mat-sidenav {
     }
 
     #menuicon {
-        font-size: 365%;
+        transform: scale(2);
     }
 }

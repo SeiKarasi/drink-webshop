@@ -1,26 +1,35 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MenuComponent } from './shared/menu/menu.component';
+import { FooterComponent } from './shared/footer/footer.component';
+
+import { AppRoutingModule } from './app-routing.module';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire/compat';
-import { MenuComponent } from './shared/menu/menu.component';
 import { FormsModule } from '@angular/forms';
-import { FooterComponent } from './shared/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule } from '@angular/material/sidenav';
+
+import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatListModule} from '@angular/material/list';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
+
+import {FlexLayoutModule } from '@angular/flex-layout';
+import {HttpClientModule } from '@angular/common/http';
+import {ToastrModule} from 'ngx-toastr';
+import {CartService} from './shared/services/cart.service';
+
+
 
 @NgModule({
   declarations: [
@@ -42,6 +51,9 @@ import { ToastrModule } from 'ngx-toastr';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatBadgeModule,
+    MatMenuModule,
+    MatSnackBarModule,
     FlexLayoutModule,
     MatListModule,
     HttpClientModule,
@@ -51,7 +63,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-center'
     })
   ],
-  providers: [],
+  providers: [CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
