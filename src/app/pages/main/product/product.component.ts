@@ -8,6 +8,7 @@ import { CommentService } from '../../../shared/services/comment.service';
 import { UserService } from '../../../shared/services/user.service';
 import { User } from '../../../shared/models/User';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from 'src/app/shared/services/cart.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -32,7 +33,7 @@ export class ProductComponent implements OnInit {
     productId: this.actProduct?.id
   });
 
-  productCount: number = 1;
+  productQuantity: number = 1;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -41,7 +42,8 @@ export class ProductComponent implements OnInit {
     private commentService: CommentService,
     private userService: UserService,
     private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private cartService: CartService) { }
 
   // a params egy adatfolyam (Observable), ezért kell feliratkozni
   ngOnInit(): void {
@@ -144,16 +146,30 @@ export class ProductComponent implements OnInit {
   }
 
   increaseCount() {
-    this.productCount++;
+    this.productQuantity++;
   }
 
   decreaseCount() {
-    if (this.productCount > 1) {
-      this.productCount--;
+    if (this.productQuantity > 1) {
+      this.productQuantity--;
     }
   }
 
-  addToCart() {
-    this.toastr.success(this.productCount + " db " + this.actProduct?.name + ' sikeresen a kosárba került!', 'Kosár');
+  onAddToCart(product: Product | undefined): void {
+    const quantity = this.productQuantity || 0;
+    if(product !== undefined){
+      this.cartService.addToCart({
+        product : product.photo_url,
+        name: product.name,
+        price: product.price,
+        quantity: quantity === 0 ? quantity + 1 : quantity,
+        id: product.id
+      });
+      if (!this.productQuantity) {
+        this.productQuantity = 1;
+      }
+      this.toastr.success(this.productQuantity + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
+      this.productQuantity = 1;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Cart, CartItem } from '../models/Cart';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class CartService {
   cart = new BehaviorSubject<Cart>({items: []});
 
 
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private toastr: ToastrService) { }
 
   addToCart(item: CartItem): void {
     const items = [...this.cart.value.items];
@@ -33,6 +33,7 @@ export class CartService {
       itemInCart.quantity++;
     }
     this.cart.next({items});
+    this.toastr.success('1 db ' + item.name + ' sikeresen a kosárba került!', 'Kosár');
   }
 
   removeQuantity(item: CartItem): void {
@@ -52,9 +53,7 @@ export class CartService {
       filteredItems = this.removeFromCart(itemForRemoval, false);
     }
     this.cart.next({items: filteredItems});
-    this._snackBar.open('1 item removed from cart.', 'Ok', {
-      duration: 5000
-    });
+    this.toastr.success('1 db ' + item.name + ' eltávolításra került a kosárból!', 'Kosár');
   }
 
   getTotal(items: Array<CartItem>): number {
@@ -65,7 +64,7 @@ export class CartService {
 
   clearCart(): void {
     this.cart.next({items: []});
-    this._snackBar.open('Cart is cleared.', 'Ok', {duration: 5000});
+    this.toastr.success('A teljes kosarad kiürült!', 'Kosár');
   }
 
   removeFromCart(item: CartItem, update = true): Array<CartItem> {
@@ -74,8 +73,7 @@ export class CartService {
 
     if(update) {
       this.cart.next({items: filteredItems});
-      this._snackBar.open('1 item removed from cart.', 'Ok',
-      { duration: 5000});
+      this.toastr.success('Az összes ' + item.name + ' eltávolításra került a kosárból!', 'Kosár');
     }
 
     return filteredItems;

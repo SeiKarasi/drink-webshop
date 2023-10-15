@@ -15,12 +15,12 @@
                         <div><button type="button" mat-raised-button color="accent"
                                 (click)="increaseCount(); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
                         </div>
-                        <p>{{this.productCount}}</p>
+                        <p>{{this.productQuantity}}</p>
                         <div><button type="button" mat-raised-button color="accent"
                                 (click)="decreaseCount(); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
                         </div>
                         <button class="cart" type="button" mat-raised-button color="accent"
-                            (click)="addToCart(); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
+                            (click)="onAddToCart(this.actProduct); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
                     </div>
                 </div>
                 <div>

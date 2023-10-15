@@ -1,4 +1,4 @@
-<mat-card *ngIf="cart.items.length">
+<mat-card *ngIf="cart.items.length" class="h-screen w-screen bg-gray-500">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z16 w-full">
         <ng-container matColumnDef="product">
             <th mat-header-cell *matHeaderCellDef class="text-[30px] text-white">Termékek</th>
@@ -67,9 +67,9 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
 </mat-card>
-<mat-card *ngIf="!cart.items.length">
-    <p>
-        Üres a kosarad.
-        <button mat-raised-button routerLink="/home">Kezdj el vásárolni!</button>
+<mat-card *ngIf="!cart.items.length" class="h-screen w-screen bg-gray-500">
+    <p class="font-bold text-center text-lg pt-12">
+        Üres a kosarad. <br>
+        <button class="bg-cyan-500 h-14 text-center" mat-raised-button routerLink="/home">Kezdj el vásárolni!</button>
     </p>
 </mat-card>
