@@ -3,7 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../shared/models/Product';
 import { ProductService } from '../../shared/services/product.service';
 import { ToastrService } from 'ngx-toastr';
-import { CartService } from 'src/app/shared/services/cart.service';
+import { CartService } from '../../shared/services/cart.service';
+import { UserService } from '../../shared/services/user.service';
+import { User } from '../../shared/models/User';
 
 @Component({
   selector: 'app-category',
@@ -11,6 +13,8 @@ import { CartService } from 'src/app/shared/services/cart.service';
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
+
+  user?: User;
 
   productObject?: Array<Product>;
   loadedImages: Array<string> = [];
@@ -22,7 +26,8 @@ export class CategoryComponent implements OnInit {
     private router: Router,
     private productService: ProductService,
     private toastr: ToastrService,
-    private cartService: CartService) { }
+    private cartService: CartService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
       this.actRoute.params.subscribe((param: any) => {
@@ -63,6 +68,14 @@ export class CategoryComponent implements OnInit {
           }
         });
       }
+      const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
+      if (user != null) {
+        this.userService.getById(user.uid).subscribe(data => {
+          this.user = data;
+        }, error => {
+          console.error(error);
+        });
+      }
     });
 }
 
@@ -89,7 +102,7 @@ export class CategoryComponent implements OnInit {
       this.cartService.addToCart({
         product : product.photo_url,
         name: product.name,
-        price: product.price,
+        price: product.marker == "discount" ? Math.ceil(product.price * 0.5) : product.price,
         quantity: quantity === 0 ? quantity + 1 : quantity,
         id: product.id
       });

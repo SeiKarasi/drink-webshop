@@ -40,7 +40,7 @@
                     </div>
                 </button>
             </div>
-            <div class='productdata'>
+            <div *ngIf="this.user?.admin" class='productdata'>
                 <button class="zoom-button" id="addProductButton" routerLink="/newProduct">
                     <span>
                         <mat-icon id="addProduct">add_circle</mat-icon>
