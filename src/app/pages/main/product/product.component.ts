@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comment } from '../../../shared/models/Comment';
+import { Rating } from '../../../shared/models/Rating';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ProductService } from '../../../shared/services/product.service';
 import { Product } from '../../../shared/models/Product';
@@ -9,6 +10,12 @@ import { UserService } from '../../../shared/services/user.service';
 import { User } from '../../../shared/models/User';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from 'src/app/shared/services/cart.service';
+import { RatingService } from 'src/app/shared/services/rating.service';
+
+import { take } from 'rxjs/operators';
+
+const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -25,13 +32,23 @@ export class ProductComponent implements OnInit {
   similarProducts?: Array<Product>;
   similarLoadedImages?: Array<string> = [];
 
-  commentsForm = this.createForm({
+  commentsForm = this.createCommentForm({
     id: '',
     username: '',
     comment: '',
     date: 0,
     productId: this.actProduct?.id
   });
+
+  ratingsForm = this.createRatingForm({
+    id: '',
+    username: '',
+    rating: 0,
+    productId: this.actProduct?.id
+  });
+
+  ratingStars: number[] = [1, 2, 3, 4, 5];
+  selectedStar: number = 0;
 
   productQuantity: number = 1;
 
@@ -40,6 +57,7 @@ export class ProductComponent implements OnInit {
     private fBuilder: UntypedFormBuilder,
     private productService: ProductService,
     private commentService: CommentService,
+    private ratingService: RatingService,
     private userService: UserService,
     private router: Router,
     private toastr: ToastrService,
@@ -77,8 +95,11 @@ export class ProductComponent implements OnInit {
             }
           });
         }
+        
+
         if (this.actProduct?.id) {
           this.commentsForm.get('productId')?.setValue(this.actProduct.id);
+          this.ratingsForm.get('productId')?.setValue(this.actProduct.id);
           this.productService.loadImage(this.actProduct.photo_url).subscribe(data => {
             this.loadedImage = data;
           });
@@ -86,19 +107,30 @@ export class ProductComponent implements OnInit {
             this.comments = comments;
           })
         }
-      });
+
+        
+        if (user != null) {
+          this.userService.getById(user.uid).subscribe(data => {
+            this.user = data;
+            this.commentsForm.get('username')?.setValue(this.user?.username);
+            this.ratingsForm.get('username')?.setValue(this.user?.username);
+            if(this.actProduct?.id && this.user?.username){
+              this.ratingService.getRatingByProductIdAndUsername(this.actProduct.id, this.user.username).pipe(take(1)).subscribe((ratings) => {
+                if(ratings.length !== 0){
+                  this.selectedStar = ratings[0].rating;
+                  this.ratingsForm.get('rating')?.setValue(ratings[0].rating);
+                } else {
+                  this.selectedStar = 0;
+                  this.ratingsForm.get('rating')?.setValue(0);
+                }
+               });
+            }
+          }, error => {
+            console.error(error);
+          });
+        }
+      }); 
     });
-
-
-    const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
-    if (user != null) {
-      this.userService.getById(user.uid).subscribe(data => {
-        this.user = data;
-        this.commentsForm.get('username')?.setValue(this.user?.username);
-      }, error => {
-        console.error(error);
-      });
-    }
   }
 
   navigateThisProduct() {
@@ -107,7 +139,7 @@ export class ProductComponent implements OnInit {
 
   // Arra kell, hogy garantálni tudjuk a Comment típust
   // simán az fBuilder.grouppal ez nem tehető meg!
-  createForm(model: Comment) {
+  createCommentForm(model: Comment) {
     let formGroup = this.fBuilder.group(model);
     // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('username')?.addValidators([Validators.required]);
@@ -119,13 +151,7 @@ export class ProductComponent implements OnInit {
     // Ha a validátorok mindegyik helyes csak akkor fut le!
     if (this.commentsForm.valid) {
       if (this.commentsForm.get('username') && this.commentsForm.get('comment')) {
-        // A kérdőjel azt jelzi, ha undefined érték lenne
-        // akkor megáll a futás, és nem dob hibát
         this.commentsForm.get('date')?.setValue(new Date().getTime());
-        // Spread operátor: Teljes másolatot hoz létre
-        // Ennek segítségével új objektumot hozunk létre mindig
-        //this.comments.push({ ...this.commentsForm.value });
-
 
         this.commentService.create(this.commentsForm.value).then(_ => {
           console.log('Sikeres komment hozzáadás!');
@@ -145,6 +171,44 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  createRatingForm(model: Rating) {
+    let formGroup = this.fBuilder.group(model);
+    // Validátorokat rendelünk az egyes elemekhez!
+    formGroup.get('rating')?.addValidators([Validators.required, Validators.min(1), Validators.max(5)]);
+    return formGroup;
+  }
+
+  addOrUpdateRating() {
+    // Ha a validátorok mindegyik helyes csak akkor fut le!
+    if (this.ratingsForm.valid) {
+      const username = this.user?.username;
+      if (username && this.ratingsForm.get('rating') && this.actProduct?.id) {       
+        this.ratingService.getRatingByProductIdAndUsername(this.actProduct.id, username).pipe(take(1)).subscribe((ratings) => {
+          if(ratings.length === 0){
+            this.ratingService.create(this.ratingsForm.value).then(_ => {
+              console.log('Sikeres értékelés hozzáadás!');
+            }).catch(error => {
+              console.error(error);
+            })
+          } else {
+            const existingRating = ratings[0];
+            existingRating.rating = this.ratingsForm.get('rating')?.value;
+            this.ratingService.update(existingRating).then(_ => {
+              console.log('Sikeres értékelés frissítés!');
+            }).catch(error => {
+              console.error(error);
+            });
+          }
+        }); 
+      }
+    }
+  }
+
+  onRatingProduct(star: number): void {
+    this.ratingsForm.get('rating')?.setValue(star);
+    this.selectedStar = star;
+  }
+
   increaseCount() {
     this.productQuantity++;
   }
@@ -161,7 +225,7 @@ export class ProductComponent implements OnInit {
       this.cartService.addToCart({
         product : product.photo_url,
         name: product.name,
-        price: product.price,
+        price: product.marker == "discount" ? Math.ceil(product.price * 0.5) : product.price,
         quantity: quantity === 0 ? quantity + 1 : quantity,
         id: product.id
       });
@@ -172,4 +236,5 @@ export class ProductComponent implements OnInit {
       this.productQuantity = 1;
     }
   }
+
 }

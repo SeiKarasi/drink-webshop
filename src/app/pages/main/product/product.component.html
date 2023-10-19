@@ -1,16 +1,15 @@
-<div class="div-card">
-    <mat-card fxLayout fxLayoutGap="20px">
-        <!--grow shrink basis -->
-        <span fxFlex="1 1 50%">
+<div class="pt-[50px] pl-[200px] pr-[200px]">
+    <mat-card class="bg-gray-600">
+        <span>
             <mat-card-header>
                 <div class="mat-card-title">
                     <mat-card-title>{{this.actProduct?.name}}</mat-card-title>
                 </div>
             </mat-card-header>
-            <mat-card-content fxLayout>
-                <div fxLayout="column">
+            <mat-card-content fxLayout class="text-center items-center">
+                <div>
                     <img src="{{this.loadedImage}}" alt="Product">
-                    <div fxLayout="column" fxLayoutGap="15px" id="count">
+                    <div fxLayout="column" fxLayoutGap="5px" class="pt-[10%]">
                         <p>Mennyiség</p>
                         <div><button type="button" mat-raised-button color="accent"
                                 (click)="increaseCount(); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
@@ -26,9 +25,24 @@
                 <div>
                     <p class="long-text"><span id="description">Leírás: </span><br><span>{{this.actProduct?.short_description}}</span></p>
                     <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol > 0">Alkohol tartalom: {{this.actProduct.alcohol}}%</p>
-                    <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol === 0">Alkoholmentes</p>     
-                    <p>Ár: {{this.actProduct?.price}} Ft</p>
-                </div>
+                    <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol === 0">Alkoholmentes</p> 
+                    <p>Mennyiség: {{this.actProduct?.quantity}} db raktáron</p>    
+                    <p>Ár: {{this.actProduct !== undefined && this.actProduct.marker == "discount" ? ((this.actProduct.price * 0.5) | number:'1.0-0') : this.actProduct?.price}} Ft</p>
+                    <mat-card-actions class="absolute bottom-0">
+                                <form [formGroup]="ratingsForm" (ngSubmit)="addOrUpdateRating()">
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-label for="rating">Hogy tetszik ez a termék? Értékeled: </mat-label>
+                                            <input matInput type="number" formControlName="rating" min="1" max="5" placeholder="0" hidden/>
+                                            <label class="star-rating" *ngFor="let star of ratingStars" (click)="onRatingProduct(star)">
+                                                <input type="submit" class="custom-radio-input" hidden>
+                                                <i class="fa-star" [class.selected]="selectedStar >= star"></i>
+                                            </label>
+                                        </mat-form-field>
+                                    </div>
+                                </form>
+                    </mat-card-actions>
+                </div>            
             </mat-card-content>
         </span>
         <span fxFlex="1 1 50%">

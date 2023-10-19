@@ -87,7 +87,8 @@ export class RegistrationComponent implements OnInit {
             firstname: this.usersForm.get('name.firstname')?.value,
             lastname: this.usersForm.get('name.lastname')?.value
           },
-          discountToLink: false
+          discountToLink: false,
+          admin: false
         };
         this.userService.create(user).then(_ => {  
           console.log('Felhasználó hozzáadása sikeres');

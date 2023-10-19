@@ -1,6 +1,8 @@
-body {
-    height: 100vh;
+.mat-card-title {
+    font-size: 150%;
 }
+
+// INNENTŐL NINCS FELÜLVIZSGÁLVA
 
 .container {
     display: flex;
@@ -74,10 +76,6 @@ form {
     text-align: center;
 }
 
-.div-card {
-    padding: 50px;
-}
-
 mat-form-field {
     width: 100%;
 }
@@ -102,16 +100,7 @@ mat-label {
     font-size: 140%;
 }
 
-mat-card-content {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.mat-card-title {
-    font-size: 150%;
-}
 
 div p {
     font-size: 150%;
@@ -171,10 +160,6 @@ textarea {
     caret-color: #14d8e6;
 }
 
-#count {
-    padding-top: 10%;
-}
-
 .cart {
     text-align: center;
     align-self: center;
@@ -214,3 +199,21 @@ textarea {
     margin-top: 10%;
     grid-row-start: 2;
 }
+
+#rating {
+    border: none; outline: none; box-shadow: none; background-color: transparent; width: 0; height: 0;
+}
+
+.star-rating {
+    font-size: 35px;
+    cursor: pointer;
+  }
+  
+ .fa-star::before {
+    content: '\2605';
+    color: #c2bdbd;
+  }
+  
+ .fa-star.selected::before {
+    color: #f1f509;
+  }
