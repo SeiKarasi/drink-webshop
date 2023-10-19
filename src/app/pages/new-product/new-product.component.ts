@@ -24,7 +24,8 @@ export class NewProductComponent implements OnInit {
     category: new UntypedFormControl('Drink'),
     price: null,
     alcohol: null,
-    marker: new UntypedFormControl('-')
+    marker: new UntypedFormControl('-'),
+    quantity: 0
   });
   loginLoading: boolean = false;
 
@@ -63,6 +64,7 @@ export class NewProductComponent implements OnInit {
     formGroup.get('name')?.addValidators([Validators.required]);
     formGroup.get('price')?.addValidators([Validators.required]);
     formGroup.get('category')?.addValidators([Validators.required]);
+    formGroup.get('quantity')?.addValidators([Validators.required]);
     return formGroup;
   }
 
@@ -70,7 +72,7 @@ export class NewProductComponent implements OnInit {
   async addProduct() {
     this.loginLoading = true;
     if (this.productsForm.get('id')?.value && this.productsForm.get('name')?.value
-      && this.productsForm.get('price')?.value && this.productsForm.get('category')?.value && this.imageFile) {
+      && this.productsForm.get('price')?.value && this.productsForm.get('category')?.value && this.productsForm.get('quantity')?.value && this.imageFile) {
       const product: Product = {
         id: this.productsForm.get('id')?.value,
         name: this.productsForm.get('name')?.value,
@@ -80,6 +82,7 @@ export class NewProductComponent implements OnInit {
         category: this.productsForm.get('category')?.value,
         price: this.productsForm.get('price')?.value,
         alcohol: this.productsForm.get('alcohol')?.value | 0,
+        quantity: this.productsForm.get('quantity')?.value,
         marker: this.productsForm.get('marker')?.value
       };
       this.imageFilePath = 'images/' + this.productsForm.get('id')?.value + '.png';

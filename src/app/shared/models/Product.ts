@@ -8,4 +8,5 @@ export interface Product {
     price: number;
     alcohol: number;
     marker: string;
+    quantity: number;
 }

@@ -60,6 +60,9 @@
                 </button>
             </td>
             <td mat-footer-cell *matFooterCellDef>
+                <button mat-raised-button class="bg-green-500 float-right h-12 w-full" (click)="onPayment()">
+                    Fizetés
+                </button>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

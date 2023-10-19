@@ -196,7 +196,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.cartService.addToCart({
       product : product.photo_url,
       name: product.name,
-      price: product.price,
+      price: product.marker == "discount" ? Math.ceil(product.price * 0.5) : product.price,
       quantity: quantity === 0 ? quantity + 1 : quantity,
       id: product.id
     });
