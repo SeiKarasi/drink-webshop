@@ -28,7 +28,7 @@
                         <div>
                             <p class="productcount">Mennyiség</p>
                             <div><button type="button" mat-raised-button color="accent"
-                                    (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                                    (click)="increaseCount(product.id, product.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
                             </div>
                             <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
                             <div><button type="button" mat-raised-button color="accent"

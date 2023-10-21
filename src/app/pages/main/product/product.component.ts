@@ -209,8 +209,15 @@ export class ProductComponent implements OnInit {
     this.selectedStar = star;
   }
 
-  increaseCount() {
-    this.productQuantity++;
+  increaseCount(productStorageQuantity: number | undefined) {
+    if (!this.productQuantity) {
+      this.productQuantity = 1;
+    }
+    if(productStorageQuantity !== undefined && productStorageQuantity >= this.productQuantity + 1){
+      this.productQuantity++;
+    } else {
+      this.toastr.error("Csak annyi terméket tudsz a kosaradban elhelyezni ameddig a készlet tart!", 'Kosár');
+    }
   }
 
   decreaseCount() {

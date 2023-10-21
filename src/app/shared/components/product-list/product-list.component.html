@@ -1,6 +1,6 @@
 <div class='image-container'>
     <div id="previousButton">
-        <button class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="backarrows arrows">arrow_back_ios_new</mat-icon></button>
+        <button class="custom-mat-fab" mat-fab (click)="previousProduct()"><mat-icon class="arrows">arrow_back_ios_new</mat-icon></button>
     </div>
     <div class='productdata'
         *ngFor='let product of productObject?.slice(this.currentStartIndex, this.currentEndIndex)'>
@@ -20,7 +20,7 @@
                 <div class="pt-6">
                     <p class="productcount">Mennyiség</p>
                     <div><button type="button" mat-raised-button color="accent"
-                            (click)="increaseCount(product.id); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                            (click)="increaseCount(product.id, product.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
                     </div>
                     <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
                     <div><button type="button" mat-raised-button color="accent"

@@ -12,7 +12,7 @@
                     <div fxLayout="column" fxLayoutGap="5px" class="pt-[10%]">
                         <p>Mennyiség</p>
                         <div><button type="button" mat-raised-button color="accent"
-                                (click)="increaseCount(); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                                (click)="increaseCount(this.actProduct?.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
                         </div>
                         <p>{{this.productQuantity}}</p>
                         <div><button type="button" mat-raised-button color="accent"

@@ -82,12 +82,15 @@ export class CategoryComponent implements OnInit {
   navigateThisProduct() {
   }
 
-    // product.id alapján megy ami egyedi
-    increaseCount(productId: string) {
+    increaseCount(productId: string, productStorageQuantity: number) {
       if (!this.productQuantity[productId]) {
         this.productQuantity[productId] = 1;
       }
-      this.productQuantity[productId]++;
+      if(productStorageQuantity >= this.productQuantity[productId] + 1){
+        this.productQuantity[productId]++;
+      } else {
+        this.toastr.error("Csak annyi terméket tudsz a kosaradban elhelyezni ameddig a készlet tart!", 'Kosár');
+      }
     }
   
     decreaseCount(productId: string) {
