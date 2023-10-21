@@ -1,18 +1,10 @@
 mat-sidenav-container {
     background-image: url('../assets/img/woodBackground.jpg');
-    background-size: 1000px;
+    background-size: 1200px;
 }
 
-a:hover,
-a:active {
-    color: #14d8e6;
-}
-
-.navigation-items {
-    list-style: none;
-    font-size: 110%;
-    padding: 0;
-    margin: 0;
+a:hover {
+    color:#acdfe2
 }
 
 .navigation-items a.active {
@@ -20,7 +12,7 @@ a:active {
 }
 
 #nav-item1 {
-    font-size: 130%;
+    font-size: 120%;
     padding-bottom: 40px;
 }
 
@@ -36,7 +28,6 @@ mat-sidenav {
 
 .app-toolbar {
     height: 15vh;
-    /* A menüsor magasságának beállítása */
 }
 
 #title {
