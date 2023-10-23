@@ -86,9 +86,11 @@ export class ShoppingBagComponent implements OnInit {
         console.error(error);
       });;
     }
+    
 
     this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
-      items: this.cart.items
+      items: this.cart.items,
+      images: this.loadedImages
     }).subscribe(async(res: any) => {
       let stripe = await loadStripe('pk_test_51Nps1yBErcCUqQ7Gf82hvfVfpnu8WSDV1NXkRcyF91utrOrCDJ4Avvrrpt5XVGJ3qBVrwxfPyUsPY6tp88aOxcEL00bhCQ0zfz');
       stripe?.redirectToCheckout({

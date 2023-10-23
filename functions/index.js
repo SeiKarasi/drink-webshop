@@ -19,7 +19,7 @@ app.post("/checkout", async(req, res, next) => {
                     currency: 'huf',
                     product_data: {
                         name: item.name,
-                        images: [item.product]
+                        images: [req.body.images.find(i => i.includes(item.id))]
                     },
                     unit_amount: item.price * 100,
                 },
