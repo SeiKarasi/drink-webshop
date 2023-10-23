@@ -5,6 +5,8 @@ import { CartService } from '../../shared/services/cart.service';
 import { ProductService } from '../../shared/services/product.service';
 import { take } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { loadStripe } from '@stripe/stripe-js';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-shopping-bag',
@@ -29,7 +31,7 @@ export class ShoppingBagComponent implements OnInit {
   ];
 
 
-  constructor(private cartService: CartService, private productService: ProductService, private toastr: ToastrService) { }
+  constructor(private cartService: CartService, private productService: ProductService, private toastr: ToastrService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.cartService.cart.subscribe((_cart: Cart) => {
@@ -84,6 +86,15 @@ export class ShoppingBagComponent implements OnInit {
         console.error(error);
       });;
     }
+
+    this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
+      items: this.cart.items
+    }).subscribe(async(res: any) => {
+      let stripe = await loadStripe('pk_test_51Nps1yBErcCUqQ7Gf82hvfVfpnu8WSDV1NXkRcyF91utrOrCDJ4Avvrrpt5XVGJ3qBVrwxfPyUsPY6tp88aOxcEL00bhCQ0zfz');
+      stripe?.redirectToCheckout({
+        sessionId: res.id
+      });
+    });
   }
 
 }

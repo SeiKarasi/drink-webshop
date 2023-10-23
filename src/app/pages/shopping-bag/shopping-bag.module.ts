@@ -37,7 +37,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatToolbarModule,
     MatTableModule,
     MatBadgeModule,
-    MatSnackBarModule,
+    MatSnackBarModule
   ]
 })
 export class ShoppingBagModule { }

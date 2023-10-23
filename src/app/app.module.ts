@@ -30,12 +30,11 @@ import {ToastrModule} from 'ngx-toastr';
 import {CartService} from './shared/services/cart.service';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

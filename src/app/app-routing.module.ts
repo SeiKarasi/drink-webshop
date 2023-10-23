@@ -36,11 +36,18 @@ const routes: Routes = [
     path: 'shopping_bag',
     loadChildren: () => import('./pages/shopping-bag/shopping-bag.module').then(m => m.ShoppingBagModule)
   },
-  { path: 'newProduct', loadChildren: () => import('./pages/new-product/new-product.module').then(m => m.NewProductModule) },
+  {
+    path: 'success-payment',
+    loadChildren: () => import('./shared/components/success-payment/success-payment.module').then(m => m.SuccessPaymentModule)
+
+  },
+  { path: 'cancel-payment', loadChildren: () => import('./shared/components/cancel-payment/cancel-payment.module').then(m => m.CancelPaymentModule) },
+  { path: 'newProduct', loadChildren: () => import('./pages/new-product/new-product.module').then(m => m.NewProductModule) },  
   {
     path: '**',
     redirectTo: '/main'
-  }
+  },
+  
 ];
 
 @NgModule({

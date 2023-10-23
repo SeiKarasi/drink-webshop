@@ -133,7 +133,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
       });
     }
     this.productService.loadImageMetaByMarker(this.marker).subscribe((data: Array<Product>) => {
-      console.log(data);
       if (this.productObject !== data) {
         this.productObject = data;
       }
