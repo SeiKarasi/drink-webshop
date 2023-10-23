@@ -52,6 +52,11 @@ export class ShoppingBagComponent implements OnInit {
     });
   }
 
+  getImageUrl(product: Product): string | undefined{
+    let loadedImage = this.loadedImages.find(imageUrl => imageUrl.includes(product.id));
+    return loadedImage;
+  } 
+
   getTotal(items: Array<CartItem>): number {
     return this.cartService.getTotal(items);
   }

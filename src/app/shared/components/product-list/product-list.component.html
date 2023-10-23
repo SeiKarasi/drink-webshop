@@ -7,9 +7,7 @@
         <button class="zoom-button" (click)="navigateThisProduct()"
             [routerLink]="'/main/product/' + product.id">
             <div class="productname">{{product.name}}</div>
-            <span *ngFor='let loadedImage of loadedImages'>
-                <img *ngIf="this.loadedImage.includes(product.id)" [src]="this.loadedImage" alt='Image'>  
-            </span>
+            <img [src]="getImageUrl(product)" alt='{{product.name}}'>
             <button mat-fab class="marker">{{this.markerFirstWord}}<br/>{{this.markerSecondWord}}</button>
             <div class="productprice" 
             [ngClass]="this.user?.discountToLink === true || this.marker=='discount' ? 'originalPriceLineThrough' : ''">

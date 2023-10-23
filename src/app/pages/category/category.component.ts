@@ -115,4 +115,9 @@ export class CategoryComponent implements OnInit {
       this.toastr.success(this.productQuantity[product.id] + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
       this.productQuantity[product.id] = 1;
     }
+
+    getImageUrl(product: Product): string | undefined{
+      let loadedImage = this.loadedImages.find(imageUrl => imageUrl.includes(product.id));
+      return loadedImage;
+    } 
 }

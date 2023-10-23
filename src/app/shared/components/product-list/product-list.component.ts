@@ -210,4 +210,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productQuantity[product.id] = 1;
   }
 
+  getImageUrl(product: Product): string | undefined{
+    let loadedImage = this.loadedImages.find(imageUrl => imageUrl.includes(product.id));
+    return loadedImage;
+  } 
 }
