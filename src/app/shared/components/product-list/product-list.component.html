@@ -15,7 +15,7 @@
             [ngClass]="this.user?.discountToLink === true || this.marker=='discount' ? 'originalPriceLineThrough' : ''">
                 {{product.price}} Ft</div>
             <div class="discountProductPrice" *ngIf="this.user?.discountToLink !== true && this.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
-            <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{this.marker =='discount' ? (product.price * 0.95) : (product.price * 0.45) | number:'1.0-0'}} Ft</div>
+            <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{this.marker != 'discount' ? ((product.price * 0.95) | number:'1.0-0') : ((product.price * 0.45) | number:'1.0-0')}} Ft</div>
             <div class="button-container">
                 <div class="pt-6">
                     <p class="productcount">Mennyiség</p>
