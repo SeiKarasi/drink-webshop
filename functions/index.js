@@ -26,8 +26,8 @@ app.post("/checkout", async(req, res, next) => {
                 quantity: item.quantity,
             })),
             mode: "payment",
-            success_url: "https://trinkydrinky-webshop.web.app/success-payment",
-            cancel_url: "https://trinkydrinky-webshop.web.app/cancel-payment",
+            success_url: req.body.url + "/success-payment",
+            cancel_url: req.body.url + "/cancel-payment",
         });
 
         res.status(200).json(session);

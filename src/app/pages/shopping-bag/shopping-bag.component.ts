@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { loadStripe } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-shopping-bag',
   templateUrl: './shopping-bag.component.html',
@@ -95,7 +97,8 @@ export class ShoppingBagComponent implements OnInit {
 
     this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
       items: this.cart.items,
-      images: this.loadedImages
+      images: this.loadedImages,
+      url: environment.production ?  'https://trinkydrinky-webshop.web.app' : environment.hostUrl
     }).subscribe(async(res: any) => {
       let stripe = await loadStripe('pk_test_51Nps1yBErcCUqQ7Gf82hvfVfpnu8WSDV1NXkRcyF91utrOrCDJ4Avvrrpt5XVGJ3qBVrwxfPyUsPY6tp88aOxcEL00bhCQ0zfz');
       stripe?.redirectToCheckout({

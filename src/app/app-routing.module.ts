@@ -38,10 +38,10 @@ const routes: Routes = [
   },
   {
     path: 'success-payment',
-    loadChildren: () => import('./shared/components/success-payment/success-payment.module').then(m => m.SuccessPaymentModule)
+    loadChildren: () => import('./pages/payment/success-payment/success-payment.module').then(m => m.SuccessPaymentModule)
 
   },
-  { path: 'cancel-payment', loadChildren: () => import('./shared/components/cancel-payment/cancel-payment.module').then(m => m.CancelPaymentModule) },
+  { path: 'cancel-payment', loadChildren: () => import('./pages/payment/cancel-payment/cancel-payment.module').then(m => m.CancelPaymentModule) },
   { path: 'newProduct', loadChildren: () => import('./pages/new-product/new-product.module').then(m => m.NewProductModule) },  
   {
     path: '**',

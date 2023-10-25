@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SuccessPaymentRoutingModule } from './success-payment-routing.module';
 import { SuccessPaymentComponent } from './success-payment.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { SuccessPaymentComponent } from './success-payment.component';
   ],
   imports: [
     CommonModule,
-    SuccessPaymentRoutingModule
+    SuccessPaymentRoutingModule,
+    MatCardModule,
+    MatButtonModule
   ]
 })
 export class SuccessPaymentModule { }
