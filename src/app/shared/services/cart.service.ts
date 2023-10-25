@@ -19,7 +19,6 @@ export class CartService {
 
   addToCart(item: CartItem): void {
     const items = [...this.cart.value.items];
-    console.log(items.length);
     const itemInCart = items.find((_item) => _item.id === item.id);
     if(itemInCart){
       itemInCart.quantity += item.quantity;
@@ -63,10 +62,14 @@ export class CartService {
     prev + current, 0);
   }
 
-  clearCart(): void {
+  clearCart(successPayment = false): void {
     this.cart.next({items: []});
     localStorage.removeItem("cart");
-    this.toastr.success('A teljes kosarad kiürült!', 'Kosár');
+    if(successPayment){
+      this.toastr.success('A vásárlás sikeres volt!', 'Kosár');
+    } else {
+      this.toastr.success('A teljes kosarad kiürült!', 'Kosár');
+    }
   }
 
   removeFromCart(item: CartItem): Array<CartItem> {

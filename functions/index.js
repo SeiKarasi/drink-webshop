@@ -13,7 +13,7 @@ const stripe = require("stripe")("sk_test_51Nps1yBErcCUqQ7GjzxnPDUc7ZaTIpGOMYWQ3
 
 app.post("/checkout", async(req, res, next) => {
     try {
-        const session =  await stripe.checkout.sessions.create({
+        const session = await stripe.checkout.sessions.create({
             line_items: req.body.items.map((item) => ({
                 price_data: {
                     currency: 'huf',
