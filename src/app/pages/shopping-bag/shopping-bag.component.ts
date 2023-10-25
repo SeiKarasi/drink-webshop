@@ -80,7 +80,7 @@ export class ShoppingBagComponent implements OnInit {
   }
 
   onPayment(): void{
-    for(let i = 0; i < this.productObject.length; i++){
+   /* for(let i = 0; i < this.productObject.length; i++){
       this.productObject[i].quantity -= this.dataSource[i].quantity;
       if(this.productObject[i].quantity <= 10){
         this.productObject[i].marker = "sale"
@@ -92,13 +92,13 @@ export class ShoppingBagComponent implements OnInit {
       }).catch(error => {
         console.error(error);
       });;
-    }
+    } */
     
 
     this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
       items: this.cart.items,
       images: this.loadedImages,
-      url: environment.production ?  'https://trinkydrinky-webshop.web.app' : environment.hostUrl
+      url: environment.production ?  'https://trinkydrinky-webshop.web.app' : 'http://localhost:4200'
     }).subscribe(async(res: any) => {
       let stripe = await loadStripe('pk_test_51Nps1yBErcCUqQ7Gf82hvfVfpnu8WSDV1NXkRcyF91utrOrCDJ4Avvrrpt5XVGJ3qBVrwxfPyUsPY6tp88aOxcEL00bhCQ0zfz');
       stripe?.redirectToCheckout({

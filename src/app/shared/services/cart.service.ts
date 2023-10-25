@@ -11,18 +11,22 @@ export class CartService {
   cart = new BehaviorSubject<Cart>({items: []});
 
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService) {
+    if(localStorage.getItem('cart') !== null){
+      this.cart.value.items = JSON.parse(localStorage.getItem("cart")!)
+    }
+   }
 
   addToCart(item: CartItem): void {
     const items = [...this.cart.value.items];
-
+    console.log(items.length);
     const itemInCart = items.find((_item) => _item.id === item.id);
     if(itemInCart){
       itemInCart.quantity += item.quantity;
     } else {
       items.push(item);
     }
-
+    localStorage.setItem("cart", JSON.stringify(items));
     this.cart.next({items});
   }
 
@@ -32,28 +36,25 @@ export class CartService {
     if(itemInCart){
       itemInCart.quantity++;
     }
+    localStorage.setItem("cart", JSON.stringify(items));
     this.cart.next({items});
     this.toastr.success('1 db ' + item.name + ' sikeresen a kosárba került!', 'Kosár');
   }
 
   removeQuantity(item: CartItem): void {
-    let itemForRemoval: CartItem | undefined;
-    let filteredItems =  this.cart.value.items.map((_item) => {
-      if(_item.id === item.id){
-        _item.quantity--;
-        if(_item.quantity === 0){
-          itemForRemoval = _item;
-        }
+    const items = [...this.cart.value.items];
+    const itemInCart = items.find((_item) => _item.id === item.id);
+    if(itemInCart){
+      if(itemInCart.quantity > 1){
+        itemInCart.quantity--;
+        this.toastr.success('1 db ' + item.name + ' eltávolításra került a kosárból!', 'Kosár');
+      } else {
+        this.toastr.info('Már csak 1 db ' + item.name + ' van a kosaradban! Nem tudod csökkenteni a mennyiséget!', 'Kosár');
       }
-
-      return _item;
-    });
-
-    if(itemForRemoval) {
-      filteredItems = this.removeFromCart(itemForRemoval, false);
     }
-    this.cart.next({items: filteredItems});
-    this.toastr.success('1 db ' + item.name + ' eltávolításra került a kosárból!', 'Kosár');
+    localStorage.setItem("cart", JSON.stringify(items));
+    this.cart.next({items});
+    
   }
 
   getTotal(items: Array<CartItem>): number {
@@ -64,18 +65,17 @@ export class CartService {
 
   clearCart(): void {
     this.cart.next({items: []});
+    localStorage.removeItem("cart");
     this.toastr.success('A teljes kosarad kiürült!', 'Kosár');
   }
 
-  removeFromCart(item: CartItem, update = true): Array<CartItem> {
+  removeFromCart(item: CartItem): Array<CartItem> {
     const filteredItems = this.cart.value.items.filter((_item) =>
     _item.id !== item.id);
 
-    if(update) {
-      this.cart.next({items: filteredItems});
-      this.toastr.success('Az összes ' + item.name + ' eltávolításra került a kosárból!', 'Kosár');
-    }
-
+    localStorage.setItem("cart", JSON.stringify(filteredItems));
+    this.cart.next({items: filteredItems});
+    this.toastr.success('Az összes ' + item.name + ' eltávolításra került a kosárból!', 'Kosár');
     return filteredItems;
   }
 }
