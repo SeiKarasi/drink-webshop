@@ -103,7 +103,9 @@ export class AppComponent implements OnInit {
   }
 
   onClearCart() {
-    this.cartService.clearCart();
+    if(confirm("Biztosan szeretnéd törölni a kosarad tartalmát?")){
+      this.cartService.clearCart();
+    }
   }
   
 }

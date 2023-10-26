@@ -1,31 +1,33 @@
 <mat-card *ngIf="cart.items.length" class="min-h-screen min-w-screen bg-gray-500">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z16 w-full">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z16 w-4/5 mx-auto">
         <ng-container matColumnDef="product">
             <th mat-header-cell *matHeaderCellDef class="text-[30px] text-white">Termékek</th>
             <td mat-cell *matCellDef="let element">
+               <button [routerLink]="'/main/product/' + element.id">
                 <img [src]="getImageUrl(element)" alt="{{element.name}}" class="w-[100px] m-5 border-solid border-[4px] border-gray-600 rounded-full">
+               </button>
             </td>
             <td mat-footer-cell *matFooterCellDef>
                 <button mat-raised-button routerLink="/home" class="bg-cyan-500 h-12 w-full">Vásárlás folytatása</button>
             </td>
         </ng-container>
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef class="text-[20px] text-white">Név</th>
-            <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef class="text-[24px] text-white">Név</th>
+            <td mat-cell *matCellDef="let element" class="text-[20px]">
                 <span class="truncate max-w-xs block">{{element.name}}</span>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef class="text-[20px] text-white">Egységár</th>
-            <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef class="text-[24px] text-white">Egységár</th>
+            <td mat-cell *matCellDef="let element" class="text-[20px]">
                 {{element.price}} Ft
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef class="text-[20px] text-white">Mennyiség</th>
-            <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef class="text-[24px] text-white">Mennyiség</th>
+            <td mat-cell *matCellDef="let element" class="text-[20px]">
                <button (click)="onRemoveQuantity(element)" mat-icon-button>
                     <mat-icon>remove</mat-icon>
                </button>
@@ -37,8 +39,8 @@
             <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="total">
-            <th mat-header-cell *matHeaderCellDef class="text-[20px] text-white">Teljes ár</th>
-            <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef class="text-[24px] text-white">Teljes ár</th>
+            <td mat-cell *matCellDef="let element" class="text-[20px]">
                 {{element.quantity * element.price}} Ft
             </td>
             <td mat-footer-cell *matFooterCellDef>
@@ -50,7 +52,7 @@
 
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>
-                <button (click)="onClearCart()" mat-raised-button color="warn" class="float-right">Kosár ürítése</button>
+                <button (click)="onClearCart()" mat-raised-button color="warn" class="float-right text-[18px]">Kosár ürítése</button>
             </th>
             <td mat-cell *matCellDef="let element">
                 <button (click)="onRemoveFromCart(element)" mat-mini-fab color="warn" class="float-right">

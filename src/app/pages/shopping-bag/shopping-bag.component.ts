@@ -64,11 +64,15 @@ export class ShoppingBagComponent implements OnInit {
   }
 
   onClearCart(): void {
-    this.cartService.clearCart();
+    if(confirm("Biztosan szeretnéd törölni a kosarad tartalmát?")){
+      this.cartService.clearCart();
+    }
   }
 
   onRemoveFromCart(item: CartItem): void {
-    this.cartService.removeFromCart(item);
+    if(confirm("Biztosan szeretnéd törölni a(z) " + item.name + " nevű terméket a kosaradból?")){
+      this.cartService.removeFromCart(item);
+    }
   }
 
   onAddQuantity(item: CartItem): void {
