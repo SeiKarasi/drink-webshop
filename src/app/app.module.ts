@@ -28,6 +28,7 @@ import {FlexLayoutModule } from '@angular/flex-layout';
 import {HttpClientModule } from '@angular/common/http';
 import {ToastrModule} from 'ngx-toastr';
 import {CartService} from './shared/services/cart.service';
+import { PreviousRouteService } from './shared/services/previous-route.service';
 
 
 @NgModule({
@@ -62,7 +63,7 @@ import {CartService} from './shared/services/cart.service';
       positionClass: 'toast-top-center'
     })
   ],
-  providers: [CartService],
+  providers: [CartService, PreviousRouteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
