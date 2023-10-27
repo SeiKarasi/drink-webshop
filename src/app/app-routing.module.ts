@@ -50,6 +50,10 @@ const routes: Routes = [
   { 
     path: 'newProduct',
     loadChildren: () => import('./pages/new-product/new-product.module').then(m => m.NewProductModule) 
+  },
+  { 
+    path: 'game',
+    loadChildren: () => import('./game/game.module').then(m => m.GameModule)
   },  
   {
     path: '**',
