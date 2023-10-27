@@ -4,7 +4,6 @@ import { Cart } from '../../../shared/models/Cart';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { Product } from 'src/app/shared/models/Product';
-import { PreviousRouteService } from 'src/app/shared/services/previous-route.service';
 
 @Component({
   selector: 'app-success-payment',
@@ -16,10 +15,9 @@ export class SuccessPaymentComponent implements OnInit {
   cart: Cart = {items: []};
   products: Array<Product> = [];
 
-  constructor(private productService: ProductService, private cartService: CartService, private previousRouteService: PreviousRouteService) { }
+  constructor(private productService: ProductService, private cartService: CartService) { }
 
     ngOnInit() {
-      console.log(this.previousRouteService.getPreviousUrl());
       if(localStorage.getItem('cart') !== null){
         this.cart.items = JSON.parse(localStorage.getItem("cart")!);
           for (let i = 0; i < this.cart.items.length; i++) {

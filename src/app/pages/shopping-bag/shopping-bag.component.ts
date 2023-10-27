@@ -33,7 +33,11 @@ export class ShoppingBagComponent implements OnInit {
   ];
 
 
-  constructor(private cartService: CartService, private productService: ProductService, private toastr: ToastrService, private httpClient: HttpClient) { }
+  constructor(
+    private cartService: CartService,
+    private productService: ProductService,
+    private toastr: ToastrService,
+    private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.cartService.cart.subscribe((_cart: Cart) => {
@@ -97,8 +101,6 @@ export class ShoppingBagComponent implements OnInit {
         console.error(error);
       });;
     } */
-    
-
     this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
       items: this.cart.items,
       images: this.loadedImages,
@@ -108,7 +110,8 @@ export class ShoppingBagComponent implements OnInit {
       stripe?.redirectToCheckout({
         sessionId: res.id
       });
+      const stripeRedirectUrl = res.url;
+      localStorage.setItem('stripeRedirectUrl', stripeRedirectUrl);
     });
   }
-
 }

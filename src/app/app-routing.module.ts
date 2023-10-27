@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './shared/services/auth.guard';
 import { NotAuthGuard } from './shared/services/not-auth.guard';
+import { PaymentGuard } from './shared/services/payment.guard';
 
 // loadChildren lazy-loading-ot valósít meg
 const routes: Routes = [
@@ -38,11 +39,13 @@ const routes: Routes = [
   },
   {
     path: 'success-payment',
-    loadChildren: () => import('./pages/payment/success-payment/success-payment.module').then(m => m.SuccessPaymentModule)
+    loadChildren: () => import('./pages/payment/success-payment/success-payment.module').then(m => m.SuccessPaymentModule),
+    canActivate: [PaymentGuard]
   },
   { 
     path: 'cancel-payment',
-    loadChildren: () => import('./pages/payment/cancel-payment/cancel-payment.module').then(m => m.CancelPaymentModule) 
+    loadChildren: () => import('./pages/payment/cancel-payment/cancel-payment.module').then(m => m.CancelPaymentModule),
+    canActivate: [PaymentGuard] 
   },
   { 
     path: 'newProduct',
