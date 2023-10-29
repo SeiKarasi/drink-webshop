@@ -1,6 +1,5 @@
 .div-flex {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     text-align: center;
     align-items: center;
@@ -8,21 +7,8 @@
     background-color: #696969;
 }
 
-.login_component {
-    height: 100vh;
-    margin: 0 auto;
-}
-
-mat-card {
-    width: 50%;
-}
-
 .mat-card-title {
     font-size: 150%;
-}
-
-form div {
-    padding: 5px;
 }
 
 form {
@@ -31,18 +17,10 @@ form {
     align-self: center;
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-}
-
-.buttons {
-    padding: 10px;
-}
 
 button:hover {
-    transition: transform 0.5s;
-    transform: scale(1.2);
+    transition: transform 0.75s;
+    transform: scale(1.1);
 }
 
 button {

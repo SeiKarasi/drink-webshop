@@ -1,7 +1,7 @@
 <span class="loading-spinner" *ngIf="loginLoading"><mat-spinner color="accent"></mat-spinner></span>
-<div class="login_component">
+<div class="h-[100vh] m-0 m-auto">
     <div class="div-flex">
-        <mat-card fxLayout="column" fxLayoutGap="30px">
+        <mat-card class="w-[50%]" fxLayout="column" fxLayoutGap="30px">
             <mat-card-header fxLayoutAlign="center">
                 <span class="mat-card-title"><mat-card-title>Bejelentkezés</mat-card-title></span>
             </mat-card-header>
@@ -15,16 +15,16 @@
                         <mat-label for="password">Jelszó:</mat-label>
                         <input matInput id="password" type="password" formControlName="password">
                     </mat-form-field>
-                    <span class="button-container">
-                        <span class="buttons">
+                    <span class="flex justify-center">
+                        <span class="p-[10px]">
                             <button mat-raised-button color="accent" type="submit">
                                 Bejelentkezés
                             </button>
                         </span>
-                        <span class="buttons">
-                            <button mat-raised-button color="accent" [routerLink]="'/registration'">
-                                Regisztráció
-                            </button>
+                        <span class="pl-[5px] pt-[20px]">Még nincs fiókod?
+                            <a class="underline hover:text-cyan-400 hover:text-[18px]" [routerLink]="'/registration'">
+                                Regisztrálj!
+                            </a>
                         </span>
                     </span>
                 </form>
