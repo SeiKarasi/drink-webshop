@@ -39,4 +39,9 @@ export class RatingService {
        ref => ref.where('productId', '==', productId).where('username', '==', username)).valueChanges();
   }
 
+  getRatingsByProductId(productId: string){
+    return this.afs.collection<Rating>(this.collectionName,
+       ref => ref.where('productId', '==', productId)).valueChanges();
+  }
+
 }

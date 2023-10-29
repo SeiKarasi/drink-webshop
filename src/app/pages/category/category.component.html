@@ -10,6 +10,12 @@
         <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
         <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
         <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
+        <div class='sort'>Rendezés: 
+            <button mat-raised-button color="accent" (click)="onSortAccordingToABC()">
+                <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
+                <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
+            </button>
+        </div>    
         <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
             <div class='productdata' *ngFor='let product of productObject'>
                 <button class="zoom-button" (click)="navigateThisProduct()"
@@ -20,8 +26,9 @@
                     <button *ngIf="product.marker === 'new'" mat-fab class="marker">ÚJ<br />TERMÉK</button>
                     <button *ngIf="product.marker === 'discount'" mat-fab class="marker">-50%<br />AKCIÓ</button>
                     <button *ngIf="product.marker === 'sale'" mat-fab class="marker">KIÁRUSÍTÁS</button>
-                    <div class="productprice" [ngClass]="product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
-                    <div *ngIf="product.marker === 'discount'" class="discountProductPrice">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
+                    <div class="productprice" [ngClass]="this.user?.discountToLink === true || product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
+                    <div class="discountProductPrice" *ngIf="this.user?.discountToLink !== true && product.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
+                    <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{product.marker != 'discount' ? ((product.price * 0.95) | number:'1.0-0') : ((product.price * 0.45) | number:'1.0-0')}} Ft</div>
                     <div class="button-container">
                         <div>
                             <p class="productcount">Mennyiség</p>

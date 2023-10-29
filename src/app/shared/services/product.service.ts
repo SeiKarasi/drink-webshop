@@ -15,17 +15,21 @@ export class ProductService {
     private afs: AngularFirestore,
     private storage: AngularFireStorage) { }
 
-  loadImageMeta(): Observable<Array<Product>> {
+  loadImageMeta(sort: string = ''): Observable<Array<Product>> {
+    if(sort === 'asc' || sort == 'desc'){
+      return this.afs.collection<Product>(this.collectionName, ref => ref.orderBy('name', sort)).valueChanges();
+    }
      return this.afs.collection<Product>(this.collectionName).valueChanges();
-     //return this.http.get(environment.hostUrl + '/assets/' + metaUrl) as Observable<Array<Product>>;
   }
 
-  // id alapján kérünk le, tehát csak 1 lehet
   loadImageMetaByProductID(id: string) {
         return this.afs.collection<Product>(this.collectionName, ref => ref.where('id', '==', id)).valueChanges();
   }
 
-  loadImageMetaByCategory(category: string){
+  loadImageMetaByCategory(category: string, sort: string = ''){
+    if(sort === 'asc' || sort == 'desc'){
+      return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category).orderBy('name', sort)).valueChanges();
+    }
     return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category)).valueChanges();
   }
 
@@ -33,12 +37,20 @@ export class ProductService {
     return this.afs.collection<Product>(this.collectionName, ref => ref.where('marker', '==', marker)).valueChanges();
   }
 
+
   loadImage(imageUrls: string) {
-    //return this.http.get(environment.hostUrl + '/assets/img' + imageUrl, {responseType: 'blob'});
     return this.storage.ref(imageUrls).getDownloadURL();
+  }
+
+  deleteImage(imageUrls: string){
+    return this.storage.ref(imageUrls).delete();
   }
 
   create(product: Product){
     return this.afs.collection<Product>(this.collectionName).doc(product.id).set(product);
+  }
+
+  delete(id: string){
+    return this.afs.collection<Product>(this.collectionName).doc(id).delete();
   }
 }

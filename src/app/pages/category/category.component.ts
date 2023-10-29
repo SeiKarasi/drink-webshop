@@ -21,13 +21,15 @@ export class CategoryComponent implements OnInit {
   category?: string;
   productQuantity: { [productId: string]: number } = {};
 
+  ascSortAccordingToABC = true;
+
   constructor(
     private actRoute: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
     private toastr: ToastrService,
     private cartService: CartService,
-    private userService: UserService) { }
+    private userService: UserService) {}
 
   ngOnInit(): void {
       this.actRoute.params.subscribe((param: any) => {
@@ -37,7 +39,6 @@ export class CategoryComponent implements OnInit {
         this.loadedImages = [];
         if(this.category === 'All'){
           this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
-            console.log(data);
             if(this.productObject !== data){
               this.productObject = data;
             }
@@ -53,7 +54,6 @@ export class CategoryComponent implements OnInit {
           });
         } else {
         this.productService.loadImageMetaByCategory(this.category).subscribe((data: Array<Product>) => {
-          console.log(data);
           if(this.productObject !== data){
             this.productObject = data;
           }   
@@ -77,7 +77,36 @@ export class CategoryComponent implements OnInit {
         });
       }
     });
-}
+  }
+
+  onSortAccordingToABC(){
+    if(this.ascSortAccordingToABC){
+      if(this.category === 'All'){
+        this.productService.loadImageMeta('asc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      } else {
+        this.productService.loadImageMetaByCategory(this.category!, 'asc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      }
+    } else {
+      if(this.category === 'All'){
+        this.productService.loadImageMeta('desc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      } else {
+        this.productService.loadImageMetaByCategory(this.category!, 'desc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      }
+    }
+    this.ascSortAccordingToABC = !this.ascSortAccordingToABC;
+  }
 
   navigateThisProduct() {
   }
@@ -105,8 +134,11 @@ export class CategoryComponent implements OnInit {
       this.cartService.addToCart({
         product : product.photo_url,
         name: product.name,
-        price: product.marker == "discount" ? Math.ceil(product.price * 0.5) : product.price,
+        price: product.marker === "discount" ? 
+        (this.user?.discountToLink ? Math.ceil(product.price * 0.45) : Math.ceil(product.price * 0.50)) :
+        (this.user?.discountToLink ? Math.ceil(product.price * 0.95) : product.price),
         quantity: quantity === 0 ? quantity + 1 : quantity,
+        storageQuantity: product.quantity,
         id: product.id
       });
       if (!this.productQuantity[product.id]) {
