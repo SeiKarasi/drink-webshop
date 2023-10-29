@@ -13,7 +13,6 @@ export class CommentService {
 
   // Create
   create(comment: Comment){
-    // Így kreálhatunk id-t
     comment.id = this.afs.createId();
     return this.afs.collection<Comment>(this.collectionName).doc(comment.id).set(comment);
   }
@@ -24,7 +23,6 @@ export class CommentService {
   }
 
   // Update
-  // NINCS HASZNÁLVA
   update(comment: Comment){
     return this.afs.collection<Comment>(this.collectionName).doc(comment.id).set(comment);
   }

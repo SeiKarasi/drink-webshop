@@ -5,4 +5,5 @@ export interface Comment {
     // Könnyebb így használni itt
     date: number;
     productId?: string;
+    isEditing: boolean;
 }

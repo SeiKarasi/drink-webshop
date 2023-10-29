@@ -32,12 +32,17 @@ export class CartService {
   addQuantity(item: CartItem): void {
     const items = [...this.cart.value.items];
     const itemInCart = items.find((_item) => _item.id === item.id);
-    if(itemInCart){
-      itemInCart.quantity++;
+    if(item.quantity + 1 <= item.storageQuantity){
+      if(itemInCart){
+        itemInCart.quantity++;
+      }
+      localStorage.setItem("cart", JSON.stringify(items));
+      this.cart.next({items});
+      this.toastr.success('1 db ' + item.name + ' sikeresen a kosárba került!', 'Kosár');
+    } else {
+      this.toastr.error('Csak annyi ' + item.name + 'nevezetű terméket tudsz a kosaradba elhelyezni ameddig a készlet tart!', 'Kosár');
     }
-    localStorage.setItem("cart", JSON.stringify(items));
-    this.cart.next({items});
-    this.toastr.success('1 db ' + item.name + ' sikeresen a kosárba került!', 'Kosár');
+    
   }
 
   removeQuantity(item: CartItem): void {

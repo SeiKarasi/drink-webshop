@@ -92,7 +92,6 @@ export class AppComponent implements OnInit {
   logout(_?: boolean){
     this.authService.logout().then(() => {
       this.toastr.success('Sikeres kijelentkezés!', 'Kijelentkezés');
-      console.log('Sikeres kijelentkezés!');
     }).catch(error => {
       console.error(error);
     });

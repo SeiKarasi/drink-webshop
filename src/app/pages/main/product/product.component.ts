@@ -37,7 +37,8 @@ export class ProductComponent implements OnInit {
     username: '',
     comment: '',
     date: 0,
-    productId: this.actProduct?.id
+    productId: this.actProduct?.id,
+    isEditing: false
   });
 
   ratingsForm = this.createRatingForm({
@@ -51,6 +52,10 @@ export class ProductComponent implements OnInit {
   selectedStar: number = 0;
 
   productQuantity: number = 1;
+
+
+  showLabels = false;
+  quantityInput = false;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -133,6 +138,24 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  onDeleteProduct(){
+    if(confirm("Biztos törölni szeretnéd ezt a terméket?") && this.actProduct && this.user?.admin){
+        this.productService.delete(this.actProduct?.id);
+        this.commentService.getCommentsByProductId(this.actProduct?.id).subscribe(comments => {
+          comments.forEach(comment => {
+            this.commentService.delete(comment.id);
+          });
+        });
+        this.ratingService.getRatingsByProductId(this.actProduct?.id).subscribe(ratings => {
+          ratings.forEach(rating => {
+            this.ratingService.delete(rating.id);
+          })
+        });
+        this.productService.deleteImage(this.actProduct.photo_url);
+        this.router.navigateByUrl("/main");
+    }
+  }
+
   navigateThisProduct() {
 
   }
@@ -164,10 +187,45 @@ export class ProductComponent implements OnInit {
   }
 
   deleteComment(commentId: string, username: string) {
-    if (this.user?.username === username) {
-      this.commentService.delete(commentId);
+    if(confirm("Biztos akarod törölni ezt a kommentet?")){
+      if (this.user?.username === username || this.user?.admin) {
+        this.commentService.delete(commentId);
+      } else {
+        console.log('Más hozzászólását nem törölheted!');
+      }
+    }
+  }
+
+  updateComment(comment: Comment){
+    if(!comment.isEditing){
+      comment.isEditing = true;
     } else {
-      console.log('Más hozzászólását nem törölheted!');
+      if(confirm("Biztos frissíteni szeretnéd ezt a kommentet?")){
+        comment.isEditing = false;
+        comment.date = new Date().getTime();
+        this.commentService.update(comment);
+      } 
+    } 
+  }
+
+  updateCancelComment(comment: Comment){
+    comment.isEditing = false;
+  }
+
+  updateQuantity(){
+    if(!this.quantityInput){
+      this.quantityInput = true;
+    } else {
+      if(confirm("Biztos módosítani szeretnéd ennek a terméknek a darabszámát?") && this.actProduct){
+        this.quantityInput = false;
+        if(this.actProduct.quantity <= 10){
+          this.actProduct.marker = 'sale';
+        }
+        if(this.actProduct.quantity > 10 && this.actProduct.marker === 'sale'){
+          this.actProduct.marker = '';
+        }
+        this.productService.create(this.actProduct);
+      }
     }
   }
 
@@ -232,8 +290,11 @@ export class ProductComponent implements OnInit {
       this.cartService.addToCart({
         product : product.photo_url,
         name: product.name,
-        price: product.marker == "discount" ? Math.ceil(product.price * 0.5) : product.price,
+        price: product.marker === "discount" ? 
+        (this.user?.discountToLink ? Math.ceil(product.price * 0.45) : Math.ceil(product.price * 0.50)) :
+        (this.user?.discountToLink ? Math.ceil(product.price * 0.95) : product.price),
         quantity: quantity === 0 ? quantity + 1 : quantity,
+        storageQuantity: product.quantity,
         id: product.id
       });
       if (!this.productQuantity) {

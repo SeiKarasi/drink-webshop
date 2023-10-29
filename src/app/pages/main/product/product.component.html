@@ -8,28 +8,47 @@
             </mat-card-header>
             <mat-card-content fxLayout class="text-center items-center">
                 <div>
-                    <img src="{{this.loadedImage}}" alt="{{this.actProduct?.name}}">
+                    <div class="w-[240px]">
+                        <img class="h-[640px] border-[10px] border-[#808080] rounded-md" src="{{this.loadedImage}}" alt="{{this.actProduct?.name}}">
+                    </div>
                     <div fxLayout="column" fxLayoutGap="5px" class="pt-[10%]">
                         <p>Mennyiség</p>
-                        <div><button type="button" mat-raised-button color="accent"
-                                (click)="increaseCount(this.actProduct?.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                        <div>
+                            <button type="button" mat-raised-button color="accent"
+                                (click)="increaseCount(this.actProduct?.quantity); $event.stopPropagation()">
+                                <mat-icon>add</mat-icon>
+                            </button>
                         </div>
                         <p>{{this.productQuantity}}</p>
-                        <div><button type="button" mat-raised-button color="accent"
-                                (click)="decreaseCount(); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                        <div>
+                            <button type="button" mat-raised-button color="accent"
+                                (click)="decreaseCount(); $event.stopPropagation()">
+                                <mat-icon>remove</mat-icon>
+                            </button>
                         </div>
                         <button class="cart" type="button" mat-raised-button color="accent"
                             (click)="onAddToCart(this.actProduct); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
                     </div>
                 </div>
-                <div>
-                    <p class="long-text"><span id="description">Leírás: </span><br><span>{{this.actProduct?.short_description}}</span></p>
+                <div class="w-[50%]">
+                    <p class="long-text"><span class="text-[140%] font-bold block">Leírás: </span><br><span>{{this.actProduct?.short_description}}</span></p>
                     <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol > 0">Alkohol tartalom: {{this.actProduct.alcohol}}%</p>
-                    <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol === 0">Alkoholmentes</p> 
-                    <p>Mennyiség: {{this.actProduct?.quantity}} db raktáron</p>    
-                    <p>Ár: {{this.actProduct !== undefined && this.actProduct.marker == "discount" ? ((this.actProduct.price * 0.5) | number:'1.0-0') : this.actProduct?.price}} Ft</p>
+                    <p *ngIf="this.actProduct?.alcohol === 0">Alkoholmentes</p> 
+                    <p *ngIf="this.user?.admin">Mennyiség: 
+                        <span *ngIf="!this.quantityInput">{{this.actProduct?.quantity}}</span>
+                        <input class="text-b" type="number" *ngIf="this.quantityInput && this.actProduct" value="{{this.actProduct.quantity}}" [(ngModel)]="this.actProduct.quantity"/>
+                        db raktáron 
+                        <button *ngIf="this.user?.admin" (click)="updateQuantity()">
+                            <mat-icon *ngIf="!this.quantityInput">edit</mat-icon>
+                            <mat-icon *ngIf="this.quantityInput">save</mat-icon>
+                        </button>
+                    </p>
+                    <p *ngIf="this.actProduct?.marker === 'sale'" class="font-bold text-red-600">Hamarosan elfogy!!!</p>    
+                    <p *ngIf="!this.user?.discountToLink">Ár: {{this.actProduct !== undefined && this.actProduct.marker === "discount" ? ((this.actProduct.price * 0.5) | number:'1.0-0') : this.actProduct?.price}} Ft</p>
+                    <p *ngIf="this.user?.discountToLink">Ár: {{this.actProduct?.marker === "discount" ? ((this.actProduct!.price * 0.45) | number:'1.0-0') : ((this.actProduct!.price * 0.95) | number:'1.0-0')}} Ft</p>
+                    <button *ngIf="this.user?.admin" mat-raised-button color="accent" (click)="onDeleteProduct()">Termék törlése</button>
                     <mat-card-actions class="absolute bottom-0">
-                                <form [formGroup]="ratingsForm" (ngSubmit)="addOrUpdateRating()">
+                                <form class="text-center" [formGroup]="ratingsForm" (ngSubmit)="addOrUpdateRating()">
                                     <div>
                                         <mat-form-field>
                                             <mat-label for="rating">Hogy tetszik ez a termék? Értékeled: </mat-label>
@@ -50,7 +69,7 @@
                 <h2 class="similarProductTitle">Hasonló termékek</h2>
                 <div class="image-container">
                     <div *ngFor='let product of similarProducts; let i = index' [ngClass]="{'second-row': i >= 4}">
-                        <button class="similarProductButton" (click)="navigateThisProduct()"
+                        <button class="w-[100px]" (click)="navigateThisProduct()"
                             [routerLink]="'/main/product/' + product.id">
                             <span *ngFor='let loadedImage of similarLoadedImages'>
                                 <img class="similarImage" *ngIf="this.loadedImage.includes(product.id)"
@@ -62,9 +81,9 @@
             </span>
             <mat-card-actions id="addComment">
                 <fieldset [disabled]="!this.user">
-                    <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
+                    <form class="text-center" [formGroup]="commentsForm" (ngSubmit)="addComment()">
                         <div>
-                            <mat-form-field id="addCommentUsername">
+                            <mat-form-field class="text-[140%]">
                                 <mat-label for="username">Felhasználónév:</mat-label>
                                 <input matInput type="text" formControlName="username" readonly />
                             </mat-form-field>
@@ -89,30 +108,44 @@
         </span>
     </mat-card>
     <div>
-        <h2 class="commenttitle">Hozzászólások:</h2>
-        <div class="commenttitle" *ngIf="comments.length == 0">Ehhez a termékhez még nem szóltak hozzá, légy te az első!
+        <h2 class="comment_title">Hozzászólások:</h2>
+        <div class="no_comment" *ngIf="comments.length == 0">
+            Ehhez a termékhez még nem szóltak hozzá, légy te az első!
         </div>
         <div *ngIf="comments.length">
-            <table>
+            <table class="w-[100%]">
                 <tr>
-                    <th id="commentuser">Felhasználók:</th>
-                    <th></th>
-                    <th></th>
+                    <th class="text-black text-[150%] bg-[#dfdbdb] p-3 rounded-md">Felhasználók:</th>
                 </tr>
-                <tr class="commentdata" *ngFor="let comment of comments">
-                    <td class="commentusername"><span>{{comment.username}}</span> ({{comment.date | dateFormat }})</td>
+                <tr *ngFor="let comment of comments">
+                    <td class="text-white bg-[#696969] w-[20%] font-bold border-[12px] border-[#dfdbdb]"><span>{{comment.username}}</span> ({{comment.date | dateFormat }})</td>
                     <td class="commentdescription">
-                        <span>{{comment.comment}}</span>
-                        <span class="commentdeletebutton">
+                        <span *ngIf="!comment.isEditing">{{ comment.comment }}</span>
+                        <input *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="w-[75%] h-[150%] float-left" />
+                        <span class="float-right">
                             <button mat-raised-button color="accent"
-                                *ngIf="this.user && this.user.username == comment.username"
+                            *ngIf="this.user && (this.user.username == comment.username || this.user.admin) && !showLabels"
+                            (click)="showLabels = true">...</button>
+                            <button mat-raised-button color="accent"
+                                *ngIf="this.user && this.user.username == comment.username && showLabels" 
+                                (click)="updateComment(comment)"><span *ngIf="!comment.isEditing">Szerkesztés</span>
+                                <span *ngIf="comment.isEditing">Mentés</span>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-raised-button color="accent"
+                                *ngIf="this.user && (this.user.username == comment.username || this.user.admin) && showLabels && !comment.isEditing" 
                                 (click)="deleteComment(comment.id, comment.username)">Törlés
                                 <mat-icon>delete</mat-icon>
+                            </button>
+                            <button mat-raised-button color="accent"
+                                *ngIf="this.user && this.user.username == comment.username && showLabels && comment.isEditing" 
+                                (click)="updateCancelComment(comment)">Mégse
+                                <mat-icon>cancel</mat-icon>
                             </button>
                         </span>
                     </td>
                 </tr>
             </table>
-        </div>
+        </div>      
     </div>
 </div>
