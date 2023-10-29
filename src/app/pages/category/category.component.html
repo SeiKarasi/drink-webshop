@@ -15,6 +15,10 @@
                 <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
                 <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
             </button>
+            <button mat-raised-button color="accent" (click)="onSortAccordingToPrice()">
+                <span *ngIf="this.ascSortAccordingToPrice">Ár: növekvő</span>
+                <span *ngIf="!this.ascSortAccordingToPrice">Ár: csökkenő</span>
+            </button>
         </div>    
         <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
             <div class='productdata' *ngFor='let product of productObject'>

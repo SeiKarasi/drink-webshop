@@ -22,6 +22,7 @@ export class CategoryComponent implements OnInit {
   productQuantity: { [productId: string]: number } = {};
 
   ascSortAccordingToABC = true;
+  ascSortAccordingToPrice = true;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -80,6 +81,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onSortAccordingToABC(){
+    this.ascSortAccordingToPrice = true;
     if(this.ascSortAccordingToABC){
       if(this.category === 'All'){
         this.productService.loadImageMeta('asc').subscribe((data: Array<Product>) => {
@@ -106,6 +108,36 @@ export class CategoryComponent implements OnInit {
       }
     }
     this.ascSortAccordingToABC = !this.ascSortAccordingToABC;
+  }
+
+  onSortAccordingToPrice(){
+    this.ascSortAccordingToABC = true;
+    if(this.ascSortAccordingToPrice){
+      if(this.category === 'All'){
+        this.productService.loadImageMeta('', 'asc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      } else {
+        this.productService.loadImageMetaByCategory(this.category!, '', 'asc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      }
+    } else {
+      if(this.category === 'All'){
+        this.productService.loadImageMeta('', 'desc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      } else {
+        this.productService.loadImageMetaByCategory(this.category!, '', 'desc').subscribe((data: Array<Product>) => {
+          if(this.productObject !== data){
+            this.productObject = data;
+          }});
+      }
+    }
+    this.ascSortAccordingToPrice = !this.ascSortAccordingToPrice;
   }
 
   navigateThisProduct() {

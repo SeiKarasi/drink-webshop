@@ -15,9 +15,11 @@ export class ProductService {
     private afs: AngularFirestore,
     private storage: AngularFireStorage) { }
 
-  loadImageMeta(sort: string = ''): Observable<Array<Product>> {
-    if(sort === 'asc' || sort == 'desc'){
-      return this.afs.collection<Product>(this.collectionName, ref => ref.orderBy('name', sort)).valueChanges();
+  loadImageMeta(sortABC: string = '', sortPrice: string = ''): Observable<Array<Product>> {
+    if(sortABC === 'asc' || sortABC === 'desc'){
+      return this.afs.collection<Product>(this.collectionName, ref => ref.orderBy('name', sortABC)).valueChanges();
+    } else if(sortPrice === 'asc' || sortPrice === 'desc'){
+      return this.afs.collection<Product>(this.collectionName, ref => ref.orderBy('price', sortPrice)).valueChanges();
     }
      return this.afs.collection<Product>(this.collectionName).valueChanges();
   }
@@ -26,9 +28,11 @@ export class ProductService {
         return this.afs.collection<Product>(this.collectionName, ref => ref.where('id', '==', id)).valueChanges();
   }
 
-  loadImageMetaByCategory(category: string, sort: string = ''){
-    if(sort === 'asc' || sort == 'desc'){
-      return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category).orderBy('name', sort)).valueChanges();
+  loadImageMetaByCategory(category: string, sortABC: string = '', sortPrice: string = ''){
+    if(sortABC === 'asc' || sortABC == 'desc'){
+      return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category).orderBy('name', sortABC)).valueChanges();
+    } else if(sortPrice === 'asc' || sortPrice === 'desc'){
+      return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category).orderBy('price', sortPrice)).valueChanges();
     }
     return this.afs.collection<Product>(this.collectionName, ref => ref.where('category', '==', category)).valueChanges();
   }
