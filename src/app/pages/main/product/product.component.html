@@ -36,7 +36,7 @@
                     <p *ngIf="this.actProduct?.alcohol === 0">Alkoholmentes</p> 
                     <p *ngIf="this.user?.admin">Mennyiség: 
                         <span *ngIf="!this.quantityInput">{{this.actProduct?.quantity}}</span>
-                        <input class="text-b" type="number" *ngIf="this.quantityInput && this.actProduct" value="{{this.actProduct.quantity}}" [(ngModel)]="this.actProduct.quantity"/>
+                        <input class="text-black" type="number" *ngIf="this.quantityInput && this.actProduct" value="{{this.actProduct.quantity}}" [(ngModel)]="this.actProduct.quantity"/>
                         db raktáron 
                         <button *ngIf="this.user?.admin" (click)="updateQuantity()">
                             <mat-icon *ngIf="!this.quantityInput">edit</mat-icon>
