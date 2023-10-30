@@ -10,15 +10,27 @@
         <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
         <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
         <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
-        <div class='sort'>Rendezés: 
-            <button mat-raised-button color="accent" (click)="onSortAccordingToABC()">
-                <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
-                <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
-            </button>
-            <button mat-raised-button color="accent" (click)="onSortAccordingToPrice()">
-                <span *ngIf="this.ascSortAccordingToPrice">Ár: növekvő</span>
-                <span *ngIf="!this.ascSortAccordingToPrice">Ár: csökkenő</span>
-            </button>
+        <div class='sort'>
+            <span class="mr-[1%]">Rendezés: </span>
+            <span class="mr-[0.5%]">
+                <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
+                    Név:
+                    <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
+                    <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
+                </button>
+            </span>
+            <span class="mr-[0.5%]">
+                <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToABC === undefined && this.ascSortAccordingToPrice !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToPrice()">
+                    Ár:
+                    <span *ngIf="this.ascSortAccordingToPrice">növekvő</span>
+                    <span *ngIf="!this.ascSortAccordingToPrice">csökkenő</span>
+                </button>
+            </span>
+            <span>
+                <button *ngIf="this.ascSortAccordingToABC !== undefined || this.ascSortAccordingToPrice !== undefined" mat-raised-button color="accent" (click)="onCancelSort()">
+                    Mégse <mat-icon>cancel</mat-icon>
+                </button>
+            </span>
         </div>    
         <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
             <div class='productdata' *ngFor='let product of productObject'>

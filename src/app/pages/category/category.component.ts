@@ -21,8 +21,8 @@ export class CategoryComponent implements OnInit {
   category?: string;
   productQuantity: { [productId: string]: number } = {};
 
-  ascSortAccordingToABC = true;
-  ascSortAccordingToPrice = true;
+  ascSortAccordingToABC: boolean | undefined;
+  ascSortAccordingToPrice: boolean | undefined;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -81,7 +81,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onSortAccordingToABC(){
-    this.ascSortAccordingToPrice = true;
+    this.ascSortAccordingToPrice = undefined;
     if(this.ascSortAccordingToABC){
       if(this.category === 'All'){
         this.productService.loadImageMeta('asc').subscribe((data: Array<Product>) => {
@@ -111,7 +111,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onSortAccordingToPrice(){
-    this.ascSortAccordingToABC = true;
+    this.ascSortAccordingToABC = undefined;
     if(this.ascSortAccordingToPrice){
       if(this.category === 'All'){
         this.productService.loadImageMeta('', 'asc').subscribe((data: Array<Product>) => {
@@ -138,6 +138,11 @@ export class CategoryComponent implements OnInit {
       }
     }
     this.ascSortAccordingToPrice = !this.ascSortAccordingToPrice;
+  }
+
+  onCancelSort(){
+    this.ascSortAccordingToABC = undefined;
+    this.ascSortAccordingToPrice = undefined;
   }
 
   navigateThisProduct() {

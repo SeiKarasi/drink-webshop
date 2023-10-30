@@ -20,11 +20,16 @@
 }
 
 .sort {
+    display: flex;
+    justify-content: center;
     text-align: left;
     font-size: 32px;
     margin-bottom: 3%;
-    padding-left: 10%;
     z-index: 2; 
+}
+
+.selectedSort {
+    background-color: aqua;
 }
 
 
