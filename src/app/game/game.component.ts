@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -59,17 +60,34 @@ export class GameComponent implements OnInit {
       move: 'left',
     },
     {
+      x: 100,
+      y: 140,
+      radius: 15,
+      speed: 2.5,
+      move: 'left',
+    },
+    {
       x: 120,
-      y: 180,
+      y: 220,
+      radius: 15,
+      speed: 2.5,
+      move: 'left',
+    },
+    {
+      x: 120,
+      y: 100,
       radius: 15,
       speed: 2.5,
       move: 'right',
     }
+    
   ]
 
   point = 0;
 
-  constructor() {
+  health = 3;
+
+  constructor(private router: Router) {
     this.context = null;
   }
 
@@ -80,7 +98,7 @@ export class GameComponent implements OnInit {
     this.drawCoins();
     this.drawBarrier();
     setInterval(() => {
-      this.moveEnemy();
+      this.moveEnemies();
     }, 30);
 
   }
@@ -146,14 +164,14 @@ export class GameComponent implements OnInit {
     }
   }
 
-  isPlayerCollidingWithBarriers(x: number, y: number): boolean {
+  isPlayerCollidingWithBarriers(x: number, y: number, radius: number): boolean {
     for (let i = 0; i < this.barriers.length; i++) {
       const barrier = this.barriers[i];
       if (
-        x + this.player.radius > barrier.x &&
-        x - this.player.radius < barrier.x + barrier.width &&
-        y + this.player.radius > barrier.y &&
-        y - this.player.radius < barrier.y + barrier.height
+        x + radius > barrier.x &&
+        x - radius < barrier.x + barrier.width &&
+        y + radius > barrier.y &&
+        y - radius < barrier.y + barrier.height
       ) {
         return true; // Ütközés történt
       }
@@ -161,39 +179,49 @@ export class GameComponent implements OnInit {
     return false; // Nincs ütközés
   }
 
-  moveEnemy() {
+  moveEnemies() {
     for(let i = 0; i < this.enemies.length; i++){ 
-      if (this.enemies[i].move === 'left' && this.enemies[i].x - this.enemies[i].speed >= 15) {
+      this.clearCanvas();
+      if (this.enemies[i].move === 'left' && this.enemies[i].x - this.enemies[i].speed >= 15 && !this.isPlayerCollidingWithBarriers(this.enemies[i].x - this.enemies[i].speed, this.enemies[i].y, this.enemies[i].radius)) {
         this.enemies[i].x -= this.enemies[i].speed;
-  
-        this.clearCanvas();
-  
-        this.drawBarrier();
-        this.drawCoins();
+
         this.drawEnemies();
         this.drawPlayer();
-        if(this.death()){
-          this.player.x = 15;
-          this.player.y = 435;
-          alert("Vesztettél!");
-        }
-      } else if(!this.isPlayerCollidingWithBarriers(this.enemies[i].x, this.enemies[i].y - this.enemies[i].speed)) {
+        this.drawBarrier();
+        this.drawCoins();
+        
+        this.death();
+        // Fordulás jobbra
+      } else if(this.enemies[i].x - this.enemies[i].speed < 15 || this.isPlayerCollidingWithBarriers(this.enemies[i].x - this.enemies[i].speed, this.enemies[i].y, this.enemies[i].radius)) {
         this.enemies[i].move = 'right';
-        this.enemies[i].x += this.enemies[i].speed;
-  
-        this.clearCanvas();
-  
-        this.drawBarrier();
-        this.drawCoins();
+        this.enemies[i].x += this.enemies[i].speed;  
+
         this.drawEnemies();
         this.drawPlayer();
-        if(this.death()){
-          this.player.x = 15;
-          this.player.y = 435;
-          alert("Vesztettél!");
-        }
-      } else {
+        this.drawBarrier();
+        this.drawCoins();
+       
+        this.death();
+      } else if(this.enemies[i].move === 'right' && this.enemies[i].x + this.enemies[i].speed <= 885 && !this.isPlayerCollidingWithBarriers(this.enemies[i].x + this.enemies[i].speed, this.enemies[i].y, this.enemies[i].radius)) {
+        this.enemies[i].x += this.enemies[i].speed;  
+
+        this.drawEnemies();
+        this.drawPlayer();
+        this.drawBarrier();
+        this.drawCoins();
+       
+        this.death();
+        // Fordulás balra
+      } else if(this.enemies[i].x + this.enemies[i].speed > 885 || this.isPlayerCollidingWithBarriers(this.enemies[i].x + this.enemies[i].speed, this.enemies[i].y, this.enemies[i].radius)){
         this.enemies[i].move = 'left';
+        this.enemies[i].x += this.enemies[i].speed;  
+
+        this.drawEnemies();
+        this.drawPlayer();
+        this.drawBarrier();
+        this.drawCoins();
+       
+        this.death();
       }
     }  
   }
@@ -207,6 +235,13 @@ export class GameComponent implements OnInit {
         this.player.y + this.player.radius > enemy.y &&
         this.player.y - this.player.radius < enemy.y + enemy.radius
       ) {
+        this.player.x = 15;
+        this.player.y = 435;
+        this.health--;
+        alert("Vesztettél 1 életet!");
+        if(this.health === 0){
+          this.router.navigateByUrl("/main");
+        }
         return true;
       }
     }
@@ -217,55 +252,41 @@ export class GameComponent implements OnInit {
   onKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case 'w':
-        if(this.player.y - this.player.speed >= 15 && !this.isPlayerCollidingWithBarriers(this.player.x, this.player.y - this.player.speed)){
+        if(this.player.y - this.player.speed >= 15 && !this.isPlayerCollidingWithBarriers(this.player.x, this.player.y - this.player.speed, this.player.radius)){
           this.player.y -= this.player.speed;
         }
         this.getOnePoint(this.player.x, this.player.y);
-        if(this.death()){
-          this.player.x = 15;
-          this.player.y = 435;
-          alert("Vesztettél!");
-        }
+        this.death();
         break;
       case 'a':
-        if(this.player.x - this.player.speed >= 15 && !this.isPlayerCollidingWithBarriers(this.player.x - this.player.speed, this.player.y)){
+        if(this.player.x - this.player.speed >= 15 && !this.isPlayerCollidingWithBarriers(this.player.x - this.player.speed, this.player.y, this.player.radius)){
           this.player.x -= this.player.speed;
         }
         this.getOnePoint(this.player.x, this.player.y);
-        if(this.death()){
-          this.player.x = 15;
-          this.player.y = 435;
-          alert("Vesztettél!");
-        }
+        this.death();
         break;
       case 's':
-        if(this.player.y + this.player.speed <= 435 && !this.isPlayerCollidingWithBarriers(this.player.x, this.player.y + this.player.speed)){
+        if(this.player.y + this.player.speed <= 435 && !this.isPlayerCollidingWithBarriers(this.player.x, this.player.y + this.player.speed, this.player.radius)){
           this.player.y += this.player.speed;
         }
         this.getOnePoint(this.player.x, this.player.y);
-        if(this.death()){
-          this.player.x = 15;
-          this.player.y = 435;
-          alert("Vesztettél!");
-        }      
+        this.death();  
         break;
       case 'd':
-        if(this.player.x + this.player.speed <= 885 && !this.isPlayerCollidingWithBarriers(this.player.x + this.player.speed, this.player.y)){
+        if(this.player.x + this.player.speed <= 885 && !this.isPlayerCollidingWithBarriers(this.player.x + this.player.speed, this.player.y, this.player.radius)){
           this.player.x += this.player.speed;
         }
         this.getOnePoint(this.player.x, this.player.y);
-        if(this.death()){
-          this.player.x = 15;
-          this.player.y = 435;
-          alert("Vesztettél!");
-        }
+        this.death();
         break;
     }
     this.clearCanvas();
 
-    this.drawBarrier();
-    this.drawCoins();
+
     this.drawEnemies();
     this.drawPlayer();
+    this.drawBarrier();
+    this.drawCoins();
+    
   }
 }

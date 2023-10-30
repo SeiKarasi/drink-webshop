@@ -2,8 +2,9 @@
     <div class="flex justify-center items-center h-[100%] bg-[#696969]">
         <div class="block">
             <div class="text-black font-bold text-[24px] m-3">Point: {{point}}</div>
+            <div class="text-black font-bold text-[24px] m-3">Health: {{health}}</div>
             <div (window:keydown)="onKeyDown($event)">
-                <canvas #gameCanvas width="900" height="450" class="bg-cyan-600"></canvas>
+                <canvas #gameCanvas width="900" height="450" class="bg-[#0891b2]"></canvas>
             </div>
         </div>  
     </div>
