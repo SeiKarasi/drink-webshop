@@ -143,6 +143,19 @@ export class CategoryComponent implements OnInit {
   onCancelSort(){
     this.ascSortAccordingToABC = undefined;
     this.ascSortAccordingToPrice = undefined;
+    if(this.category === 'All'){
+      this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
+        if(this.productObject !== data){
+          this.productObject = data;
+        }
+      });
+    } else {
+      this.productService.loadImageMetaByCategory(this.category!).subscribe((data: Array<Product>) => {
+        if(this.productObject !== data){
+          this.productObject = data;
+        }  
+      });
+    }
   }
 
   navigateThisProduct() {

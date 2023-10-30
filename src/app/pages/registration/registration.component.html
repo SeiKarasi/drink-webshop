@@ -35,9 +35,13 @@
                 </div>
                 <div class="button-container">
                     <span class="buttons"><button mat-raised-button color="accent"
-                            type="submit">Regisztráció</button></span>
-                    <span class="buttons"><button mat-raised-button color="accent"
-                            [routerLink]="'/login'">Bejelentkezés</button></span>
+                            type="submit">Regisztráció</button>
+                    </span>
+                    <span class="pl-[5px] pt-[20px]">Már van fiókod?
+                        <a class="underline hover:text-cyan-400 hover:text-[18px]" [routerLink]="'/login'">
+                        Jelentkezz be!
+                        </a>
+                    </span>
                 </div>
             </form>
         </mat-card-content>
