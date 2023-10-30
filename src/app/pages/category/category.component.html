@@ -1,73 +1,84 @@
 <div id='div-flex'>
     <span class="plexi-layer">
-        <div class='title' *ngIf="this.category === 'All'">Minden</div>
-        <div class='title' *ngIf="this.category === 'Beer'">Sörök</div>
-        <div class='title' *ngIf="this.category === 'Wine'">Borok</div>
-        <div class='title' *ngIf="this.category === 'Champagne'">Pezsgők</div>
-        <div class='title' *ngIf="this.category === 'Whisky'">Whisky-k</div>
-        <div class='title' *ngIf="this.category === 'Vodka'">Vodkák</div>
-        <div class='title' *ngIf="this.category === 'Gin'">Ginek</div>
-        <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
-        <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
-        <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
-        <div class='sort'>
-            <span class="mr-[1%]">Rendezés: </span>
-            <span class="mr-[0.5%]">
-                <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
-                    Név:
-                    <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
-                    <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
-                </button>
-            </span>
-            <span class="mr-[0.5%]">
-                <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToABC === undefined && this.ascSortAccordingToPrice !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToPrice()">
-                    Ár:
-                    <span *ngIf="this.ascSortAccordingToPrice">növekvő</span>
-                    <span *ngIf="!this.ascSortAccordingToPrice">csökkenő</span>
-                </button>
-            </span>
-            <span>
-                <button *ngIf="this.ascSortAccordingToABC !== undefined || this.ascSortAccordingToPrice !== undefined" mat-raised-button color="accent" (click)="onCancelSort()">
-                    Mégse <mat-icon>cancel</mat-icon>
-                </button>
-            </span>
-        </div>    
-        <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
-            <div class='productdata' *ngFor='let product of productObject'>
-                <button class="zoom-button" (click)="navigateThisProduct()"
-                    [routerLink]="'/main/product/' + product.id">
-                    <div class="productname">{{product.name}}</div>
-                    <img [src]="getImageUrl(product)" alt='{{product.name}}'>
-                    <button *ngIf="product.marker === 'soon'" mat-fab class="marker">HAMAROSAN<br />ÉRKEZIK</button>
-                    <button *ngIf="product.marker === 'new'" mat-fab class="marker">ÚJ<br />TERMÉK</button>
-                    <button *ngIf="product.marker === 'discount'" mat-fab class="marker">-50%<br />AKCIÓ</button>
-                    <button *ngIf="product.marker === 'sale'" mat-fab class="marker">KIÁRUSÍTÁS</button>
-                    <div class="productprice" [ngClass]="this.user?.discountToLink === true || product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
-                    <div class="discountProductPrice" *ngIf="this.user?.discountToLink !== true && product.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
-                    <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{product.marker != 'discount' ? ((product.price * 0.95) | number:'1.0-0') : ((product.price * 0.45) | number:'1.0-0')}} Ft</div>
-                    <div class="button-container">
-                        <div>
-                            <p class="productcount">Mennyiség</p>
-                            <div><button type="button" mat-raised-button color="accent"
-                                    (click)="increaseCount(product.id, product.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+        <span *ngIf="isCorrectCategory()">
+            <div class='title' *ngIf="this.category === 'All'">Minden</div>
+            <div class='title' *ngIf="this.category === 'Beer'">Sörök</div>
+            <div class='title' *ngIf="this.category === 'Wine'">Borok</div>
+            <div class='title' *ngIf="this.category === 'Champagne'">Pezsgők</div>
+            <div class='title' *ngIf="this.category === 'Whisky'">Whisky-k</div>
+            <div class='title' *ngIf="this.category === 'Vodka'">Vodkák</div>
+            <div class='title' *ngIf="this.category === 'Gin'">Ginek</div>
+            <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
+            <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
+            <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
+            <div class='sort'>
+                <span class="mr-[1%]">Rendezés: </span>
+                <span class="mr-[0.5%]">
+                    <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
+                        Név:
+                        <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
+                        <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
+                    </button>
+                </span>
+                <span class="mr-[0.5%]">
+                    <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToABC === undefined && this.ascSortAccordingToPrice !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToPrice()">
+                        Ár:
+                        <span *ngIf="this.ascSortAccordingToPrice">növekvő</span>
+                        <span *ngIf="!this.ascSortAccordingToPrice">csökkenő</span>
+                    </button>
+                </span>
+                <span>
+                    <button *ngIf="this.ascSortAccordingToABC !== undefined || this.ascSortAccordingToPrice !== undefined" mat-raised-button color="accent" (click)="onCancelSort()">
+                        Mégse <mat-icon>cancel</mat-icon>
+                    </button>
+                </span>
+            </div>    
+            <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
+                <div class='productdata' *ngFor='let product of productObject'>
+                    <button class="zoom-button" (click)="navigateThisProduct()"
+                        [routerLink]="'/main/product/' + product.id">
+                        <div class="productname">{{product.name}}</div>
+                        <img [src]="getImageUrl(product)" alt='{{product.name}}'>
+                        <button *ngIf="product.marker === 'soon'" mat-fab class="marker">HAMAROSAN<br />ÉRKEZIK</button>
+                        <button *ngIf="product.marker === 'new'" mat-fab class="marker">ÚJ<br />TERMÉK</button>
+                        <button *ngIf="product.marker === 'discount'" mat-fab class="marker">-50%<br />AKCIÓ</button>
+                        <button *ngIf="product.marker === 'sale'" mat-fab class="marker">KIÁRUSÍTÁS</button>
+                        <div class="productprice" [ngClass]="this.user?.discountToLink === true || product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
+                        <div class="discountProductPrice" *ngIf="this.user?.discountToLink !== true && product.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
+                        <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{product.marker != 'discount' ? ((product.price * 0.95) | number:'1.0-0') : ((product.price * 0.45) | number:'1.0-0')}} Ft</div>
+                        <div class="button-container">
+                            <div>
+                                <p class="productcount">Mennyiség</p>
+                                <div><button type="button" mat-raised-button color="accent"
+                                        (click)="increaseCount(product.id, product.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
+                                </div>
+                                <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
+                                <div><button type="button" mat-raised-button color="accent"
+                                        (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
+                                </div>
                             </div>
-                            <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
-                            <div><button type="button" mat-raised-button color="accent"
-                                    (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
-                            </div>
+                            <button class="cart" type="button" mat-raised-button color="accent"
+                                (click)="onAddToCart(product); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
                         </div>
-                        <button class="cart" type="button" mat-raised-button color="accent"
-                            (click)="onAddToCart(product); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
-                    </div>
-                </button>
+                    </button>
+                </div>
+                <div *ngIf="this.user?.admin" class='productdata'>
+                    <button class="zoom-button" id="addProductButton" routerLink="/newProduct">
+                        <span>
+                            <mat-icon id="addProduct">add_circle</mat-icon>
+                        </span>
+                    </button>
+                </div>
             </div>
-            <div *ngIf="this.user?.admin" class='productdata'>
-                <button class="zoom-button" id="addProductButton" routerLink="/newProduct">
-                    <span>
-                        <mat-icon id="addProduct">add_circle</mat-icon>
-                    </span>
-                </button>
-            </div>
-        </div>
+        </span>
+        <span *ngIf="!isCorrectCategory()">
+            <div class='title'>Ilyen kategória nem létezik!</div>
+            <div class='optionalCategories'><a class="pr-[3%] hover:text-cyan-400" routerLink="/category/All">Minden</a><a class="hover:text-cyan-400" routerLink="/category/Beer">Sörök</a></div>
+            <div class='optionalCategories'><a class="pr-[3%] hover:text-cyan-400" routerLink="/category/Wine">Borok</a><a class="hover:text-cyan-400" routerLink="/category/Champagne">Pezsgők</a></div>
+            <div class='optionalCategories'><a class="pr-[3%] hover:text-cyan-400" routerLink="/category/Whisky">Whisky-k</a><a class="hover:text-cyan-400" routerLink="/category/Vodka">Vodkák</a></div>
+            <div class='optionalCategories'><a class="pr-[3%] hover:text-cyan-400" routerLink="/category/Gin">Ginek</a><a class="hover:text-cyan-400" routerLink="/category/Firewater">Pálinkák</a></div>
+            <div class='optionalCategories'><a class="pr-[3%] hover:text-cyan-400" routerLink="/category/Bitter">Keserűk</a><a class="hover:text-cyan-400" routerLink="/category/Drink">Üdítők</a></div>
+            <div class="fill-background"></div>         
+        </span>     
     </span>
 </div>

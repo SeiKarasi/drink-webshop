@@ -13,11 +13,25 @@
 
 .title {
     text-align: center;
-    padding: 8%;
+    padding: 4%;
     font-family: 'Rubik Wet Paint';
     font-size: 85px;
     z-index: 2;
 }
+
+.optionalCategories {
+    text-align: center;
+    padding: 1.5%;
+    font-size: 55px;
+    z-index: 2;
+    text-decoration: underline;
+}
+
+.fill-background {
+    content: "";
+    background-color: #696969;
+    height: 32vh;
+  }
 
 .sort {
     display: flex;

@@ -80,6 +80,17 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  isCorrectCategory(){
+    if(this.category === 'All' || this.category === 'Beer' || this.category === 'Wine' || this.category === 'Champagne' ||
+    this.category === 'Whisky' || this.category === 'Vodka' || this.category === 'Gin' || this.category === 'Firewater' ||
+    this.category === 'Bitter'|| this.category === 'Drink')
+    {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   onSortAccordingToABC(){
     this.ascSortAccordingToPrice = undefined;
     if(this.ascSortAccordingToABC){
