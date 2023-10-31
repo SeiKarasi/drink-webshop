@@ -8,17 +8,23 @@ export class Enemy {
     color: string;
     directionOfMovement: string;
   
-    constructor(x: number, y: number, directionOfMovement: string = 'left') {
-      this.x = x;
-      this.y = y;
+    constructor() {
+      this.x = this.getRandomInt(15, 885);
+      this.y = this.getRandomInt(15, 435);
       this.radius = 15;
-      this.speed = 2.5;
+      this.speed = 5;
       this.color = 'black';
-      if(directionOfMovement === 'right'){
-        this.directionOfMovement = directionOfMovement;
-      } else {
+      if(this.getRandomInt(0,1) === 0){
         this.directionOfMovement = 'left';
+      } else {
+        this.directionOfMovement = 'right';
       }  
+    }
+
+    getRandomInt(min: number, max: number): number {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
 

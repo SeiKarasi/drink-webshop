@@ -16,9 +16,7 @@ export class Coin {
 
     getRandomInt(min: number, max: number): number {
         min = Math.ceil(min);
-        console.log(min);
         max = Math.floor(max);
-        console.log(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
