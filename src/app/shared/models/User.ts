@@ -9,5 +9,6 @@ export interface User {
         lastname: string;
     }
     discountToLink: boolean;
+    discount: number;
     admin: boolean;
 }

@@ -43,9 +43,9 @@
                         <button *ngIf="product.marker === 'new'" mat-fab class="marker">ÚJ<br />TERMÉK</button>
                         <button *ngIf="product.marker === 'discount'" mat-fab class="marker">-50%<br />AKCIÓ</button>
                         <button *ngIf="product.marker === 'sale'" mat-fab class="marker">KIÁRUSÍTÁS</button>
-                        <div class="productprice" [ngClass]="this.user?.discountToLink === true || product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
-                        <div class="discountProductPrice" *ngIf="this.user?.discountToLink !== true && product.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
-                        <div class="discountProductPrice" *ngIf="this.user?.discountToLink === true">{{product.marker != 'discount' ? ((product.price * 0.95) | number:'1.0-0') : ((product.price * 0.45) | number:'1.0-0')}} Ft</div>
+                        <div class="productprice" [ngClass]="this.user?.discount || product.marker === 'discount' ? 'originalPriceLineThrough' : ''">{{product.price}} Ft</div>
+                        <div class="discountProductPrice" *ngIf="!this.user?.discount && product.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
+                        <div class="discountProductPrice" *ngIf="this.user?.discount">{{product.marker != 'discount' ? ((product.price * (1-(this.user!.discount/100))) | number:'1.0-0') : ((product.price * (0.5-(this.user!.discount/100))) | number:'1.0-0')}} Ft</div>
                         <div class="button-container">
                             <div>
                                 <p class="productcount">Mennyiség</p>

@@ -27,7 +27,7 @@ export class AboutusComponent implements OnInit {
 
   Discount() {
     if (this.user) {
-      this.userService.updateDiscountToLink(this.user.id, true)
+      this.userService.updateDiscountToLink(this.user.id, this.user.discount, this.user.discountToLink)
       this.router.navigate(['/main']).then(() => {
         this.toastr.success("Gratulálunk! Minden termékre 5% kedvezményt kaptál!", "Kedvezmény")
       });

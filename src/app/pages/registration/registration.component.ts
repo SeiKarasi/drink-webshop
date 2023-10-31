@@ -24,7 +24,8 @@ export class RegistrationComponent implements OnInit {
       firstname: '',
       lastname: ''
     }),
-    discountToLink: false
+    discountToLink: false,
+    discount: 0
   });
   loginLoading: boolean = false;
 
@@ -88,6 +89,7 @@ export class RegistrationComponent implements OnInit {
             lastname: this.usersForm.get('name.lastname')?.value
           },
           discountToLink: false,
+          discount: 0,
           admin: false
         };
         this.userService.create(user).then(_ => {  

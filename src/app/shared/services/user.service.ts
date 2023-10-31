@@ -34,9 +34,18 @@ export class UserService {
     return this.afs.collection<User>(this.collectionName).doc(user.id).set(user);
   }
 
-  updateDiscountToLink(userId: string, discountToLink: boolean) {
+  updateDiscount(userId: string, userDiscount: number, getDiscount: number) {
     const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
-    return userRef.update({ discountToLink : discountToLink });
+    return userRef.update({ discount: userDiscount + getDiscount });
+  }
+
+  updateDiscountToLink(userId: string, userDiscount: number, userDiscountToLink: boolean) {
+    const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
+    if(userDiscountToLink === false){
+      return userRef.update({ discount: userDiscount + 5, discountToLink: true });
+    } else {
+      return userRef.update({ discount: userDiscount + 0 });
+    }
   }
 
   // Delete
