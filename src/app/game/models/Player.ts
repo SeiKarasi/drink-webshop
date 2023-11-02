@@ -1,4 +1,4 @@
-import { coins, barriers, enemies } from "../game.component";
+import { coins, barriers, enemies, context } from "../game.component";
 import { Coin } from "./Coin";
 
 export class Player {
@@ -18,6 +18,15 @@ export class Player {
       this.color = 'blue';
       this.point = 0;
       this.health = 3;
+    }
+
+    draw(){
+      if (context) {
+        context.fillStyle = this.color;
+        context.beginPath();
+        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        context.fill();
+      }
     }
 
     getOnePoint(){

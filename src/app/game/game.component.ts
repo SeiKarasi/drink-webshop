@@ -45,7 +45,6 @@ export class GameComponent implements OnInit {
     for(let i = 0; i < 3; i++){
       coins.push(new Coin());
     }
-      
   }
 
   ngOnInit(): void {
@@ -58,7 +57,7 @@ export class GameComponent implements OnInit {
       });
     }
     context = this.canvas.nativeElement.getContext('2d');
-    this.drawPlayer();
+    this.player.draw();
     this.drawEnemies();
     this.drawCoins();
     this.drawBarrier();
@@ -77,15 +76,6 @@ export class GameComponent implements OnInit {
   clearCanvas() {
     if (context) {
       context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    }
-  }
-
-  drawPlayer() {
-    if (context) {
-      context.fillStyle = this.player.color;
-      context.beginPath();
-      context.arc(this.player.x, this.player.y, this.player.radius, 0, Math.PI * 2);
-      context.fill();
     }
   }
 
@@ -113,7 +103,7 @@ export class GameComponent implements OnInit {
       enemies[i].move();
 
       this.drawEnemies();
-      this.drawPlayer();
+      this.player.draw();
       this.drawBarrier();
       this.drawCoins();
         
@@ -186,7 +176,7 @@ export class GameComponent implements OnInit {
 
 
     this.drawEnemies();
-    this.drawPlayer();
+    this.player.draw();
     this.drawBarrier();
     this.drawCoins();
     

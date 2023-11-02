@@ -10,7 +10,7 @@ export class Enemy {
   
     constructor() {
       this.x = this.getRandomInt(15, 885);
-      this.y = this.getRandomInt(15, 435);
+      this.y = this.getRandomInt(15, 400);
       this.radius = 15;
       this.speed = 5;
       this.color = 'black';
