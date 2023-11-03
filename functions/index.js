@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+// Stripe function
 const express = require("express");
 const cors = require("cors");
 const bodyparser = require("body-parser");
@@ -37,3 +38,33 @@ app.post("/checkout", async(req, res, next) => {
 });
 
 exports.api = functions.https.onRequest(app);
+
+// Time scheduledFunction
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.scheduledFunction = functions.pubsub
+  .schedule('every 20 minutes') 
+  .timeZone('Europe/Budapest')
+  .onRun(async (context) => {
+    const db = admin.firestore();
+    
+    const collectionRef = db.collection('Users');
+    const querySnapshot = await collectionRef.get();
+    
+    querySnapshot.forEach(async (doc) => {
+        const userData = doc.data();
+        if(userData.discountToLink){
+            await doc.ref.update({ discount: 5});
+        } else {
+            await doc.ref.update({ discount: 0});
+        }
+        
+        if(userData.gameHealth < 3){
+            await doc.ref.update({ gameHealth: 3 });
+        }
+        
+    });
+    
+    return null;
+  });
