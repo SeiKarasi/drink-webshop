@@ -65,16 +65,17 @@ export class GameComponent implements OnInit {
         console.error(error);
       });
     }
-    context = this.canvas.nativeElement.getContext('2d');
-    this.player.draw();
-    this.drawEnemies();
-    this.drawCoins();
-    this.drawBarrier();
-    setInterval(() => {
-      this.moveEnemies();
-    }, 25);
 
-  }
+      context = this.canvas.nativeElement.getContext('2d');
+      this.player.draw();
+      this.drawEnemies();
+      this.drawCoins();
+      this.drawBarrier();
+
+      setInterval(() => {
+        this.moveEnemies();
+      }, 25);
+    }
 
   getRandomInt(min: number, max: number): number {
     min = Math.ceil(min);
@@ -107,17 +108,17 @@ export class GameComponent implements OnInit {
   }
 
   moveEnemies() {
-    for(let i = 0; i < enemies.length; i++){ 
-      this.clearCanvas();
-      enemies[i].move();
-
-      this.drawEnemies();
-      this.player.draw();
-      this.drawBarrier();
-      this.drawCoins();
-        
-      this.death();
-    }  
+      for(let i = 0; i < enemies.length; i++){ 
+        this.clearCanvas();
+        enemies[i].move();
+  
+        this.drawEnemies();
+        this.player.draw();
+        this.drawBarrier();
+        this.drawCoins();
+          
+        this.death();
+      }  
   }
 
   death(){
@@ -131,7 +132,9 @@ export class GameComponent implements OnInit {
         this.player.x = 15;
         this.player.y = 435;
         this.health! -= 1;
-        this.userService.updateHealth(this.user!.id, this.health!);
+        if(this.health! >= 0){
+          this.userService.updateHealth(this.user!.id, this.health!);
+        }
         for(let i = 0; i < this.player.point; i++){
           coins.push(new Coin());
         }
@@ -139,14 +142,14 @@ export class GameComponent implements OnInit {
         alert("Vesztettél 1 életet és elveszítetted a pontjaidat! Próbáld újra!");
       }
     }
-    if(this.health! <= 0 && this.yourDead === false){
+    if(this.health! === 0 && this.yourDead === false){
       this.yourDead = true;
-      if (this.user) {
-        this.router.navigate(['/main']).then(() => {
-          this.toastr.error("Vesztettél! Sajnáljuk de ezúttal nem szereztél kedvezményt!", "Kedvezmény");
-        });
-      }
-    this.router.navigateByUrl("/main");
+      
+      this.router.navigateByUrl('/main').then(() => {
+        this.toastr.error("Vesztettél! Sajnáljuk de ezúttal nem szereztél kedvezményt!", "Kedvezmény");
+        this.toastr.error("Még nem játszhatsz újra!", "Játék");
+      });
+      
   }
   }
 
@@ -154,7 +157,7 @@ export class GameComponent implements OnInit {
     if(this.health! > 0 && this.player.point === 3){
       if (this.user) {
         this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point)
-        this.router.navigate(['/main']).then(() => {
+        this.router.navigateByUrl('/main').then(() => {
           this.health = 0;
           this.userService.updateHealth(this.user!.id, this.health);
           this.toastr.success("Gratulálunk! Minden termékre " + this.player.point + "% kedvezményt kaptál!", "Kedvezmény");
