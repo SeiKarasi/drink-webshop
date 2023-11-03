@@ -29,9 +29,9 @@ export class UserService {
   }
 
   // Update
-  // NINCS HASZNÁLVA
-  update(user: User){
-    return this.afs.collection<User>(this.collectionName).doc(user.id).set(user);
+  updateHealth(userId: string, gameHealth: number){
+    const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
+    return userRef.update({ gameHealth: gameHealth });
   }
 
   updateDiscount(userId: string, userDiscount: number, getDiscount: number) {

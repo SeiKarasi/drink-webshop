@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router){}
+  constructor(private router: Router, private toastr: ToastrService){}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -15,7 +16,11 @@ export class AuthGuard implements CanActivate {
       if (user){
         return true;
       } else {
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('/login').then(() => {
+          this.toastr.info("Jelentkezz be a játékkal szerzett akciókért és a blogbejegyzésekért!", "Játék és Blog");
+        }).catch(error => {
+          console.error(error);
+        });
         return false;
       }
   }

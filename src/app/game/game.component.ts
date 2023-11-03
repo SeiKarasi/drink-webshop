@@ -13,6 +13,10 @@ export var context: any;
 
 export var barriers: Array<Barrier> = [];
 
+export var barriersXPlusWidth: Array<{ from: number, to: number }> = [];
+
+export var barriersYPlusHeight: Array<{ from: number, to: number }> = [];
+
 export var coins: Array<Coin> = [];
 
 export var enemies: Array<Enemy> = [];
@@ -31,27 +35,32 @@ export class GameComponent implements OnInit {
   player: Player;
 
   yourDead: boolean = false;
+
+  health?: number;
   
 
   constructor(private router: Router, private userService: UserService, private toastr: ToastrService) {
     context = null;
     this.player = new Player(15, 435);
-    for(let i = 0; i < this.getRandomInt(5,8); i++){
+    for(let i = 0; i < this.getRandomInt(7,12); i++){
       barriers.push(new Barrier());
+      barriersXPlusWidth.push({from: barriers[i].x, to: barriers[i].x + barriers[i].width});
+      barriersYPlusHeight.push({from: barriers[i].y, to: barriers[i].y + barriers[i].height});
     }
-    for(let i = 0; i < this.getRandomInt(4,10); i++){
+    for(let i = 0; i < this.getRandomInt(3,6); i++){
       enemies.push(new Enemy());
-    } 
+    }
     for(let i = 0; i < 3; i++){
       coins.push(new Coin());
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
     if (user != null) {
-      this.userService.getById(user.uid).subscribe(data => {
+        this.userService.getById(user.uid).subscribe(data => {
         this.user = data;
+        this.health = this.user?.gameHealth;
       }, error => {
         console.error(error);
       });
@@ -112,8 +121,25 @@ export class GameComponent implements OnInit {
   }
 
   death(){
-    this.player.death();
-    if(this.player.health === 0 && this.yourDead === false){
+    for (let i = 0; i < enemies.length; i++) {
+      if (
+        this.player.x + this.player.radius > enemies[i].x &&
+        this.player.x - this.player.radius < enemies[i].x + enemies[i].radius &&
+        this.player.y + this.player.radius > enemies[i].y &&
+        this.player.y - this.player.radius < enemies[i].y + enemies[i].radius
+      ) {
+        this.player.x = 15;
+        this.player.y = 435;
+        this.health! -= 1;
+        this.userService.updateHealth(this.user!.id, this.health!);
+        for(let i = 0; i < this.player.point; i++){
+          coins.push(new Coin());
+        }
+        this.player.point = 0;
+        alert("Vesztettél 1 életet és elveszítetted a pontjaidat! Próbáld újra!");
+      }
+    }
+    if(this.health! <= 0 && this.yourDead === false){
       this.yourDead = true;
       if (this.user) {
         this.router.navigate(['/main']).then(() => {
@@ -125,10 +151,12 @@ export class GameComponent implements OnInit {
   }
 
   win(){
-    if(this.player.health > 0 && this.player.point === 3){
+    if(this.health! > 0 && this.player.point === 3){
       if (this.user) {
         this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point)
         this.router.navigate(['/main']).then(() => {
+          this.health = 0;
+          this.userService.updateHealth(this.user!.id, this.health);
           this.toastr.success("Gratulálunk! Minden termékre " + this.player.point + "% kedvezményt kaptál!", "Kedvezmény");
         });
       }

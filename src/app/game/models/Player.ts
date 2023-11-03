@@ -1,5 +1,4 @@
-import { coins, barriers, enemies, context } from "../game.component";
-import { Coin } from "./Coin";
+import { coins, barriers, context } from "../game.component";
 
 export class Player {
     x: number;
@@ -8,7 +7,6 @@ export class Player {
     speed: number;
     color: string;
     point: number;
-    health: number;
   
     constructor(x: number = 15, y: number = 435) {
       this.x = x;
@@ -17,7 +15,6 @@ export class Player {
       this.speed = 2.5;
       this.color = 'blue';
       this.point = 0;
-      this.health = 3;
     }
 
     draw(){
@@ -57,26 +54,4 @@ export class Player {
       }
       return false; // Nincs ütközés
     }
-
-    death(){
-      for (let i = 0; i < enemies.length; i++) {
-        if (
-          this.x + this.radius > enemies[i].x &&
-          this.x - this.radius < enemies[i].x + enemies[i].radius &&
-          this.y + this.radius > enemies[i].y &&
-          this.y - this.radius < enemies[i].y + enemies[i].radius
-        ) {
-          this.x = 15;
-          this.y = 435;
-          this.health--;
-          for(let i = 0; i < this.point; i++){
-            coins.push(new Coin());
-          }
-          this.point = 0;
-          alert("Vesztettél 1 életet és elveszítetted a pontjaidat! Próbáld újra!");
-        }
-      }
-    }
-
-    
   }

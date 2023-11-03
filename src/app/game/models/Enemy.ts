@@ -1,4 +1,4 @@
-import {context, barriers} from '../game.component';
+import {context, barriers, barriersXPlusWidth, barriersYPlusHeight} from '../game.component';
 
 export class Enemy {
     x: number;
@@ -7,24 +7,64 @@ export class Enemy {
     speed: number;
     color: string;
     directionOfMovement: string;
+    horizontalOrVerticalMovement: string;
   
     constructor() {
-      this.x = this.getRandomInt(15, 885);
-      this.y = this.getRandomInt(15, 400);
       this.radius = 15;
       this.speed = 5;
       this.color = 'black';
+      let {x, y} = this.getRandomIntWithExclusions(15,885, 15, 430, barriersXPlusWidth, barriersYPlusHeight);
+      this.x = x;
+      this.y = y;
       if(this.getRandomInt(0,1) === 0){
-        this.directionOfMovement = 'left';
+        this.horizontalOrVerticalMovement = "horizontal";
+        if(this.getRandomInt(0,1) === 0){
+          this.directionOfMovement = 'left';
+        } else {
+          this.directionOfMovement = 'right';
+        } 
       } else {
-        this.directionOfMovement = 'right';
-      }  
+        this.horizontalOrVerticalMovement = "vertical";
+        if(this.getRandomInt(0,1) === 0){
+          this.directionOfMovement = 'top';
+        } else {
+          this.directionOfMovement = 'bottom';
+        } 
+      }
+       
     }
 
     getRandomInt(min: number, max: number): number {
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    getRandomIntWithExclusions(minX: number, maxX: number, minY: number, maxY: number, exclusionsX: Array<{ from: number, to: number }>, exclusionsY: Array<{ from: number, to: number }>): {x: number, y: number} {
+      const excludedRangesX = exclusionsX || [];
+      const excludedRangesY = exclusionsY || [];
+      
+      while (true) {
+        let randomNumber = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+        let randomNumber2 = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+        let isExcluded = false;
+    
+        for (let i = 0; i < excludedRangesX.length; i++) {
+          if((randomNumber + this.radius > excludedRangesX[i].from &&
+            randomNumber - this.radius < excludedRangesX[i].to &&
+            randomNumber2 + this.radius > excludedRangesY[i].from &&
+            randomNumber2 - this.radius < excludedRangesY[i].to) ||
+            (randomNumber2 > 400) || randomNumber < 30)
+            {
+              isExcluded = true;
+              break;
+            }
+        }
+    
+        if (!isExcluded) {
+          return {x: randomNumber, y: randomNumber2};
+        }
+      }
     }
 
 
@@ -38,19 +78,36 @@ export class Enemy {
     }
 
     move() {
-          if (this.directionOfMovement === 'left' && this.x - this.speed >= 15 && !this.isCollidingWithBarriers(this.x - this.speed, this.y)) {
-            this.x -= this.speed;
-            // Fordulás jobbra
-          } else if(this.x - this.speed < 15 || this.isCollidingWithBarriers(this.x - this.speed, this.y)) {
-            this.directionOfMovement = 'right';
-            this.x += this.speed;  
-          } else if(this.directionOfMovement === 'right' && this.x + this.speed <= 885 && !this.isCollidingWithBarriers(this.x + this.speed, this.y)) {
-            this.x += this.speed;  
-            // Fordulás balra
-          } else if(this.x + this.speed > 885 || this.isCollidingWithBarriers(this.x + this.speed, this.y)){
-            this.directionOfMovement = 'left';
-            this.x += this.speed;  
-          }
+      if(this.horizontalOrVerticalMovement === 'horizontal'){
+        if (this.directionOfMovement === 'left' && this.x - this.speed >= 15 && !this.isCollidingWithBarriers(this.x - this.speed, this.y)) {
+          this.x -= this.speed;
+          // Fordulás jobbra
+        } else if(this.x - this.speed < 15 || this.isCollidingWithBarriers(this.x - this.speed, this.y)) {
+          this.directionOfMovement = 'right';
+          this.x += this.speed;  
+        } else if(this.directionOfMovement === 'right' && this.x + this.speed <= 885 && !this.isCollidingWithBarriers(this.x + this.speed, this.y)) {
+          this.x += this.speed;  
+          // Fordulás balra
+        } else if(this.x + this.speed > 885 || this.isCollidingWithBarriers(this.x + this.speed, this.y)){
+          this.directionOfMovement = 'left';
+          this.x += this.speed;  
+        }
+      } else {
+        if (this.directionOfMovement === 'top' && this.y - this.speed >= 15 && !this.isCollidingWithBarriers(this.x, this.y - this.speed)) {
+          this.y -= this.speed;
+          // Fordulás lefele
+        } else if(this.y - this.speed < 15 || this.isCollidingWithBarriers(this.x, this.y - this.speed)) {
+          this.directionOfMovement = 'bottom';
+          this.y += this.speed;  
+        } else if(this.directionOfMovement === 'bottom' && this.y + this.speed <= 435 && !this.isCollidingWithBarriers(this.x, this.y + this.speed)) {
+          this.y += this.speed;  
+          // Fordulás balra
+        } else if(this.y + this.speed > 435 || this.isCollidingWithBarriers(this.x, this.y + this.speed)){
+          this.directionOfMovement = 'top';
+          this.y += this.speed;  
+        }
+      }
+         
       }
       
       isCollidingWithBarriers(x: number, y: number): boolean {

@@ -10,5 +10,6 @@ export interface User {
     }
     discountToLink: boolean;
     discount: number;
+    gameHealth: number;
     admin: boolean;
 }

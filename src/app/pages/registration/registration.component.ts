@@ -24,6 +24,7 @@ export class RegistrationComponent implements OnInit {
       firstname: '',
       lastname: ''
     }),
+    gameHealth: 0,
     discountToLink: false,
     discount: 0
   });
@@ -88,6 +89,7 @@ export class RegistrationComponent implements OnInit {
             firstname: this.usersForm.get('name.firstname')?.value,
             lastname: this.usersForm.get('name.lastname')?.value
           },
+          gameHealth: 3,
           discountToLink: false,
           discount: 0,
           admin: false

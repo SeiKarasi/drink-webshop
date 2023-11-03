@@ -9,15 +9,15 @@ export class Barrier {
     color: string;
   
     constructor() {
-      this.x = this.getRandomInt(50, 800);
-      this.y = this.getRandomInt(50, 380);
+      this.x = this.getRandomInt(40, 800);
+      this.y = this.getRandomInt(40, 380);
 
       if(this.getRandomInt(0,1) === 0){
         this.width = 10;
-        this.height = this.getRandomInt(200, 435);
+        this.height = this.getRandomInt(50, 435-this.y);
       } else {
         this.height = 10;
-        this.width = this.getRandomInt(350, 885);
+        this.width = this.getRandomInt(50, 885-this.x);
       };
       this.color = 'red';
     }
