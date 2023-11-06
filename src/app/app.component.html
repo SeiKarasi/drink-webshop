@@ -70,6 +70,8 @@
                                         <li><a routerLink="/blog" [ngClass]="{'disabled-link': !loggedInUser}"
                                                         routerLinkActive="active" (click)="setActiveLink('/')">Blog</a>
                                         </li>
+                                        <li *ngIf="loggedInUser"><a routerLink="/blog" routerLinkActive="active"
+                                                (click)="setActiveLink('/')">Profil</a></li>
                                         <li *ngIf="!(loggedInUser)"><a routerLink="/login" routerLinkActive="active"
                                                         (click)="setActiveLink('/')">Bejelentkezés</a></li>
                                         <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()"

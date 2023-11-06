@@ -56,6 +56,7 @@ export class ProductComponent implements OnInit {
 
   showLabels = false;
   quantityInput = false;
+  descriptionInput = false;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -72,13 +73,10 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.actRoute.params.subscribe((param: any) => {
       this.imageSource = param.imageSource as string;
-      console.log(this.imageSource);
-      this.productService.loadImageMetaByProductID(this.imageSource).subscribe((data: Array<Product>) => {
-        console.log(data);
+      this.productService.loadImageMetaByProductID(this.imageSource).pipe(take(1)).subscribe((data: Array<Product>) => {
         if (this.imageSource === data[0]['id']) {
           this.actProduct = data[0];
-          console.log(this.actProduct);
-          this.productService.loadImageMetaByCategory(this.actProduct?.category).subscribe((data: Array<Product>) => {
+          this.productService.loadImageMetaByCategory(this.actProduct?.category).pipe(take(1)).subscribe((data: Array<Product>) => {
             const index = data.findIndex(product => product.id === this.actProduct?.id);
             if (index !== -1) {
               data.splice(index, 1);
@@ -229,6 +227,22 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  cancelUpdate(){
+    this.descriptionInput = false;
+    this.quantityInput = false;
+  }
+
+  updateDescription(){
+    if(!this.descriptionInput){
+      this.descriptionInput = true;
+    } else {
+      if(confirm("Biztos módosítani szeretnéd ennek a terméknek a leírását?") && this.actProduct){
+        this.descriptionInput = false;
+        this.productService.create(this.actProduct);
+      }
+    }
+  }
+
   createRatingForm(model: Rating) {
     let formGroup = this.fBuilder.group(model);
     // Validátorokat rendelünk az egyes elemekhez!
@@ -302,6 +316,16 @@ export class ProductComponent implements OnInit {
       }
       this.toastr.success(this.productQuantity + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
       this.productQuantity = 1;
+    }
+  }
+
+  isCorrectProduct(){
+    console.log(this.actProduct);
+    if(this.actProduct)
+    {
+      return true;
+    } else {
+      return false;
     }
   }
 
