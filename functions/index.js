@@ -44,7 +44,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 exports.scheduledFunction = functions.pubsub
-  .schedule('every 20 minutes') 
+  .schedule('every 1440 minutes') 
   .timeZone('Europe/Budapest')
   .onRun(async (context) => {
     const db = admin.firestore();
