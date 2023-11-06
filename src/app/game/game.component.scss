@@ -1,3 +1,14 @@
+.header {
+    background-color: lightgreen;
+    border-top: solid 5px brown;
+    border-right: solid 5px brown;
+    border-left: solid 5px brown;
+}
+
 .gameCanvas {
     background-image: url('../../assets/img/gameBackground.jpg');
+    border: solid 5px brown;
+}
+.ruslanDisplay {
+    font-family: 'Ruslan Display';
 }

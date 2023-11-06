@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Player } from './models/Player';
 import { Coin } from './models/Coin';
@@ -33,6 +33,8 @@ export class GameComponent implements OnInit {
   yourDead: boolean = false;
 
   health?: number;
+
+  moveEnemyIntervalId: any;
   
 
   constructor(private router: Router, private userService: UserService, private toastr: ToastrService) {
@@ -59,18 +61,24 @@ export class GameComponent implements OnInit {
         console.error(error);
       });
     }
+    context = this.canvas.nativeElement.getContext('2d');
+    this.drawBarrier();
+    this.player?.draw();
+    this.drawEnemies();
+    this.drawCoins();
 
-      context = this.canvas.nativeElement.getContext('2d');
-      this.drawBarrier();
-      this.player.draw();
-      this.drawEnemies();
-      this.drawCoins();
-      
+    this.moveEnemyIntervalId = setInterval(() => {
+      this.moveEnemies();
+    }, 30);
+  }
 
-      setInterval(() => {
-        this.moveEnemies();
-      }, 25);
-    }
+  ngOnDestroy(){
+    barriers = [];
+    coins = [];
+    enemies = [];
+    clearInterval(this.moveEnemyIntervalId);
+    this.clearCanvas();
+  }
 
   getRandomInt(min: number, max: number): number {
     min = Math.ceil(min);
@@ -78,9 +86,14 @@ export class GameComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+  clearCanvas(){
+    if(context){
+      context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    }
+  }
+
   clearCircles() {
     if (context) {
-      //context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       enemies.forEach(enemy => {
         context.clearRect(enemy.x - enemy.radius, enemy.y - enemy.radius, enemy.radius * 2, enemy.radius * 2);
       });
@@ -151,19 +164,17 @@ export class GameComponent implements OnInit {
       
       this.router.navigateByUrl('/main').then(() => {
         this.toastr.error("Vesztettél! Sajnáljuk de ezúttal nem szereztél kedvezményt!", "Kedvezmény");
-        this.toastr.error("Még nem játszhatsz újra!", "Játék");
+        //this.toastr.error("Még nem játszhatsz újra!", "Játék");
       });
-      
-  }
+    }
   }
 
   win(){
     if(this.health! > 0 && this.player.point === 3){
       if (this.user) {
-        this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point)
+        this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point);
+        this.userService.updateHealth(this.user!.id, 0);
         this.router.navigateByUrl('/main').then(() => {
-          this.health = 0;
-          this.userService.updateHealth(this.user!.id, this.health);
           this.toastr.success("Gratulálunk! Minden termékre " + this.player.point + "% kedvezményt kaptál!", "Kedvezmény");
         });
       }

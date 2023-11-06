@@ -5,7 +5,6 @@ export class Player {
     y: number;
     radius: number;
     speed: number;
-    color: string;
     point: number;
   
     constructor(x: number = 15, y: number = 435) {
@@ -13,7 +12,6 @@ export class Player {
       this.y = y;
       this.radius = 15;
       this.speed = 2.5;
-      this.color = 'cyan';
       this.point = 0;
     }
 

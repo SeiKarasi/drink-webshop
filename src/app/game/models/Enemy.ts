@@ -29,7 +29,7 @@ export class Enemy {
           this.directionOfMovement = 'top';
         } else {
           this.directionOfMovement = 'bottom';
-        } 
+        }
       }
        
     }
@@ -52,7 +52,7 @@ export class Enemy {
             randomNumber - this.radius < barriers[i].x + barriers[i].width &&
             randomNumber2 + this.radius > barriers[i].y &&
             randomNumber2 - this.radius < barriers[i].y + barriers[i].y + barriers[i].height) ||
-            (randomNumber2 > 400) || randomNumber < 30)
+            (randomNumber2 > 400) || (randomNumber < 40))
             {
               isExcluded = true;
               break;
@@ -72,9 +72,6 @@ export class Enemy {
           img.src = '../assets/img/enemy.png';
           context.beginPath();
           context.drawImage(img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
-          
-          //context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          //context.fill();
         }
     }
 
