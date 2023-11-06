@@ -13,10 +13,6 @@ export var context: any;
 
 export var barriers: Array<Barrier> = [];
 
-export var barriersXPlusWidth: Array<{ from: number, to: number }> = [];
-
-export var barriersYPlusHeight: Array<{ from: number, to: number }> = [];
-
 export var coins: Array<Coin> = [];
 
 export var enemies: Array<Enemy> = [];
@@ -44,8 +40,6 @@ export class GameComponent implements OnInit {
     this.player = new Player(15, 435);
     for(let i = 0; i < this.getRandomInt(7,12); i++){
       barriers.push(new Barrier());
-      barriersXPlusWidth.push({from: barriers[i].x, to: barriers[i].x + barriers[i].width});
-      barriersYPlusHeight.push({from: barriers[i].y, to: barriers[i].y + barriers[i].height});
     }
     for(let i = 0; i < this.getRandomInt(3,6); i++){
       enemies.push(new Enemy());
@@ -67,10 +61,11 @@ export class GameComponent implements OnInit {
     }
 
       context = this.canvas.nativeElement.getContext('2d');
+      this.drawBarrier();
       this.player.draw();
       this.drawEnemies();
       this.drawCoins();
-      this.drawBarrier();
+      
 
       setInterval(() => {
         this.moveEnemies();
@@ -83,9 +78,17 @@ export class GameComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-  clearCanvas() {
+  clearCircles() {
     if (context) {
-      context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      //context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      enemies.forEach(enemy => {
+        context.clearRect(enemy.x - enemy.radius, enemy.y - enemy.radius, enemy.radius * 2, enemy.radius * 2);
+      });
+      coins.forEach(coin => {
+        context.clearRect(coin.x - coin.radius, coin.y - coin.radius, coin.radius * 2, coin.radius * 2);
+      });
+
+      context.clearRect(this.player.x - this.player.radius, this.player.y - this.player.radius, this.player.radius * 2, this.player.radius * 2)
     }
   }
 
@@ -109,7 +112,7 @@ export class GameComponent implements OnInit {
 
   moveEnemies() {
       for(let i = 0; i < enemies.length; i++){ 
-        this.clearCanvas();
+        this.clearCircles();
         enemies[i].move();
   
         this.drawEnemies();
@@ -129,6 +132,7 @@ export class GameComponent implements OnInit {
         this.player.y + this.player.radius > enemies[i].y &&
         this.player.y - this.player.radius < enemies[i].y + enemies[i].radius
       ) {
+        this.clearCircles();
         this.player.x = 15;
         this.player.y = 435;
         this.health! -= 1;
@@ -169,6 +173,7 @@ export class GameComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
+    this.clearCircles();
     switch (event.key) {
       case 'w':
         if(this.player.y - this.player.speed >= 15 && !this.player.isCollidingWithBarriers(this.player.x, this.player.y - this.player.speed)){
@@ -203,12 +208,11 @@ export class GameComponent implements OnInit {
         this.death();
         break;
     }
-    this.clearCanvas();
+    
 
 
     this.drawEnemies();
     this.player.draw();
-    this.drawBarrier();
     this.drawCoins();
     
   }

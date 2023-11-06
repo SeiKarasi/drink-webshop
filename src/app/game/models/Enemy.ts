@@ -1,4 +1,4 @@
-import {context, barriers, barriersXPlusWidth, barriersYPlusHeight} from '../game.component';
+import {context, barriers} from '../game.component';
 
 export class Enemy {
     x: number;
@@ -12,8 +12,8 @@ export class Enemy {
     constructor() {
       this.radius = 15;
       this.speed = 5;
-      this.color = 'black';
-      let {x, y} = this.getRandomIntWithExclusions(15,885, 15, 430, barriersXPlusWidth, barriersYPlusHeight);
+      this.color = 'red';
+      let {x, y} = this.getRandomIntWithExclusions(15,885, 15, 430);
       this.x = x;
       this.y = y;
       if(this.getRandomInt(0,1) === 0){
@@ -40,20 +40,18 @@ export class Enemy {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    getRandomIntWithExclusions(minX: number, maxX: number, minY: number, maxY: number, exclusionsX: Array<{ from: number, to: number }>, exclusionsY: Array<{ from: number, to: number }>): {x: number, y: number} {
-      const excludedRangesX = exclusionsX || [];
-      const excludedRangesY = exclusionsY || [];
+    getRandomIntWithExclusions(minX: number, maxX: number, minY: number, maxY: number): {x: number, y: number} {
       
       while (true) {
         let randomNumber = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
         let randomNumber2 = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
         let isExcluded = false;
     
-        for (let i = 0; i < excludedRangesX.length; i++) {
-          if((randomNumber + this.radius > excludedRangesX[i].from &&
-            randomNumber - this.radius < excludedRangesX[i].to &&
-            randomNumber2 + this.radius > excludedRangesY[i].from &&
-            randomNumber2 - this.radius < excludedRangesY[i].to) ||
+        for (let i = 0; i < barriers.length; i++) {
+          if((randomNumber + this.radius > barriers[i].x &&
+            randomNumber - this.radius < barriers[i].x + barriers[i].width &&
+            randomNumber2 + this.radius > barriers[i].y &&
+            randomNumber2 - this.radius < barriers[i].y + barriers[i].y + barriers[i].height) ||
             (randomNumber2 > 400) || randomNumber < 30)
             {
               isExcluded = true;
@@ -70,10 +68,13 @@ export class Enemy {
 
     draw() {
         if (context) {
-          context.fillStyle = this.color;
+          const img = new Image();
+          img.src = '../assets/img/enemy.png';
           context.beginPath();
-          context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          context.fill();
+          context.drawImage(img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+          
+          //context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          //context.fill();
         }
     }
 
