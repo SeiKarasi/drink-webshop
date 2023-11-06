@@ -1,4 +1,4 @@
-<div id='div-flex'>
+<div class="div-flex">
     <span class="plexi-layer">
         <span *ngIf="isCorrectCategory()">
             <div class='title' *ngIf="this.category === 'All'">Minden</div>
@@ -12,7 +12,7 @@
             <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
             <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
             <div class='sort'>
-                <span class="mr-[1%]">Rendezés: </span>
+                <span class="mr-[1%] mt-[0.5%] underline">Rendezés: </span>
                 <span class="mr-[0.5%]">
                     <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
                         Név:

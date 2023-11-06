@@ -1,4 +1,4 @@
-<div class="pt-[50px] pl-[200px] pr-[200px]">
+<div class="pt-[50px] pl-[200px] pr-[200px]" *ngIf="isCorrectProduct()">
     <mat-card class="bg-gray-600">
         <span>
             <mat-card-header>
@@ -31,7 +31,15 @@
                     </div>
                 </div>
                 <div class="w-[50%]">
-                    <p class="long-text"><span class="text-[140%] font-bold block">Leírás: </span><br><span>{{this.actProduct?.short_description}}</span></p>
+                    <p class="long-text"><span class="text-[140%] font-bold block">Leírás: </span><br><span *ngIf="!this.descriptionInput">{{this.actProduct?.short_description}}</span></p>
+                    <textarea class="text-black" rows="5" cols="50" *ngIf="this.descriptionInput && this.actProduct" value="{{this.actProduct.short_description}}" [(ngModel)]="this.actProduct.short_description"></textarea>
+                    <button *ngIf="this.user?.admin" (click)="updateDescription()">
+                        <mat-icon *ngIf="!this.descriptionInput">edit</mat-icon>
+                        <mat-icon *ngIf="this.descriptionInput">save</mat-icon>
+                    </button>
+                    <button *ngIf="this.user?.admin" (click)="cancelUpdate()">
+                        <mat-icon *ngIf="this.descriptionInput">cancel</mat-icon>
+                    </button>
                     <p *ngIf="this.actProduct !== undefined && this.actProduct.alcohol > 0">Alkohol tartalom: {{this.actProduct.alcohol}}%</p>
                     <p *ngIf="this.actProduct?.alcohol === 0">Alkoholmentes</p> 
                     <p *ngIf="this.user?.admin">Mennyiség: 
@@ -41,6 +49,9 @@
                         <button *ngIf="this.user?.admin" (click)="updateQuantity()">
                             <mat-icon *ngIf="!this.quantityInput">edit</mat-icon>
                             <mat-icon *ngIf="this.quantityInput">save</mat-icon>
+                        </button>
+                        <button *ngIf="this.user?.admin" (click)="cancelUpdate()">
+                            <mat-icon *ngIf="this.quantityInput">cancel</mat-icon>
                         </button>
                     </p>
                     <p *ngIf="this.actProduct?.marker === 'sale'" class="font-bold text-red-600">Hamarosan elfogy!!!</p>
@@ -149,3 +160,7 @@
         </div>      
     </div>
 </div>
+<span *ngIf="!isCorrectProduct()">
+    <div class='title'>Ez a termék nem létezik!</div>
+    <div class="fill-background"></div>         
+</span>   

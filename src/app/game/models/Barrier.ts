@@ -6,7 +6,6 @@ export class Barrier {
     y: number;
     width: number;
     height: number;
-    color: string;
   
     constructor() {
       this.x = this.getRandomInt(40, 800);
@@ -19,7 +18,6 @@ export class Barrier {
         this.height = 10;
         this.width = this.getRandomInt(50, 885-this.x);
       };
-      this.color = 'red';
     }
 
     getRandomInt(min: number, max: number): number {
@@ -30,9 +28,9 @@ export class Barrier {
 
     draw(){
         if(context){
-            context.fillStyle = this.color;
             context.beginPath();
-            context.fillRect(this.x, this.y, this.width, this.height);
+            const textureImage = document.getElementById('barrierTexture');
+            context.drawImage(textureImage, 10, 10, this.width, this.height, this.x, this.y, this.width, this.height);
         }
       }
   }

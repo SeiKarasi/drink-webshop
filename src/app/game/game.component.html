@@ -1,12 +1,13 @@
 <div class="h-[85vh]"> 
     <div class="flex justify-center items-center h-[100%] bg-[#696969]">
-        <div class="block">
-            <div class="text-black font-bold text-[24px] m-3">Pont: {{this.player.point}}</div>
-            <div class="text-black font-bold text-[24px] m-3">Élet: {{this.health}}</div>
+        <div class="block header">
+            <div class="text-black font-bold text-[24px] m-3 ruslanDisplay">Pont: <span class="text-[32px]">{{this.player!.point}}</span></div>
+            <div class="text-black font-bold text-[24px] m-3 ruslanDisplay">Élet: <span class="text-[32px]">{{this.health}}</span></div>
             <div (window:keydown)="onKeyDown($event)">
-                <canvas #gameCanvas width="900" height="450" class="bg-[#0891b2]"></canvas>
+                <canvas #gameCanvas width="900" height="450" class="gameCanvas"></canvas>
             </div>
         </div>  
     </div>
+    <img id="barrierTexture" src="../assets/img/barrier.jpg" style="display: none;">
 </div>
 

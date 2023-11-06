@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Player } from './models/Player';
 import { Coin } from './models/Coin';
@@ -12,10 +12,6 @@ import { Barrier } from './models/Barrier';
 export var context: any;
 
 export var barriers: Array<Barrier> = [];
-
-export var barriersXPlusWidth: Array<{ from: number, to: number }> = [];
-
-export var barriersYPlusHeight: Array<{ from: number, to: number }> = [];
 
 export var coins: Array<Coin> = [];
 
@@ -37,6 +33,8 @@ export class GameComponent implements OnInit {
   yourDead: boolean = false;
 
   health?: number;
+
+  moveEnemyIntervalId: any;
   
 
   constructor(private router: Router, private userService: UserService, private toastr: ToastrService) {
@@ -44,8 +42,6 @@ export class GameComponent implements OnInit {
     this.player = new Player(15, 435);
     for(let i = 0; i < this.getRandomInt(7,12); i++){
       barriers.push(new Barrier());
-      barriersXPlusWidth.push({from: barriers[i].x, to: barriers[i].x + barriers[i].width});
-      barriersYPlusHeight.push({from: barriers[i].y, to: barriers[i].y + barriers[i].height});
     }
     for(let i = 0; i < this.getRandomInt(3,6); i++){
       enemies.push(new Enemy());
@@ -65,17 +61,24 @@ export class GameComponent implements OnInit {
         console.error(error);
       });
     }
+    context = this.canvas.nativeElement.getContext('2d');
+    this.drawBarrier();
+    this.player?.draw();
+    this.drawEnemies();
+    this.drawCoins();
 
-      context = this.canvas.nativeElement.getContext('2d');
-      this.player.draw();
-      this.drawEnemies();
-      this.drawCoins();
-      this.drawBarrier();
+    this.moveEnemyIntervalId = setInterval(() => {
+      this.moveEnemies();
+    }, 30);
+  }
 
-      setInterval(() => {
-        this.moveEnemies();
-      }, 25);
-    }
+  ngOnDestroy(){
+    barriers = [];
+    coins = [];
+    enemies = [];
+    clearInterval(this.moveEnemyIntervalId);
+    this.clearCanvas();
+  }
 
   getRandomInt(min: number, max: number): number {
     min = Math.ceil(min);
@@ -83,9 +86,22 @@ export class GameComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-  clearCanvas() {
-    if (context) {
+  clearCanvas(){
+    if(context){
       context.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    }
+  }
+
+  clearCircles() {
+    if (context) {
+      enemies.forEach(enemy => {
+        context.clearRect(enemy.x - enemy.radius, enemy.y - enemy.radius, enemy.radius * 2, enemy.radius * 2);
+      });
+      coins.forEach(coin => {
+        context.clearRect(coin.x - coin.radius, coin.y - coin.radius, coin.radius * 2, coin.radius * 2);
+      });
+
+      context.clearRect(this.player.x - this.player.radius, this.player.y - this.player.radius, this.player.radius * 2, this.player.radius * 2)
     }
   }
 
@@ -109,7 +125,7 @@ export class GameComponent implements OnInit {
 
   moveEnemies() {
       for(let i = 0; i < enemies.length; i++){ 
-        this.clearCanvas();
+        this.clearCircles();
         enemies[i].move();
   
         this.drawEnemies();
@@ -129,6 +145,7 @@ export class GameComponent implements OnInit {
         this.player.y + this.player.radius > enemies[i].y &&
         this.player.y - this.player.radius < enemies[i].y + enemies[i].radius
       ) {
+        this.clearCircles();
         this.player.x = 15;
         this.player.y = 435;
         this.health! -= 1;
@@ -147,19 +164,17 @@ export class GameComponent implements OnInit {
       
       this.router.navigateByUrl('/main').then(() => {
         this.toastr.error("Vesztettél! Sajnáljuk de ezúttal nem szereztél kedvezményt!", "Kedvezmény");
-        this.toastr.error("Még nem játszhatsz újra!", "Játék");
+        //this.toastr.error("Még nem játszhatsz újra!", "Játék");
       });
-      
-  }
+    }
   }
 
   win(){
     if(this.health! > 0 && this.player.point === 3){
       if (this.user) {
-        this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point)
+        this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point);
+        this.userService.updateHealth(this.user!.id, 0);
         this.router.navigateByUrl('/main').then(() => {
-          this.health = 0;
-          this.userService.updateHealth(this.user!.id, this.health);
           this.toastr.success("Gratulálunk! Minden termékre " + this.player.point + "% kedvezményt kaptál!", "Kedvezmény");
         });
       }
@@ -169,6 +184,7 @@ export class GameComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
+    this.clearCircles();
     switch (event.key) {
       case 'w':
         if(this.player.y - this.player.speed >= 15 && !this.player.isCollidingWithBarriers(this.player.x, this.player.y - this.player.speed)){
@@ -203,12 +219,11 @@ export class GameComponent implements OnInit {
         this.death();
         break;
     }
-    this.clearCanvas();
+    
 
 
     this.drawEnemies();
     this.player.draw();
-    this.drawBarrier();
     this.drawCoins();
     
   }

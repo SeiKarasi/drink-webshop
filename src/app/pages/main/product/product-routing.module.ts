@@ -3,7 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductComponent } from './product.component';
 
 // :-tal adhatom meg a routingba a paramétert
-const routes: Routes = [{ path: ':imageSource', component: ProductComponent }];
+const routes: Routes = [{path: '',
+redirectTo: 'empty',
+pathMatch: "full"},{ path: ':imageSource', component: ProductComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

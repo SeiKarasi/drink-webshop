@@ -5,7 +5,6 @@ export class Player {
     y: number;
     radius: number;
     speed: number;
-    color: string;
     point: number;
   
     constructor(x: number = 15, y: number = 435) {
@@ -13,16 +12,19 @@ export class Player {
       this.y = y;
       this.radius = 15;
       this.speed = 2.5;
-      this.color = 'blue';
       this.point = 0;
     }
 
     draw(){
       if (context) {
-        context.fillStyle = this.color;
+        const img = new Image();
+        img.src = '../assets/img/player.png';
+        context.beginPath();
+        context.drawImage(img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+       /* context.fillStyle = this.color;
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        context.fill();
+        context.fill(); */
       }
     }
 
