@@ -88,30 +88,21 @@ export class ShoppingBagComponent implements OnInit {
   }
 
   onPayment(): void{
-   /* for(let i = 0; i < this.productObject.length; i++){
-      this.productObject[i].quantity -= this.dataSource[i].quantity;
-      if(this.productObject[i].quantity <= 10){
-        this.productObject[i].marker = "sale"
-      }
-      this.productService.create(this.productObject[i]).then(_ => {
-        console.log('Termék frissítés sikeres');
-        this.cartService.clearCart();
-        this.toastr.success('A vásárlás sikeres volt!', 'Kosár');
-      }).catch(error => {
-        console.error(error);
-      });;
-    } */
-    this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
-      items: this.cart.items,
-      images: this.loadedImages,
-      url: environment.production ?  'https://trinkydrinky-webshop.web.app' : 'http://localhost:4200'
-    }).subscribe(async(res: any) => {
-      let stripe = await loadStripe('pk_test_51Nps1yBErcCUqQ7Gf82hvfVfpnu8WSDV1NXkRcyF91utrOrCDJ4Avvrrpt5XVGJ3qBVrwxfPyUsPY6tp88aOxcEL00bhCQ0zfz');
-      stripe?.redirectToCheckout({
-        sessionId: res.id
+    if(this.getTotal(this.cart.items) > 175){
+      this.httpClient.post('https://us-central1-trinkydrinky-webshop.cloudfunctions.net/api/checkout', {
+        items: this.cart.items,
+        images: this.loadedImages,
+        url: environment.production ?  'https://trinkydrinky-webshop.web.app' : 'http://localhost:4200'
+      }).subscribe(async(res: any) => {
+        let stripe = await loadStripe('pk_test_51Nps1yBErcCUqQ7Gf82hvfVfpnu8WSDV1NXkRcyF91utrOrCDJ4Avvrrpt5XVGJ3qBVrwxfPyUsPY6tp88aOxcEL00bhCQ0zfz');
+        stripe?.redirectToCheckout({
+          sessionId: res.id
+        });
+        const stripeRedirectUrl = res.url;
+        localStorage.setItem('stripeRedirectUrl', stripeRedirectUrl);
       });
-      const stripeRedirectUrl = res.url;
-      localStorage.setItem('stripeRedirectUrl', stripeRedirectUrl);
-    });
+    } else {
+      this.toastr.info("Kizárólag 175 Ft feletti vásárlásokat áll módunkban jóváhagyni! A megértést köszönjük!", "Vásárlás")!
+    }
   }
 }
