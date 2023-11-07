@@ -60,7 +60,7 @@ exports.scheduledFunction = functions.pubsub
             await doc.ref.update({ discount: 0});
         }
         
-        if(userData.gameHealth < 3){
+        if(userData.gameHealth !== 3){
             await doc.ref.update({ gameHealth: 3 });
         }
         
