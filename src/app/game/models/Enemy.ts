@@ -43,16 +43,16 @@ export class Enemy {
     getRandomIntWithExclusions(minX: number, maxX: number, minY: number, maxY: number): {x: number, y: number} {
       
       while (true) {
-        let randomNumber = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
-        let randomNumber2 = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+        let randomX = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+        let randomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
         let isExcluded = false;
     
         for (let i = 0; i < barriers.length; i++) {
-          if((randomNumber + this.radius > barriers[i].x &&
-            randomNumber - this.radius < barriers[i].x + barriers[i].width &&
-            randomNumber2 + this.radius > barriers[i].y &&
-            randomNumber2 - this.radius < barriers[i].y + barriers[i].y + barriers[i].height) ||
-            (randomNumber2 > 400) || (randomNumber < 40))
+          if((randomX + this.radius > barriers[i].x &&
+            randomX - this.radius < barriers[i].x + barriers[i].width &&
+            randomY + this.radius > barriers[i].y &&
+            randomY - this.radius < barriers[i].y + barriers[i].y + barriers[i].height) ||
+            (randomY > 400) || (randomX < 40))
             {
               isExcluded = true;
               break;
@@ -60,7 +60,7 @@ export class Enemy {
         }
     
         if (!isExcluded) {
-          return {x: randomNumber, y: randomNumber2};
+          return {x: randomX, y: randomY};
         }
       }
     }
