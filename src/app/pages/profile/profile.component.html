@@ -5,22 +5,38 @@
                 <mat-card-title>Profil</mat-card-title>
             </mat-card-header>
             <mat-card-content>
+                <div><img src="https://placehold.co/450x300" alt="ProfilePicture"></div>
                 <div>Felhasználónév: {{this.user?.username}}</div>
                 <div>Vezetéknév: {{this.user?.name?.lastname}}</div>
                 <div>Keresztnév: {{this.user?.name?.firstname}}</div>
-                <div>E-mail: {{this.user?.email}}</div>
-                <form (ngSubmit)="onUpdatePassword('Admin123!')">
-                    <mat-form-field>
-                        <mat-label for="newPassword">Új jelszó:</mat-label>
-                        <input matInput type="text">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label for="newRePassword">Új jelszó megint:</mat-label>
-                        <input matInput type="text">
-                    </mat-form-field>
-                    <button mat-raised-button color="accent"
-                                type="submit">Jelszó megváltoztatása
-                    </button>
+                <div>E-mail cím: {{this.user?.email}}</div>
+                <div>Kedvezmény: {{this.user?.discount}}%</div>
+                <form [formGroup]="passwordForm" (ngSubmit)="onUpdatePassword()">
+                    <div *ngIf="passwordChange">   
+                        <mat-form-field>
+                            <mat-label for="newPassword">Új jelszó:</mat-label>
+                            <input matInput type="password" formControlName="newPassword">
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="passwordChange">
+                        <mat-form-field>
+                            <mat-label for="newRePassword">Új jelszó megint:</mat-label>
+                            <input matInput type="password" formControlName="newRePassword">
+                        </mat-form-field>
+                    </div>
+                    <span>
+                        <button 
+                            mat-raised-button
+                            color="accent"
+                            type="submit">
+                            <span *ngIf="!passwordChange">Jelszó megváltoztatása<mat-icon>edit</mat-icon></span>
+                            <span *ngIf="passwordChange">Mentés<mat-icon>save</mat-icon></span>
+                        </button>
+                    </span>
+                    <span class="ml-[3%]">
+                        <button mat-raised-button
+                        color="accent" *ngIf="passwordChange" (click)="onCancelUpdatePassword()">Mégse<mat-icon>cancel</mat-icon></button>
+                    </span>
                 </form>
             </mat-card-content>
         </mat-card>
