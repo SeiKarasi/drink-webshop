@@ -1,0 +1,29 @@
+<div class="plexi-layer">   
+    <div class="flex-container">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Profil</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div>Felhasználónév: {{this.user?.username}}</div>
+                <div>Vezetéknév: {{this.user?.name?.lastname}}</div>
+                <div>Keresztnév: {{this.user?.name?.firstname}}</div>
+                <div>E-mail: {{this.user?.email}}</div>
+                <form (ngSubmit)="onUpdatePassword('Admin123!')">
+                    <mat-form-field>
+                        <mat-label for="newPassword">Új jelszó:</mat-label>
+                        <input matInput type="text">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label for="newRePassword">Új jelszó megint:</mat-label>
+                        <input matInput type="text">
+                    </mat-form-field>
+                    <button mat-raised-button color="accent"
+                                type="submit">Jelszó megváltoztatása
+                    </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
