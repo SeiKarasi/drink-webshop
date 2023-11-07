@@ -76,7 +76,7 @@ export class ProductComponent implements OnInit {
       this.productService.loadImageMetaByProductID(this.imageSource).pipe(take(1)).subscribe((data: Array<Product>) => {
         if (this.imageSource === data[0]['id']) {
           this.actProduct = data[0];
-          this.productService.loadImageMetaByCategory(this.actProduct?.category).pipe(take(1)).subscribe((data: Array<Product>) => {
+          this.productService.loadImageMetaByCategory(this.actProduct?.category).subscribe((data: Array<Product>) => {
             const index = data.findIndex(product => product.id === this.actProduct?.id);
             if (index !== -1) {
               data.splice(index, 1);
