@@ -5,12 +5,49 @@
                 <mat-card-title>Profil</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div><img src="https://placehold.co/450x300" alt="ProfilePicture"></div>
-                <div>Felhasználónév: {{this.user?.username}}</div>
-                <div>Vezetéknév: {{this.user?.name?.lastname}}</div>
-                <div>Keresztnév: {{this.user?.name?.firstname}}</div>
-                <div>E-mail cím: {{this.user?.email}}</div>
-                <div>Kedvezmény: {{this.user?.discount}}%</div>
+                <div><img *ngIf="this.loadedImage !== undefined && this.loadedImage !== ''" class="h-[300px] w-[450px]" src="{{this.loadedImage}}" alt="{{this.user?.username}}"></div>
+                <div><img *ngIf="!this.loadedImage" src="https://placehold.co/450x300" alt="{{this.user?.username}}"></div>
+                <form (ngSubmit)="addProfilePicture()">
+                    <div>
+                        <input type="file" (change)="onFileSelected($event)" accept="image/*"/>
+                        <button mat-raised-button color="accent" type="submit">Feltölt</button>
+                    </div>
+                </form>       
+                <div>
+                    Felhasználónév: <span *ngIf="!this.usernameInput">{{this.user?.username}}</span>
+                    <input class="text-black" type="text" *ngIf="this.usernameInput && this.user" value="{{this.user.username}}" [(ngModel)]="this.user.username">
+                    <button (click)="updateUsername()">
+                        <mat-icon *ngIf="!this.usernameInput">edit</mat-icon>
+                        <mat-icon *ngIf="this.usernameInput">save</mat-icon>
+                    </button>
+                    <button *ngIf="this.usernameInput" (click)="cancelUpdate()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+                <div>
+                    Vezetéknév: <span *ngIf="!this.lastnameInput">{{this.user?.name?.lastname}}</span>
+                    <input class="text-black" type="text" *ngIf="this.lastnameInput && this.user" value="{{this.user.name.lastname}}" [(ngModel)]="this.user.name.lastname">
+                    <button (click)="updateLastname()">
+                        <mat-icon *ngIf="!this.lastnameInput">edit</mat-icon>
+                        <mat-icon *ngIf="this.lastnameInput">save</mat-icon>
+                    </button>
+                    <button *ngIf="this.lastnameInput" (click)="cancelUpdate()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+                <div>
+                    Keresztnév: <span *ngIf="!this.firstnameInput">{{this.user?.name?.firstname}}</span>
+                    <input class="text-black" type="text" *ngIf="this.firstnameInput && this.user" value="{{this.user.name.firstname}}" [(ngModel)]="this.user.name.firstname">
+                    <button (click)="updateFirstname()">
+                        <mat-icon *ngIf="!this.firstnameInput">edit</mat-icon>
+                        <mat-icon *ngIf="this.firstnameInput">save</mat-icon>
+                    </button>
+                    <button *ngIf="this.firstnameInput" (click)="cancelUpdate()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+                <div class="mt-[2%]">E-mail cím: {{this.user?.email}}</div>
+                <div class="mt-[2%] mb-[2%]">Kedvezmény: {{this.user?.discount}}%</div>
                 <form [formGroup]="passwordForm" (ngSubmit)="onUpdatePassword()">
                     <div *ngIf="passwordChange">   
                         <mat-form-field>

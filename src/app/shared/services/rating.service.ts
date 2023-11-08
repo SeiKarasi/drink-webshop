@@ -23,6 +23,15 @@ export class RatingService {
     return this.afs.collection<Rating>(this.collectionName).valueChanges();
   }
 
+  getAllByUsername(username: string){
+    return this.afs.collection<Rating>(this.collectionName, ref => ref.where('username', '==', username)).valueChanges();
+  }
+
+  updateUsername(ratingId: string, username: string) {
+    const commentRef = this.afs.collection<Rating>(this.collectionName).doc(ratingId);
+    return commentRef.update({ username: username });
+  }
+
   // Update
   update(rating: Rating){
     return this.afs.collection<Rating>(this.collectionName).doc(rating.id).set(rating);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/User';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 @Injectable({
   providedIn: 'root'
 })
@@ -8,7 +9,7 @@ export class UserService {
 
   collectionName = 'Users';
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private afs: AngularFirestore, private storage: AngularFireStorage) { }
 
   // CRUD (Create, Read, Update, Delete)
 
@@ -52,5 +53,9 @@ export class UserService {
   // NINCS HASZNÁLVA
   delete(id: string){
     return this.afs.collection<User>(this.collectionName).doc(id).delete();
+  }
+
+  loadImage(imageUrls: string) {
+    return this.storage.ref(imageUrls).getDownloadURL();
   }
 }

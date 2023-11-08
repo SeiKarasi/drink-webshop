@@ -8,6 +8,7 @@ export interface User {
         firstname: string;
         lastname: string;
     }
+    photo_url: string;
     discountToLink: boolean;
     discount: number;
     gameHealth: number;

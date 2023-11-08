@@ -10,7 +10,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 
@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     ProfileRoutingModule,
+    FormsModule,
     MatIconModule,
     MatCardModule,
     MatButtonModule,

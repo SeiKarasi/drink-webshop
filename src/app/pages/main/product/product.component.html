@@ -129,7 +129,10 @@
                     <th class="text-black text-[150%] bg-[#dfdbdb] p-3 rounded-md">Felhasználók:</th>
                 </tr>
                 <tr *ngFor="let comment of comments">
-                    <td class="text-white bg-[#696969] w-[20%] font-bold border-[12px] border-[#dfdbdb]"><span>{{comment.username}}</span> ({{comment.date | dateFormat }})</td>
+                    <td class="text-white bg-[#696969] w-[20%] font-bold border-[12px] border-[#dfdbdb]">
+                        <img *ngIf="this.user?.photo_url !== undefined && this.user?.photo_url !== ''" class="h-[150px] w-[225px]" src="{{this.user?.photo_url}}" alt="{{this.user?.username}}">
+                        <span>{{comment.username}}</span> ({{comment.date | dateFormat }})
+                    </td>
                     <td class="commentdescription">
                         <span *ngIf="!comment.isEditing">{{ comment.comment }}</span>
                         <input *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="w-[75%] h-[150%] float-left" />

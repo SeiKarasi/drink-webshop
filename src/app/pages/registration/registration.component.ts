@@ -92,7 +92,8 @@ export class RegistrationComponent implements OnInit {
           gameHealth: 3,
           discountToLink: false,
           discount: 0,
-          admin: false
+          admin: false,
+          photo_url: ""
         };
         this.userService.create(user).then(_ => {  
           console.log('Felhasználó hozzáadása sikeres');
