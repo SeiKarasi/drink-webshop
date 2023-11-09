@@ -127,6 +127,8 @@
             <table class="w-[100%]">
                 <tr>
                     <th class="text-black text-[150%] bg-[#dfdbdb] p-3 rounded-md">Felhasználók:</th>
+                    <th></th>
+                    <th *ngIf="this.user" class="text-black text-[100%] bg-[#dfdbdb] p-3 rounded-md">Gombok:</th>
                 </tr>
                 <tr *ngFor="let comment of comments">
                     <td class="text-white bg-[#696969] w-[12%] font-bold border-[12px] border-[#dfdbdb]">
@@ -135,8 +137,10 @@
                     </td>
                     <td class="commentdescription">
                         <span *ngIf="!comment.isEditing">{{ comment.comment }}</span>
-                        <input *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="w-[75%] h-[150%] float-left" />
-                        <span class="float-right">
+                        <input *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="w-[75%] h-[150%] float-left" />       
+                    </td>
+                    <td *ngIf="this.user" class="bg-[#696969] w-[6%] border-[12px] border-[#dfdbdb]">
+                        <span>
                             <button mat-raised-button color="accent"
                             *ngIf="this.user && (this.user.username == comment.username || this.user.admin) && !showLabels"
                             (click)="showLabels = true">...</button>
