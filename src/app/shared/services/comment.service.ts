@@ -26,6 +26,10 @@ export class CommentService {
     return this.afs.collection<Comment>(this.collectionName, ref => ref.where('username', '==', username)).valueChanges();
   }
 
+  getByID(commentId: string){
+    return this.afs.collection<Comment>(this.collectionName, ref => ref.where('id', '==', commentId)).valueChanges();
+  }
+
   updateUsername(commentId: string, username: string) {
     const commentRef = this.afs.collection<Comment>(this.collectionName).doc(commentId);
     return commentRef.update({ username: username });

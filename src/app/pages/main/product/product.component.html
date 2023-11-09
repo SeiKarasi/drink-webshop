@@ -136,8 +136,8 @@
                         <img class="h-[120px] w-[160px] block m-auto border-[3px]" [src]="getImageUrl(comment.username)" alt="{{this.user?.username}}">
                     </td>
                     <td class="commentdescription">
-                        <span *ngIf="!comment.isEditing">{{ comment.comment }}</span>
-                        <input *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="w-[75%] h-[150%] float-left" />       
+                        <span class="float-left" *ngIf="!comment.isEditing">{{ comment.comment }}</span>
+                        <textarea cols="135" rows="8" *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="float-left" ></textarea>       
                     </td>
                     <td *ngIf="this.user" class="bg-[#696969] w-[6%] border-[12px] border-[#dfdbdb]">
                         <span>

@@ -75,6 +75,7 @@ export class ProfileComponent implements OnInit {
         await task;
         this.userService.loadImage(this.user!.photo_url).subscribe(profilPicture => {
           this.loadedImage = profilPicture;
+          this.toastr.success("Sikeres profilkép módosítás!", "Kép");
         }, error => {
           console.error(error);
         });

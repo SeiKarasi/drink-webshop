@@ -2,11 +2,13 @@
     <div class="flex-container">
         <mat-card>
             <mat-card-header>
-                <mat-card-title>Profil</mat-card-title>
+                <span class="mat-card-title">
+                    <mat-card-title>Saját Profilom</mat-card-title>
+                </span> 
             </mat-card-header>
             <mat-card-content>
-                <div><img *ngIf="this.loadedImage !== undefined && this.loadedImage !== ''" class="h-[300px] w-[450px]" src="{{this.loadedImage}}" alt="{{this.user?.username}}"></div>
-                <div><img *ngIf="!this.loadedImage" src="https://placehold.co/450x300" alt="{{this.user?.username}}"></div>
+                <div><img *ngIf="this.loadedImage !== undefined && this.loadedImage !== ''" class="h-[300px] w-[420px] border-[3px] mb-[2%]" src="{{this.loadedImage}}" alt="{{this.user?.username}}"></div>
+                <div><img *ngIf="!this.loadedImage" src="https://placehold.co/420x300" alt="{{this.user?.username}}"></div>
                 <form (ngSubmit)="addProfilePicture()">
                     <div>
                         <input type="file" (change)="onFileSelected($event)" accept="image/*"/>

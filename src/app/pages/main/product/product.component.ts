@@ -232,6 +232,9 @@ export class ProductComponent implements OnInit {
 
   updateCancelComment(comment: Comment){
     comment.isEditing = false;
+    this.commentService.getByID(comment.id).subscribe(comm => {
+      comment.comment = comm[0].comment;
+    })
   }
 
   updateQuantity(){

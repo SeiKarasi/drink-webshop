@@ -49,12 +49,12 @@ td {
 }
 
 .commentdescription {
-    font-size: 130%;
+    font-size: 120%;
     max-width: 250px;
-    overflow: auto;
     border: 10px solid #808080;
     background-color: #dfdbdb;
     color: black;
+    text-align: left;
 }
 
 mat-form-field {
