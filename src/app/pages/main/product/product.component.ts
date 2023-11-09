@@ -22,7 +22,9 @@ const user = JSON.parse(localStorage.getItem('user') as string) as firebase.defa
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  user?: User
+  user?: User;
+  users?: Array<User>;
+  profilePictureLoadedImages?: Array<string> = [];
 
   imageSource?: string;
   comments: Array<Comment> = [];
@@ -132,9 +134,31 @@ export class ProductComponent implements OnInit {
             console.error(error);
           });
         }
+
+        this.userService.getAll().subscribe(users => {
+          this.users = users;
+          for(let i = 0; i < users.length; i++){
+            if(this.users[i].photo_url !== ""){
+              this.userService.loadImage(this.users[i].photo_url).subscribe((imageUrl: string) => {
+                this.profilePictureLoadedImages?.push(imageUrl);
+              });
+            }
+          }
+        });
       }); 
     });
   }
+
+  getImageUrl(commentUsername: string): string | undefined{
+    let actUser = this.users?.find(user => user.username === commentUsername);
+    if(actUser){
+      let email = actUser.email.replace('@', '%40');
+      let loadedImage = this.profilePictureLoadedImages?.find(imageUrl => imageUrl.includes(email));
+      return loadedImage;
+    }
+    return '';
+
+  } 
 
   onDeleteProduct(){
     if(confirm("Biztos törölni szeretnéd ezt a terméket?") && this.actProduct && this.user?.admin){
@@ -320,7 +344,6 @@ export class ProductComponent implements OnInit {
   }
 
   isCorrectProduct(){
-    console.log(this.actProduct);
     if(this.actProduct)
     {
       return true;

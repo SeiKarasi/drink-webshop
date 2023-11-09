@@ -129,9 +129,9 @@
                     <th class="text-black text-[150%] bg-[#dfdbdb] p-3 rounded-md">Felhasználók:</th>
                 </tr>
                 <tr *ngFor="let comment of comments">
-                    <td class="text-white bg-[#696969] w-[20%] font-bold border-[12px] border-[#dfdbdb]">
-                        <img *ngIf="this.user?.photo_url !== undefined && this.user?.photo_url !== ''" class="h-[150px] w-[225px]" src="{{this.user?.photo_url}}" alt="{{this.user?.username}}">
-                        <span>{{comment.username}}</span> ({{comment.date | dateFormat }})
+                    <td class="text-white bg-[#696969] w-[12%] font-bold border-[12px] border-[#dfdbdb]">
+                        <div>{{comment.username}}</div> ({{comment.date | dateFormat }})
+                        <img class="h-[120px] w-[160px] block m-auto border-[3px]" [src]="getImageUrl(comment.username)" alt="{{this.user?.username}}">
                     </td>
                     <td class="commentdescription">
                         <span *ngIf="!comment.isEditing">{{ comment.comment }}</span>

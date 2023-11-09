@@ -73,6 +73,11 @@ export class ProfileComponent implements OnInit {
       const task = this.storage.upload(this.imageFilePath, this.imageFile);
       try {
         await task;
+        this.userService.loadImage(this.user!.photo_url).subscribe(profilPicture => {
+          this.loadedImage = profilPicture;
+        }, error => {
+          console.error(error);
+        });
       } catch (error) {
         console.log('Hiba történt a feltöltés során:', error);
       }
