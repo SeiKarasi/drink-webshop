@@ -20,6 +20,10 @@
         <mat-icon>info</mat-icon>
         <span>Blog</span>
     </a>
+    <a mat-list-item routerLink="/shopping_bag" (click)="close()">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Kosár</span>
+    </a>
     <a mat-list-item routerLink="/login" (click)="close()" *ngIf="!(loggedInUser)">
         <mat-icon>login</mat-icon>
         <span>Bejelentkezés</span>
