@@ -133,11 +133,12 @@
                 <tr *ngFor="let comment of comments">
                     <td class="text-white bg-[#696969] w-[12%] font-bold border-[12px] border-[#dfdbdb]">
                         <div>{{comment.username}}</div> ({{comment.date | dateFormat }})
-                        <img class="h-[120px] w-[160px] block m-auto border-[3px]" [src]="getImageUrl(comment.username)" alt="{{this.user?.username}}">
+                        <img *ngIf="getImageUrl(comment.username) !== undefined" class="h-[120px] w-[160px] block m-auto border-[3px]" [src]="getImageUrl(comment.username)" alt="{{this.user?.username}}">
+                        <img *ngIf="getImageUrl(comment.username) === undefined" src="https://placehold.co/420x300" alt="{{this.user?.username}}">
                     </td>
                     <td class="commentdescription">
                         <span class="float-left" *ngIf="!comment.isEditing">{{ comment.comment }}</span>
-                        <textarea cols="135" rows="8" *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="float-left" ></textarea>       
+                        <textarea cols="100" rows="8" *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="float-left" ></textarea>       
                     </td>
                     <td *ngIf="this.user" class="bg-[#696969] w-[6%] border-[12px] border-[#dfdbdb]">
                         <span>

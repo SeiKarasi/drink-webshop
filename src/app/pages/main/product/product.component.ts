@@ -138,8 +138,8 @@ export class ProductComponent implements OnInit {
         this.userService.getAll().subscribe(users => {
           this.users = users;
           for(let i = 0; i < users.length; i++){
-            if(this.users[i].photo_url !== ""){
-              this.userService.loadImage(this.users[i].photo_url).subscribe((imageUrl: string) => {
+            if(this.users[i].photo_url !== undefined && this.users[i].photo_url !== ""){
+              this.userService.loadImage(this.users[i].photo_url).pipe(take(1)).subscribe((imageUrl: string) => {
                 this.profilePictureLoadedImages?.push(imageUrl);
               });
             }
