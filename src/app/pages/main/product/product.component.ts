@@ -242,6 +242,9 @@ export class ProductComponent implements OnInit {
       this.quantityInput = true;
     } else {
       if(confirm("Biztos módosítani szeretnéd ennek a terméknek a darabszámát?") && this.actProduct){
+        if(this.actProduct.quantity < 0){
+          this.actProduct.quantity = 0;
+        }
         this.quantityInput = false;
         if(this.actProduct.quantity <= 10){
           this.actProduct.marker = 'sale';
@@ -328,22 +331,27 @@ export class ProductComponent implements OnInit {
   onAddToCart(product: Product | undefined): void {
     const quantity = this.productQuantity || 0;
     if(product !== undefined){
-      this.cartService.addToCart({
-        product : product.photo_url,
-        name: product.name,
-        price: product.marker === "discount" ? 
-        (!this.user?.discount ? Math.ceil(product.price * 0.5) : Math.ceil(product.price * (0.5-(this.user.discount/100)))):
-        (this.user?.discount ? Math.ceil(product.price * (1-(this.user.discount/100))) : product.price),
-        quantity: quantity === 0 ? quantity + 1 : quantity,
-        storageQuantity: product.quantity,
-        id: product.id
-      });
-      if (!this.productQuantity) {
+      if(product.quantity !== 0){
+        this.cartService.addToCart({
+          product : product.photo_url,
+          name: product.name,
+          price: product.marker === "discount" ? 
+          (!this.user?.discount ? Math.ceil(product.price * 0.5) : Math.ceil(product.price * (0.5-(this.user.discount/100)))):
+          (this.user?.discount ? Math.ceil(product.price * (1-(this.user.discount/100))) : product.price),
+          quantity: quantity === 0 ? quantity + 1 : quantity,
+          storageQuantity: product.quantity,
+          id: product.id
+        });
+        if (!this.productQuantity) {
+          this.productQuantity = 1;
+        }
+        this.toastr.success(this.productQuantity + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
         this.productQuantity = 1;
+      } else {
+        this.toastr.error("Sajnáljuk, de a(z) " + product.name + ' nevezetű termék jelenleg nem elérhető!', 'Kosár');
       }
-      this.toastr.success(this.productQuantity + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
-      this.productQuantity = 1;
     }
+      
   }
 
   isCorrectProduct(){

@@ -196,6 +196,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   onAddToCart(product: Product): void {
     const quantity = this.productQuantity[product.id] || 0;
+    if(product.quantity !== 0){
     this.cartService.addToCart({
       product : product.photo_url,
       name: product.name,
@@ -211,6 +212,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
     this.toastr.success(this.productQuantity[product.id] + " db " + product.name + ' sikeresen a kosárba került!', 'Kosár');
     this.productQuantity[product.id] = 1;
+    } else {
+      this.toastr.error("Sajnáljuk, de a(z) " + product.name + ' nevezetű termék jelenleg nem elérhető!', 'Kosár');
+    }
   }
 
   getImageUrl(product: Product): string | undefined{
