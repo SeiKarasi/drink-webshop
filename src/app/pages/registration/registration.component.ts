@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { User } from '../../shared/models/User';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
@@ -40,10 +40,10 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  passwordMatchValidator(formGroup: UntypedFormGroup) {
+  passwordMatchValidator(): ValidatorFn  {
     return (control: AbstractControl): ValidationErrors | null => {
-      const password = formGroup.get('password')?.value;
-      const rePassword = formGroup.get('rePassword')?.value;
+      const password = this.usersForm.get('password')?.value;
+      const rePassword = this.usersForm.get('rePassword')?.value;
       if (password !== rePassword) {
         return { mismatch: true };
       } else {
@@ -59,7 +59,7 @@ export class RegistrationComponent implements OnInit {
     // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('email')?.addValidators([Validators.required, Validators.email]);
     formGroup.get('password')?.addValidators([Validators.required]);
-    formGroup.get('rePassword')?.addValidators([Validators.required, this.passwordMatchValidator(formGroup)]);
+    formGroup.get('rePassword')?.addValidators([Validators.required, this.passwordMatchValidator()]);
     return formGroup;
   }
 
@@ -67,16 +67,7 @@ export class RegistrationComponent implements OnInit {
 
   registration() {
     this.loginLoading = true;
-    // Ha a validátorok mindegyik helyes csak akkor fut le!
-    /* if (this.usersForm.valid) {
-      if (this.usersForm.get('email') && this.usersForm.get('password')) {
-        // Spread operátor: Teljes másolatot hoz létre
-        // Ennek segítségével új objektumot hozunk létre mindig
-        this.users.push({ ...this.usersForm.value });
-        console.log(this.users);
-      }
-    } */
-    if(this.usersForm.get('password')?.value == this.usersForm.get('rePassword')?.value){
+    if(this.usersForm.valid){
       this.authService.registration(this.usersForm.get('email')?.value, this.usersForm.get('password')?.value)
       .then(credential => {
         console.log(credential);
@@ -86,8 +77,8 @@ export class RegistrationComponent implements OnInit {
           username: this.usersForm.get('username')?.value ? this.usersForm.get('username')?.value
           : this.usersForm.get('email')?.value?.split('@')[0] as string,
           name: {
-            firstname: this.usersForm.get('name.firstname')?.value,
-            lastname: this.usersForm.get('name.lastname')?.value
+            firstname: this.usersForm.get('name.firstname')?.value || 'undefined',
+            lastname: this.usersForm.get('name.lastname')?.value || 'undefined'
           },
           gameHealth: 3,
           discountToLink: false,
@@ -106,13 +97,16 @@ export class RegistrationComponent implements OnInit {
           this.loginLoading = false;
         });
       }).catch(error => {
-        this.toastr.error("Sikertelen regisztráció!", "Regisztráció");
+        this.toastr.error("Sikertelen regisztráció, mert a jelszónak legalább 6 karakter hosszúnak kell lennie!", "Regisztráció");
         console.error(error);
         this.loginLoading = false;
       });
     } else {
-      this.toastr.error("A jelszó és a jelszó ismét nem egyezik!", "Regisztráció");
-      console.error('A két jelszó nem egyezik meg!');
+      setTimeout(() => {
+        this.loginLoading = false;
+      }, 3000);
+      this.toastr.error("A jelszó és a jelszó ismét nem egyezik vagy a kötelező mezők valamelyike nincs kitöltve avagy nem megfelelő formátumú!", "Regisztráció");
+      //console.error('A két jelszó nem egyezik meg!');
     }
   }
 }

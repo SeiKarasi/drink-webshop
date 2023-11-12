@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../shared/models/User';
 import { UserService } from '../../shared/services/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { UntypedFormBuilder, AbstractControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { UntypedFormBuilder, AbstractControl, ValidationErrors, Validators, ValidatorFn } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommentService } from '../../shared/services/comment.service';
 import { RatingService } from '../../shared/services/rating.service';
@@ -79,6 +79,7 @@ export class ProfileComponent implements OnInit {
         }, error => {
           console.error(error);
         });
+        this.userService.updatePhotoUrl(this.user!.id, this.imageFilePath);
       } catch (error) {
         console.log('Hiba történt a feltöltés során:', error);
       }
@@ -91,14 +92,14 @@ export class ProfileComponent implements OnInit {
     let formGroup = this.fBuilder.group(model);
     // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('newPassword')?.addValidators([Validators.required]);
-    formGroup.get('newRePassword')?.addValidators([Validators.required, this.passwordMatchValidator(formGroup)]);
+    formGroup.get('newRePassword')?.addValidators([Validators.required, this.passwordMatchValidator()]);
     return formGroup;
   }
 
-  passwordMatchValidator(formGroup: UntypedFormGroup) {
+  passwordMatchValidator(): ValidatorFn  {
     return (control: AbstractControl): ValidationErrors | null => {
-      const password = formGroup.get('newPassword')?.value;
-      const rePassword = formGroup.get('newRePassword')?.value;
+      const password = this.passwordForm.get('newPassword')?.value;
+      const rePassword = this.passwordForm.get('newRePassword')?.value;
       if (password !== rePassword) {
         return { mismatch: true };
       } else {
@@ -109,8 +110,7 @@ export class ProfileComponent implements OnInit {
 
   onUpdatePassword() {
     if(this.passwordChange){
-      if(this.passwordForm.get("newPassword")?.value === this.passwordForm.get('newRePassword')?.value
-      && this.passwordForm.get("newPassword")?.value !== ''){
+      if(this.passwordForm.valid){
         this.afAuth.currentUser
         .then(user => {
           return user?.updatePassword(this.passwordForm.get("newPassword")?.value);

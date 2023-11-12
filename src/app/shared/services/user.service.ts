@@ -49,6 +49,11 @@ export class UserService {
     }
   }
 
+  updatePhotoUrl(userId: string, imageFilePath: string){
+    const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
+    return userRef.update({ photo_url: imageFilePath });
+  }
+
   // Delete
   // NINCS HASZNÁLVA
   delete(id: string){
