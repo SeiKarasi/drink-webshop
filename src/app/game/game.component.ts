@@ -7,6 +7,7 @@ import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/User';
 import { ToastrService } from 'ngx-toastr';
 import { Barrier } from './models/Barrier';
+import { take } from 'rxjs';
 
 
 export var context: any;
@@ -17,6 +18,8 @@ export var coins: Array<Coin> = [];
 
 export var enemies: Array<Enemy> = [];
 
+
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -26,20 +29,27 @@ export var enemies: Array<Enemy> = [];
 export class GameComponent implements OnInit {
   @ViewChild('gameCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   
+  WINDOW_HEIGHT: number = 450;
+  WINDOW_WIDTH: number = 900;
+
   user?: User;
   
   player: Player;
 
-  yourDead: boolean = false;
-
   health?: number;
 
   moveEnemyIntervalId: any;
+
+  start: boolean = false;
+  gameOver: boolean = false;
+  victory: boolean = false;
+  waitTime: boolean = false;
+
   
 
   constructor(private router: Router, private userService: UserService, private toastr: ToastrService) {
     context = null;
-    this.player = new Player(15, 435);
+    this.player = new Player(15, (this.WINDOW_HEIGHT-15));
     for(let i = 0; i < this.getRandomInt(7,12); i++){
       barriers.push(new Barrier());
     }
@@ -54,13 +64,21 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
     if (user != null) {
-        this.userService.getById(user.uid).subscribe(data => {
+        this.userService.getById(user.uid).pipe(take(1)).subscribe(data => {
         this.user = data;
         this.health = this.user?.gameHealth;
+        if(this.health === 0){
+          this.waitTime = true;
+        }
       }, error => {
         console.error(error);
       });
     }
+    
+  }
+
+  onStart(){
+    this.start = true;
     context = this.canvas.nativeElement.getContext('2d');
     this.drawBarrier();
     this.player?.draw();
@@ -159,26 +177,46 @@ export class GameComponent implements OnInit {
         alert("Vesztettél 1 életet és elveszítetted a pontjaidat! Próbáld újra!");
       }
     }
-    if(this.health! === 0 && this.yourDead === false){
-      this.yourDead = true;
-      
-      this.router.navigateByUrl('/main').then(() => {
-        this.toastr.error("Vesztettél! Sajnáljuk de ezúttal nem szereztél kedvezményt!", "Kedvezmény");
-        //this.toastr.error("Még nem játszhatsz újra!", "Játék");
-      });
+    if(this.health! === 0 && this.gameOver === false){
+      this.gameOver = true;
+      barriers = [];
+      coins = [];
+      enemies = [];
+      clearInterval(this.moveEnemyIntervalId);
+      this.clearCanvas();
     }
   }
 
-  win(){
+  
+
+  win(){  
     if(this.health! > 0 && this.player.point === 3){
-      if (this.user) {
-        this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point);
-        this.userService.updateHealth(this.user!.id, 0);
-        this.router.navigateByUrl('/main').then(() => {
-          this.toastr.success("Gratulálunk! Minden termékre " + this.player.point + "% kedvezményt kaptál!", "Kedvezmény");
-        });
+      this.victory = true;
+      barriers = [];
+      coins = [];
+      enemies = [];
+      clearInterval(this.moveEnemyIntervalId);
+      this.clearCanvas();
+    }
+  }
+
+  onGameOver(){
+    this.router.navigateByUrl('/main').then(() => {
+      if(!this.waitTime){
+        this.toastr.error("Vesztettél! Sajnáljuk, de ezúttal nem szereztél kedvezményt!", "Kedvezmény");
+      } else {
+        this.toastr.error("Még várnod kell hogy újra játszhass!", "Játék");
       }
-      this.router.navigateByUrl("/main");
+    });
+  }
+
+  onWin(){
+    if (this.user) {
+      this.userService.updateDiscount(this.user.id, this.user.discount, this.player.point);
+      this.userService.updateHealth(this.user!.id, 0);
+      this.router.navigateByUrl('/main').then(() => {
+        this.toastr.success("Gratulálunk! Minden termékre " + this.player.point + "% kedvezményt kaptál!", "Kedvezmény");
+      });
     }
   }
 
@@ -203,7 +241,7 @@ export class GameComponent implements OnInit {
         this.death();
         break;
       case 's':
-        if(this.player.y + this.player.speed <= 435 && !this.player.isCollidingWithBarriers(this.player.x, this.player.y + this.player.speed)){
+        if(this.player.y + this.player.speed <= (this.WINDOW_HEIGHT-15) && !this.player.isCollidingWithBarriers(this.player.x, this.player.y + this.player.speed)){
           this.player.y += this.player.speed;
         }
         this.player.getOnePoint();
@@ -211,7 +249,7 @@ export class GameComponent implements OnInit {
         this.death();  
         break;
       case 'd':
-        if(this.player.x + this.player.speed <= 885 && !this.player.isCollidingWithBarriers(this.player.x + this.player.speed, this.player.y)){
+        if(this.player.x + this.player.speed <= (this.WINDOW_WIDTH-15) && !this.player.isCollidingWithBarriers(this.player.x + this.player.speed, this.player.y)){
           this.player.x += this.player.speed;
         }
         this.player.getOnePoint();

@@ -1,12 +1,24 @@
 <div class="h-[85vh]"> 
-    <div class="flex justify-center items-center h-[100%] bg-[#696969]">
-        <div class="block header">
+    <div class="flex justify-center items-center h-[100%] pageBackground">
+        <div *ngIf="this.start === false" class="flex items-center justify-center">
+            <button mat-raised-button class="text-white bg-green-700 text-[48px] h-[10vh] ruslanDisplay gameButton" (click)="onStart()">Játék indítása</button>
+        </div>
+        <div [ngStyle]="{ 'display': this.start && !this.gameOver && !this.victory ? 'block' : 'none' }" class="block header">
             <div class="text-black font-bold text-[24px] m-3 ruslanDisplay">Pont: <span class="text-[32px]">{{this.player!.point}}</span></div>
             <div class="text-black font-bold text-[24px] m-3 ruslanDisplay">Élet: <span class="text-[32px]">{{this.health}}</span></div>
-            <div (window:keydown)="onKeyDown($event)">
-                <canvas #gameCanvas width="900" height="450" class="gameCanvas"></canvas>
+            <div (window:keydown)="onKeyDown($event)">   
+                <canvas #gameCanvas width="{{WINDOW_WIDTH}}" height="{{WINDOW_HEIGHT}}" class="gameCanvas"></canvas>
             </div>
-        </div>  
+        </div>
+        <div *ngIf="this.gameOver && !this.victory" class="flex items-center justify-center">
+            <button mat-raised-button class="text-white bg-red-700 text-[48px] h-[10vh] ruslanDisplay gameButton" (click)="onGameOver()">
+                <span *ngIf="!this.waitTime">Vesztettél!</span>
+                <span *ngIf="this.waitTime">Még várnod kell, hogy újra játszhass!</span>
+            </button>
+        </div>
+        <div *ngIf="this.victory && !this.gameOver" class="flex items-center justify-center">
+            <button mat-raised-button class="text-white bg-green-700 text-[48px] h-[10vh] ruslanDisplay gameButton" (click)="onWin()">Győztél! <br/> Kattints a nyereményért!</button>
+        </div>   
     </div>
     <img id="barrierTexture" src="../assets/img/barrier.jpg" style="display: none;">
 </div>
