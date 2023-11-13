@@ -1,22 +1,52 @@
 import { Component, OnInit } from '@angular/core';
+import { Blog } from 'src/app/shared/models/Blog';
+import { BlogService } from 'src/app/shared/services/blog.service';
+
+interface subText {
+  id: string;
+  text: string;
+  wholeText: boolean;
+}
 
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.scss']
 })
+
 export class BlogComponent implements OnInit {
 
-  dummyContinueText: string = "";
+  blogs?: Array<Blog>;
+  shortTexts?: subText[] = [];
+  wholeText: boolean = false;
 
 
-  constructor() { }
+  constructor(private blogService: BlogService) { }
 
   ngOnInit(): void {
+    this.blogService.getAll().subscribe(blogs => {
+      this.blogs = blogs;
+      blogs.forEach(blog => {
+        let subText: string = blog.text.substring(0, 200);
+        this.shortTexts?.push({id: blog.id, text: subText, wholeText: false});
+        
+      });
+    });
   }
 
   onReadContinue(): void {
-    this.dummyContinueText = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc";
+    this.wholeText = true;
+
+  }
+
+  onSubText(blogId: string): string {
+    let subtext = ''
+    this.shortTexts?.forEach(shortText => {
+      if(shortText.id == blogId){
+        subtext = shortText.text;
+      }
+    });
+    return subtext;
   }
 
 }
