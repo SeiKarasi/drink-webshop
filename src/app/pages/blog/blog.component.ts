@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Blog } from 'src/app/shared/models/Blog';
 import { BlogService } from 'src/app/shared/services/blog.service';
 
 interface subText {
   id: string;
   text: string;
-  wholeText: boolean;
 }
 
 @Component({
@@ -14,11 +13,10 @@ interface subText {
   styleUrls: ['./blog.component.scss']
 })
 
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, OnDestroy {
 
   blogs?: Array<Blog>;
   shortTexts?: subText[] = [];
-  wholeText: boolean = false;
 
 
   constructor(private blogService: BlogService) { }
@@ -28,15 +26,21 @@ export class BlogComponent implements OnInit {
       this.blogs = blogs;
       blogs.forEach(blog => {
         let subText: string = blog.text.substring(0, 200);
-        this.shortTexts?.push({id: blog.id, text: subText, wholeText: false});
+        this.shortTexts?.push({id: blog.id, text: subText});
         
       });
     });
   }
 
-  onReadContinue(): void {
-    this.wholeText = true;
+  ngOnDestroy(): void {
+    this.blogs?.forEach(blog => {
+      this.blogService.updateWholeText(blog.id, false);
+    })
+  }
 
+
+  onReadContinue(blogId: string): void {
+    this.blogService.updateWholeText(blogId, true);
   }
 
   onSubText(blogId: string): string {

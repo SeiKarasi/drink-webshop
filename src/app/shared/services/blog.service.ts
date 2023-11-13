@@ -14,4 +14,10 @@ export class BlogService {
   getAll(){
     return this.afs.collection<Blog>(this.collectionName).valueChanges();
   }
+
+  updateWholeText(blogId: string, wholeText: boolean = false) {
+    const blogRef = this.afs.collection<Blog>(this.collectionName).doc(blogId);
+    return blogRef.update({ wholeText: wholeText });
+  }
+
 }

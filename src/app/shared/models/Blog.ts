@@ -3,4 +3,5 @@ export interface Blog {
     author: string;
     title: string;
     text: string;
+    wholeText: boolean;
 }

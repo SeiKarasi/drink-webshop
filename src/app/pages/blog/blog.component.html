@@ -7,9 +7,9 @@
                     <span class="mat-card-title"><mat-card-title>{{blog.title}}</mat-card-title></span> 
                 </mat-card-header>
                 <mat-card-content>
-                    <span *ngIf="!wholeText">{{onSubText(blog.id)}}</span>
-                    <button *ngIf="!wholeText" (click)="onReadContinue()">...Tovább</button>
-                    <span *ngIf="wholeText">{{blog.text}}</span>
+                    <span *ngIf="!blog.wholeText">{{onSubText(blog.id)}}</span>
+                    <button *ngIf="!blog.wholeText" (click)="onReadContinue(blog.id)">...Tovább</button>
+                    <span *ngIf="blog.wholeText">{{blog.text}}</span>
                 </mat-card-content>
                 <mat-card-footer class="float-right">
                     Szerző: {{blog.author}}
