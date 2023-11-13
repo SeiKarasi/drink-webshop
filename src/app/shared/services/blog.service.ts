@@ -15,9 +15,23 @@ export class BlogService {
     return this.afs.collection<Blog>(this.collectionName).valueChanges();
   }
 
-  updateWholeText(blogId: string, wholeText: boolean = false) {
+  create(blog: Blog){
+    blog.id = this.afs.createId();
+    return this.afs.collection<Blog>(this.collectionName).doc(blog.id).set(blog);
+  }
+
+  updateIsWholeText(blogId: string, isWholeText: boolean = false) {
     const blogRef = this.afs.collection<Blog>(this.collectionName).doc(blogId);
-    return blogRef.update({ wholeText: wholeText });
+    return blogRef.update({ isWholeText: isWholeText });
+  }
+
+  update(blogId: string, newTitle: string, newText: string) {
+    const blogRef = this.afs.collection<Blog>(this.collectionName).doc(blogId);
+    return blogRef.update({ title: newTitle, text: newText });
+  }
+
+  delete(id: string){
+    return this.afs.collection<Blog>(this.collectionName).doc(id).delete();
   }
 
 }

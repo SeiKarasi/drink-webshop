@@ -6,6 +6,9 @@ import { BlogComponent } from './blog.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -17,7 +20,10 @@ import { MatButtonModule } from '@angular/material/button';
     BlogRoutingModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule
   ]
 })
 export class BlogModule { }

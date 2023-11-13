@@ -6,14 +6,14 @@
 }
 
 
-.flex-container {
-  height: 100vh;
-  z-index: 2;
-}
-
 .title {
   font-size: 600%;
   text-align: center;
   justify-content: center;
   font-family: 'Rubik Wet Paint';
+}
+
+.hoverButton:hover {
+  transition: transform 0.75s;
+  transform: scale(1.1);
 }
