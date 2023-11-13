@@ -71,8 +71,7 @@ export class NewProductComponent implements OnInit {
 
   async addProduct() {
     this.loginLoading = true;
-    if (this.productsForm.get('id')?.value && this.productsForm.get('name')?.value
-      && this.productsForm.get('price')?.value && this.productsForm.get('category')?.value && this.productsForm.get('quantity')?.value && this.imageFile) {
+    if (this.productsForm.valid && this.imageFile) {
       const product: Product = {
         id: this.productsForm.get('id')?.value,
         name: this.productsForm.get('name')?.value,

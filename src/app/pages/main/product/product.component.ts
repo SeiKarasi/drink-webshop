@@ -195,16 +195,17 @@ export class ProductComponent implements OnInit {
   addComment() {
     // Ha a validátorok mindegyik helyes csak akkor fut le!
     if (this.commentsForm.valid) {
-      if (this.commentsForm.get('username') && this.commentsForm.get('comment')) {
         this.commentsForm.get('date')?.setValue(new Date().getTime());
 
         this.commentService.create(this.commentsForm.value).then(_ => {
-          console.log('Sikeres komment hozzáadás!');
+          this.toastr.success("Sikeresen hozzászóltál a termékhez!", 'Hozzászólás');
           this.commentsForm.get('comment')?.reset();
         }).catch(error => {
+          this.toastr.error("Sikertelen hozzászólás!", 'Hozzászólás');
           console.error(error);
         })
-      }
+    } else {
+      this.toastr.error("A hozzászólás túl rövid!", 'Hozzászólás');
     }
   }
 
