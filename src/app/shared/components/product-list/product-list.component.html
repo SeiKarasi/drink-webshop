@@ -13,8 +13,8 @@
             [ngClass]="this.user?.discount || this.marker=='discount' ? 'originalPriceLineThrough' : ''">
                 {{product.price}} Ft
             </div>
-            <div class="discountProductPrice" *ngIf="!this.user?.discount && this.marker == 'discount'">{{(product.price * 0.5) | number:'1.0-0'}} Ft</div>
-            <div class="discountProductPrice" *ngIf="this.user?.discount">{{this.marker != 'discount' ? ((product.price * (1-(this.user!.discount/100))) | number:'1.0-0') : ((product.price * (0.5-(this.user!.discount/100))) | number:'1.0-0')}} Ft</div>
+            <div class="discountProductPrice" *ngIf="!this.user?.discount && this.marker == 'discount'">{{(product.price * 0.5) | priceFormat}} Ft</div>
+            <div class="discountProductPrice" *ngIf="this.user?.discount">{{this.marker != 'discount' ? ((product.price * (1-(this.user!.discount/100))) | priceFormat) : ((product.price * (0.5-(this.user!.discount/100))) | priceFormat)}} Ft</div>
             <div class="button-container">
                 <div class="pt-6">
                     <p class="productcount">Mennyiség</p>

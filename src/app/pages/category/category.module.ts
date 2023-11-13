@@ -6,6 +6,7 @@ import { CategoryComponent } from './category.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes/shared-pipes.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CategoryRoutingModule,
     MatIconModule,
     MatButtonModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    SharedPipesModule
   ]
 })
 export class CategoryModule { }

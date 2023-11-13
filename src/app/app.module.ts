@@ -34,7 +34,7 @@ import {CartService} from './shared/services/cart.service';
   declarations: [
     AppComponent,
     MenuComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

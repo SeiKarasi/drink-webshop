@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes/shared-pipes.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    SharedPipesModule
   ]
 })
 export class ProductModule { }

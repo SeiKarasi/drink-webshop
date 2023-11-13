@@ -56,8 +56,8 @@
                     </p>
                     <p *ngIf="this.actProduct?.marker === 'sale' && this.actProduct!.quantity > 0" class="font-bold text-red-600">Hamarosan elfogy!!!</p>
                     <p *ngIf="this.actProduct?.marker === 'sale' && this.actProduct!.quantity === 0" class="font-bold text-red-600">ELFOGYOTT!!!</p>
-                    <p *ngIf="!this.user?.discount">Ár: {{this.actProduct !== undefined && this.actProduct.marker === "discount" ? ((this.actProduct.price * 0.5) | number:'1.0-0') : this.actProduct?.price}} Ft</p>
-                    <p *ngIf="this.user?.discount">Ár: {{this.actProduct?.marker === "discount" ? ((this.actProduct!.price * (0.5-(this.user!.discount/100))) | number:'1.0-0') : ((this.actProduct!.price * (1-(this.user!.discount/100))) | number:'1.0-0')}} Ft</p>
+                    <p *ngIf="!this.user?.discount">Ár: {{this.actProduct !== undefined && this.actProduct.marker === "discount" ? ((this.actProduct.price * 0.5) | priceFormat) : this.actProduct?.price}} Ft</p>
+                    <p *ngIf="this.user?.discount">Ár: {{this.actProduct?.marker === "discount" ? ((this.actProduct!.price * (0.5-(this.user!.discount/100))) | priceFormat) : ((this.actProduct!.price * (1-(this.user!.discount/100))) | priceFormat)}} Ft</p>
                     <button *ngIf="this.user?.admin" mat-raised-button color="accent" (click)="onDeleteProduct()">Termék törlése</button>
                     <mat-card-actions class="absolute bottom-0">
                                 <form class="text-center" [formGroup]="ratingsForm" (ngSubmit)="addOrUpdateRating()">

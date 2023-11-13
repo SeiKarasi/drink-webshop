@@ -201,8 +201,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       product : product.photo_url,
       name: product.name,
       price: product.marker === "discount" ? 
-      (!this.user?.discount ? Math.ceil(product.price * 0.5) : Math.ceil(product.price * (0.5-(this.user.discount/100)))):
-      (this.user?.discount ? Math.ceil(product.price * (1-(this.user.discount/100))) : product.price),
+      (!this.user?.discount ? Math.round(product.price * 0.5) : Math.round(product.price * (0.5-(this.user.discount/100)))):
+      (this.user?.discount ? Math.round(product.price * (1-(this.user.discount/100))) : product.price),
       quantity: quantity === 0 ? quantity + 1 : quantity,
       storageQuantity: product.quantity,
       id: product.id
