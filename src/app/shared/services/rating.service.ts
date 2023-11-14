@@ -28,8 +28,8 @@ export class RatingService {
   }
 
   updateUsername(ratingId: string, username: string) {
-    const commentRef = this.afs.collection<Rating>(this.collectionName).doc(ratingId);
-    return commentRef.update({ username: username });
+    const ratingRef = this.afs.collection<Rating>(this.collectionName).doc(ratingId);
+    return ratingRef.update({ username: username });
   }
 
   // Update

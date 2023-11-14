@@ -7,17 +7,20 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { BlogContentComponent } from 'src/app/shared/components/blog-content/blog-content.component';
 
 
 @NgModule({
   declarations: [
-    BlogComponent
+    BlogComponent,
+    BlogContentComponent
   ],
   imports: [
     CommonModule,
     BlogRoutingModule,
+    FormsModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,

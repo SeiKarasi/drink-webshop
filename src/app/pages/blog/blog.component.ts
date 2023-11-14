@@ -1,15 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Blog } from '../../shared/models/Blog';
 import { User } from '../../shared/models/User';
 import { BlogService } from '../../shared/services/blog.service';
 import { UserService } from '../../shared/services/user.service';
-
-interface subText {
-  id: string;
-  text: string;
-}
 
 const user = JSON.parse(localStorage.getItem('user') as string) as firebase.default.User;
 
@@ -19,53 +14,44 @@ const user = JSON.parse(localStorage.getItem('user') as string) as firebase.defa
   styleUrls: ['./blog.component.scss']
 })
 
-export class BlogComponent implements OnInit, OnDestroy {
+export class BlogComponent implements OnInit {
 
   user?: User;
   containerHeight?: string;
 
-  blogsForm = this.createForm({
+  blogsForm = this.createBlogForm({
     id: '',
     author: '',
     title: '',
-    text: '',
-    isWholeText: false,
+    text: ''
   });
 
   blogs?: Array<Blog>;
-  shortTexts?: subText[] = [];
   addBlog: boolean = false;
 
-
-  constructor(private userService: UserService, private blogService: BlogService, private fBuilder: UntypedFormBuilder, private toastr: ToastrService) {
+  constructor(
+    private userService: UserService,
+    private blogService: BlogService,
+    private fBuilder: UntypedFormBuilder,
+    private toastr: ToastrService) {
    }
 
   ngOnInit(): void {
-    this.blogService.getAll().subscribe(blogs => {
-      this.blogs = blogs;
-      this.containerHeight = this.blogs!.length < 3 ? '100vh' : 'auto';
-      blogs.forEach(blog => {
-        let subText: string = blog.text.substring(0, 200);
-        this.shortTexts?.push({id: blog.id, text: subText});
-        
-      });
-    });
     if (user != null) {
       this.userService.getById(user.uid).subscribe(data => {
         this.user = data;
+        this.blogService.getAll().subscribe(blogs => {
+          this.blogs = blogs;
+          this.containerHeight = blogs.length < 2 ? '100vh' : '100%';
+
+        });
       }, error => {
         console.error(error);
       });
-    }
+    } 
   }
 
-  ngOnDestroy(): void {
-    this.blogs?.forEach(blog => {
-      this.blogService.updateIsWholeText(blog.id, false);
-    })
-  }
-
-  createForm(model: any) {
+  createBlogForm(model: Blog) {
     let formGroup = this.fBuilder.group(model);
     // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('title')?.addValidators([Validators.required, Validators.maxLength(100)]);
@@ -74,21 +60,8 @@ export class BlogComponent implements OnInit, OnDestroy {
   }
 
 
-  onReadMoreOrLess(blogId: string, more: boolean): void {
-    this.blogService.updateIsWholeText(blogId, more);
-  }
 
-  onSubText(blogId: string): string {
-    let subtext = ''
-    this.shortTexts?.forEach(shortText => {
-      if(shortText.id == blogId){
-        subtext = shortText.text;
-      }
-    });
-    return subtext;
-  }
-
-  onAddBlog() {
+  onAddBlog(): void {
     if(!this.addBlog){
       this.addBlog = true;
     } else {
@@ -109,22 +82,10 @@ export class BlogComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteBlog(blogId: string){
-    if(confirm("Biztosan törölni szeretnéd ezt a bejegyzést?")){
-      this.blogService.delete(blogId).then(() => {
-        this.toastr.success("A bejegyzés sikeresen törölve!", "Blog");
-      }).catch(() => {
-        this.toastr.error("A bejegyzés törlése sikertelen", "Blog");
-      })
-    }
-  }
-
-  onAddBlogCancel() {
+  onAddBlogCancel(): void {
     this.blogsForm.get('title')?.reset();
     this.blogsForm.get('text')?.reset();
     this.addBlog = false;
   }
-
-
 
 }

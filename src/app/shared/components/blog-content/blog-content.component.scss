@@ -1,0 +1,18 @@
+.hoverButton:hover {
+    transition: transform 0.75s;
+    transform: scale(1.1);
+  }
+  
+  .star-rating {
+    font-size: 35px;
+    cursor: pointer;
+  }
+  
+  .fa-star::before {
+    content: '\2605';
+    color: #c2bdbd;
+  }
+  
+  .fa-star.selected::before {
+    color: #f1f509;
+  }

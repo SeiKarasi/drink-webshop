@@ -66,7 +66,7 @@
                                             <mat-label for="rating">Hogy tetszik ez a termék? Értékeled: </mat-label>
                                             <input matInput type="number" formControlName="rating" min="1" max="5" placeholder="0" hidden/>
                                             <label class="star-rating" *ngFor="let star of ratingStars" (click)="onRatingProduct(star)">
-                                                <input type="submit" class="custom-radio-input" hidden>
+                                                <input type="submit" hidden>
                                                 <i class="fa-star" [class.selected]="selectedStar >= star"></i>
                                             </label>
                                         </mat-form-field>

@@ -11,25 +11,32 @@ export class BlogService {
 
   constructor(private afs: AngularFirestore) { }
 
+  // READ functions
   getAll(){
     return this.afs.collection<Blog>(this.collectionName).valueChanges();
   }
 
+  getAllByAuthor(username: string){
+    return this.afs.collection<Blog>(this.collectionName, ref => ref.where('author', '==', username)).valueChanges();
+  }
+
+  // CREATE functions
   create(blog: Blog){
     blog.id = this.afs.createId();
     return this.afs.collection<Blog>(this.collectionName).doc(blog.id).set(blog);
   }
-
-  updateIsWholeText(blogId: string, isWholeText: boolean = false) {
+  
+  // UPDATE functions
+  updateAuthor(blogId: string, username: string) {
     const blogRef = this.afs.collection<Blog>(this.collectionName).doc(blogId);
-    return blogRef.update({ isWholeText: isWholeText });
+    return blogRef.update({ author: username });
   }
 
-  update(blogId: string, newTitle: string, newText: string) {
-    const blogRef = this.afs.collection<Blog>(this.collectionName).doc(blogId);
-    return blogRef.update({ title: newTitle, text: newText });
+  update(blog: Blog) {
+    return this.afs.collection<Blog>(this.collectionName).doc(blog.id).set(blog);
   }
 
+  // DELETE functions
   delete(id: string){
     return this.afs.collection<Blog>(this.collectionName).doc(id).delete();
   }

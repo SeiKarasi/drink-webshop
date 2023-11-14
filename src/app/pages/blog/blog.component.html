@@ -1,38 +1,9 @@
 <div class="plexi-layer">
-    <div class="z-[2]" [ngStyle]="{ 'height': containerHeight }">
+    <div class="z-[2]" [ngStyle]="{ 'height': this.containerHeight }">
         <h1 class="pt-[5%] pb-[3%] title">Blogok</h1>
-        <div *ngFor="let blog of this.blogs">
-            <mat-card class="mt-[2%] w-[95%] block m-auto border-[6px]">
-                <mat-card-header>
-                    <span class="mat-card-title">
-                        <mat-card-title>{{blog.title}}</mat-card-title>
-                        <div *ngIf="this.user?.username === blog.author">
-                            <button class="hoverButton" mat-button (click)="onDeleteBlog(blog.id)">Törlés</button>
-                            <button class="hoverButton" mat-button>Szerkesztés</button>
-                            <div class="text-[14px]">Értékelés: 5</div>
-                        </div>
-                    </span>
-                </mat-card-header>
-                <mat-card-content>
-                    <div *ngIf="!blog.isWholeText">
-                        <span >{{onSubText(blog.id)}}</span>
-                        <button (click)="onReadMoreOrLess(blog.id, true)">...Több</button>
-                    </div>
-                    <div *ngIf="blog.isWholeText">
-                        <span>{{blog.text}}</span><br>
-                        <div class="flex flex-wrap items-center justify-center">
-                            <img src="https://placehold.co/450x300" alt="img" class="m-2">
-                            <img src="https://placehold.co/450x300" alt="img" class="m-2">
-                            <img src="https://placehold.co/450x300" alt="img" class="m-2">
-                        </div> 
-                        <button (click)="onReadMoreOrLess(blog.id, false)">Kevesebb</button>
-                    </div>
-                </mat-card-content>
-                <mat-card-footer class="float-right">
-                    <div>Szerző: {{blog.author}}</div>
-                </mat-card-footer>
-            </mat-card>
-        </div>
+        <span *ngFor="let blog of this.blogs">
+            <app-blog-content [blog]="blog"></app-blog-content>
+        </span>
         <mat-card class="mt-[2%] w-[95%] block m-auto border-[6px]">
             <form *ngIf="this.addBlog" [formGroup]="blogsForm" (ngSubmit)="onAddBlog()">
                 <div class="flex flex-col items-center">

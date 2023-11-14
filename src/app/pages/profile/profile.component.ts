@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommentService } from '../../shared/services/comment.service';
 import { RatingService } from '../../shared/services/rating.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { BlogService } from 'src/app/shared/services/blog.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private commentService: CommentService,
     private ratingService: RatingService,
+    private blogService: BlogService,
     private afAuth: AngularFireAuth,
     private storage: AngularFireStorage) { }
 
@@ -153,6 +155,11 @@ export class ProfileComponent implements OnInit {
             this.ratingService.updateUsername(rating.id, this.user!.username);
           });
         });
+        this.blogService.getAllByAuthor(this.oldUsername!).subscribe(blogs => {
+          blogs.forEach(blog => {
+            this.blogService.updateAuthor(blog.id, this.user!.username);
+          })
+        })
         
         this.userService.create(this.user);
       }
