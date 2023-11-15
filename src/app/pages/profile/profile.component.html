@@ -7,7 +7,7 @@
                 </span> 
             </mat-card-header>
             <mat-card-content>
-                <div><img *ngIf="this.loadedImage !== undefined && this.loadedImage !== ''" class="h-[300px] w-[420px] border-[3px] mb-[2%]" src="{{this.loadedImage}}" alt="{{this.user?.username}}"></div>
+                <div><img *ngIf="this.loadedImage" class="h-[300px] w-[420px] border-[3px] mb-[2%]" src="{{this.loadedImage}}" alt="{{this.user?.username}}"></div>
                 <div><img *ngIf="!this.loadedImage" src="https://placehold.co/420x300" alt="{{this.user?.username}}"></div>
                 <form (ngSubmit)="addProfilePicture()">
                     <div>

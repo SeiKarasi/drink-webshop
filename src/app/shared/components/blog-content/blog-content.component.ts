@@ -30,11 +30,11 @@ export class BlogContentComponent implements OnInit {
 
   ratingStars: number[] = [1, 2, 3, 4, 5];
   selectedStar: number = 0;
-
   
   shortText: string = '';
   isEditing: boolean = false;
   isWholeText: boolean = false;
+  totalRatingValue: number = 0;
 
   constructor(
     private fBuilder: UntypedFormBuilder,
@@ -62,6 +62,16 @@ export class BlogContentComponent implements OnInit {
               }
              });
           }
+          this.ratingService.getRatingsByProductId(this.blog?.id).pipe(take(1)).subscribe(ratings => {
+            if(ratings.length > 0){
+              ratings.forEach(rat => {
+                this.totalRatingValue += rat.rating;
+              });
+              this.totalRatingValue /= ratings.length;
+            }
+            
+          });
+
         }
       }, error => {
         console.error(error);
@@ -88,11 +98,21 @@ export class BlogContentComponent implements OnInit {
 
   onDeleteBlog(): void {
     if(this.blog && confirm("Biztosan törölni szeretnéd ezt a bejegyzést?")){
+      this.ratingService.getRatingsByProductId(this.blog.id).subscribe(ratings => {
+        ratings.forEach(rating => {
+          this.ratingService.delete(rating.id).then(() => {
+
+          }).catch(() => {
+            this.toastr.error("Hiba adódott a bejegyzés értékeléseinek törlésekor!");
+          });
+        });
+      });
       this.blogService.delete(this.blog.id).then(() => {
         this.toastr.success("A bejegyzés sikeresen törölve!", "Blog");
       }).catch(() => {
         this.toastr.error("A bejegyzés törlése sikertelen", "Blog");
-      })
+      });
+      
     } else {
       this.toastr.info("A bejegyzés nem lett törölve!", "Blog");
     }

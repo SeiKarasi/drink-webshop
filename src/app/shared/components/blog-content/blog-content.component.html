@@ -5,53 +5,56 @@
             <div *ngIf="this.user?.username === this.blog!.author">
                 <button class="hoverButton" mat-button (click)="onDeleteBlog()">Törlés</button>
                 <button class="hoverButton" mat-button (click)="onUpdateBlog()">Szerkesztés</button>
-                <div class="text-[14px]">Értékelés: 5</div>
             </div>
-            <mat-card-actions>
-            <form class="text-center" [formGroup]="ratingsForm" (ngSubmit)="addOrUpdateRating()">
-            <div>
-            <mat-form-field>
-                <mat-label class="text-[12px]" for="rating">Hogy tetszik ez a bejegyzés? Értékeled: </mat-label>
-                    <input matInput type="number" formControlName="rating" min="1" max="5" placeholder="0" hidden/>
-                                        <label class="star-rating" *ngFor="let star of ratingStars" (click)="onRatingBlog(star)">
-                                            <input type="submit" class="custom-radio-input" hidden>
+            <div class="text-[14px]">Összértékelés:
+                <span class="text-[25px]" *ngFor="let star of ratingStars">
+                    <i class="fa-star" [class.selected]="totalRatingValue >= star"></i>
+                </span>    
+            </div>
+        </span>
+        <span *ngIf="this.isEditing" class="mat-card-title">
+            <input class="text-black" type="text" value="{{this.blog!.title}}" [(ngModel)]="this.blog!.title">
+            <div *ngIf="this.user?.username === this.blog!.author">
+                <button class="hoverButton" mat-button (click)="onUpdateBlog()">Mentés</button>
+                <button class="hoverButton" mat-button (click)="onUpdateBlogCancel()">Mégse</button>
+            </div>
+        </span>
+    </mat-card-header>
+    <mat-card-content>
+        <span *ngIf="!this.isEditing">
+            <div *ngIf="!this.isWholeText">
+                <span>{{onSubText()}}</span>
+                <button (click)="onReadMoreOrLess()">...Több</button>
+            </div>
+            <div *ngIf="this.isWholeText">
+                <span>{{this.blog!.text}}</span><br>
+                <div class="flex flex-wrap items-center justify-center">
+                    <img src="https://placehold.co/450x300" alt="img" class="m-2">
+                    <img src="https://placehold.co/450x300" alt="img" class="m-2">
+                    <img src="https://placehold.co/450x300" alt="img" class="m-2">
+                </div>
+                <mat-card-actions>
+                    <form class="text-center" [formGroup]="ratingsForm" (ngSubmit)="addOrUpdateRating()">
+                        <div>
+                            <mat-form-field>
+                                <mat-label class="text-[12px]" for="rating">Hogy tetszik ez a bejegyzés? Értékeled: </mat-label>
+                                    <input matInput type="number" formControlName="rating" min="1" max="5" placeholder="0" hidden/>
+                                        <label class="text-[35px] cursor-pointer" *ngFor="let star of ratingStars" (click)="onRatingBlog(star)">
+                                            <input type="submit" hidden>
                                             <i class="fa-star" [class.selected]="selectedStar >= star"></i>
                                         </label>
-                                    </mat-form-field>
-                                </div>
-                            </form>
-                        </mat-card-actions>
-                    </span>
-                    <span *ngIf="this.isEditing" class="mat-card-title">
-                        <input class="text-black" type="text" value="{{this.blog!.title}}" [(ngModel)]="this.blog!.title">
-                        <div *ngIf="this.user?.username === this.blog!.author">
-                            <button class="hoverButton" mat-button (click)="onUpdateBlog()">Mentés</button>
-                            <button class="hoverButton" mat-button (click)="onUpdateBlogCancel()">Mégse</button>
+                            </mat-form-field>
                         </div>
-                    </span>
-                </mat-card-header>
-                <mat-card-content>
-                    <span *ngIf="!this.isEditing">
-                        <div *ngIf="!this.isWholeText">
-                            <span>{{onSubText()}}</span>
-                            <button (click)="onReadMoreOrLess()">...Több</button>
-                        </div>
-                        <div *ngIf="this.isWholeText">
-                            <span>{{this.blog!.text}}</span><br>
-                            <div class="flex flex-wrap items-center justify-center">
-                                <img src="https://placehold.co/450x300" alt="img" class="m-2">
-                                <img src="https://placehold.co/450x300" alt="img" class="m-2">
-                                <img src="https://placehold.co/450x300" alt="img" class="m-2">
-                            </div> 
-                            <button (click)="onReadMoreOrLess()">Kevesebb</button>
-                        </div>
-                        
-                    </span>
-                    <div *ngIf="this.isEditing">
-                        <textarea class="text-black" cols="200" rows="10" value="{{this.blog!.text}}" [(ngModel)]="this.blog!.text"></textarea>
-                    </div>   
-                </mat-card-content>
-                <mat-card-footer class="float-right">
-                    <div>Szerző: {{this.blog!.author}}</div>
-                </mat-card-footer>
+                    </form>
+                </mat-card-actions> 
+                <button (click)="onReadMoreOrLess()">Kevesebb</button>
+            </div>  
+        </span>
+        <div *ngIf="this.isEditing">
+            <textarea class="text-black" cols="200" rows="10" value="{{this.blog!.text}}" [(ngModel)]="this.blog!.text"></textarea>
+        </div>   
+    </mat-card-content>
+    <mat-card-footer class="float-right">
+        <div>Szerző: {{this.blog!.author}}</div>
+    </mat-card-footer>
 </mat-card>
