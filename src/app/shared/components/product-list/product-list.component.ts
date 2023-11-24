@@ -14,7 +14,7 @@ import { CartService } from '../../../shared/services/cart.service';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
 
-  @Input() marker: string = '';
+  @Input() marker?: string;
 
   markerFirstWord: string = "HAMAROSAN";
   markerSecondWord: string = "ÉRKEZIK";
@@ -132,7 +132,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
         console.error(error);
       });
     }
-    this.productService.loadImageMetaByMarker(this.marker).subscribe((data: Array<Product>) => {
+    this.productService.loadImageMetaByMarker(this.marker!).subscribe((data: Array<Product>) => {
       if (this.productObject !== data) {
         this.productObject = data;
       }

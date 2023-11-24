@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './shared/menu/menu.component';
-import { FooterComponent } from './shared/footer/footer.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
@@ -33,8 +32,7 @@ import {CartService} from './shared/services/cart.service';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    FooterComponent
+    MenuComponent
   ],
   imports: [
     BrowserModule,

@@ -54,6 +54,10 @@ export class ProductService {
     return this.afs.collection<Product>(this.collectionName).doc(product.id).set(product);
   }
 
+  update(product: Product){
+    return this.afs.collection<Product>(this.collectionName).doc(product.id).set(product);
+  }
+
   delete(id: string){
     return this.afs.collection<Product>(this.collectionName).doc(id).delete();
   }
