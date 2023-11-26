@@ -48,7 +48,7 @@ export class CommentService {
   // Read filter
   getCommentsByProductId(productId: string){
     return this.afs.collection<Comment>(this.collectionName,
-       ref => ref.where('productId', '==', productId).orderBy('date', 'asc')).valueChanges();
+       ref => ref.where('productId', '==', productId).orderBy('date', 'desc')).valueChanges();
   }
 }
 

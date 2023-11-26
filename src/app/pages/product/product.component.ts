@@ -23,8 +23,6 @@ const user = JSON.parse(localStorage.getItem('user') as string) as firebase.defa
 })
 export class ProductComponent implements OnInit {
   user?: User;
-  users?: Array<User>;
-  profilePictureLoadedImages?: Array<string> = [];
 
   imageSource?: string;
   comments: Array<Comment> = [];
@@ -39,8 +37,7 @@ export class ProductComponent implements OnInit {
     username: '',
     comment: '',
     date: 0,
-    productId: this.actProduct?.id,
-    isEditing: false
+    productId: this.actProduct?.id
   });
 
   ratingsForm = this.createRatingForm({
@@ -55,10 +52,11 @@ export class ProductComponent implements OnInit {
 
   productQuantity: number = 1;
 
-
   showLabels = false;
   quantityInput = false;
   descriptionInput = false;
+
+  addComment: boolean = false;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -71,7 +69,6 @@ export class ProductComponent implements OnInit {
     private toastr: ToastrService,
     private cartService: CartService) { }
 
-  // a params egy adatfolyam (Observable), ezért kell feliratkozni
   ngOnInit(): void {
     this.actRoute.params.subscribe((param: any) => {
       this.imageSource = param.imageSource as string;
@@ -135,30 +132,10 @@ export class ProductComponent implements OnInit {
           });
         }
 
-        this.userService.getAll().subscribe(users => {
-          this.users = users;
-          for(let i = 0; i < users.length; i++){
-            if(this.users[i].photo_url !== undefined && this.users[i].photo_url !== ""){
-              this.userService.loadImage(this.users[i].photo_url).pipe(take(1)).subscribe((imageUrl: string) => {
-                this.profilePictureLoadedImages?.push(imageUrl);
-              });
-            }
-          }
-        });
       }); 
     });
   }
 
-  getImageUrl(commentUsername: string): string | undefined{
-    let actUser = this.users?.find(user => user.username === commentUsername);
-    if(actUser){
-      let email = actUser.email.replace('@', '%40');
-      let loadedImage = this.profilePictureLoadedImages?.find(imageUrl => imageUrl.includes(email));
-      return loadedImage;
-    }
-    return '';
-
-  } 
 
   onDeleteProduct(){
     if(confirm("Biztos törölni szeretnéd ezt a terméket?") && this.actProduct && this.user?.admin){
@@ -192,50 +169,29 @@ export class ProductComponent implements OnInit {
     return formGroup;
   }
 
-  addComment() {
-    // Ha a validátorok mindegyik helyes csak akkor fut le!
-    if (this.commentsForm.valid) {
+  onAddComment() {
+    if(this.addComment){
+      if (this.commentsForm.valid) {
         this.commentsForm.get('date')?.setValue(new Date().getTime());
-
         this.commentService.create(this.commentsForm.value).then(_ => {
+          this.addComment = false;
           this.toastr.success("Sikeresen hozzászóltál a termékhez!", 'Hozzászólás');
           this.commentsForm.get('comment')?.reset();
         }).catch(error => {
           this.toastr.error("Sikertelen hozzászólás!", 'Hozzászólás');
           console.error(error);
         })
-    } else {
-      this.toastr.error("A hozzászólás túl rövid!", 'Hozzászólás');
-    }
-  }
-
-  deleteComment(commentId: string, username: string) {
-    if(confirm("Biztos akarod törölni ezt a kommentet?")){
-      if (this.user?.username === username || this.user?.admin) {
-        this.commentService.delete(commentId);
       } else {
-        console.log('Más hozzászólását nem törölheted!');
+        this.toastr.error("A hozzászólás túl rövid!", 'Hozzászólás');
       }
+    } else {
+      this.addComment = true;
     }
   }
 
-  updateComment(comment: Comment){
-    if(!comment.isEditing){
-      comment.isEditing = true;
-    } else {
-      if(confirm("Biztos frissíteni szeretnéd ezt a kommentet?")){
-        comment.isEditing = false;
-        comment.date = new Date().getTime();
-        this.commentService.update(comment);
-      } 
-    } 
-  }
-
-  updateCancelComment(comment: Comment){
-    comment.isEditing = false;
-    this.commentService.getByID(comment.id).subscribe(comm => {
-      comment.comment = comm[0].comment;
-    })
+  onAddCommentCancel(): void {
+    this.commentsForm.get('comment')?.reset();
+    this.addComment = false;
   }
 
   updateQuantity(){
@@ -258,12 +214,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  cancelUpdate(){
-    this.descriptionInput = false;
-    this.quantityInput = false;
-  }
-
-  updateDescription(){
+  updateDescription() {
     if(!this.descriptionInput){
       this.descriptionInput = true;
     } else {
@@ -274,15 +225,18 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  cancelUpdate(){
+    this.descriptionInput = false;
+    this.quantityInput = false;
+  }
+
   createRatingForm(model: Rating) {
     let formGroup = this.fBuilder.group(model);
-    // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('rating')?.addValidators([Validators.required, Validators.min(1), Validators.max(5)]);
     return formGroup;
   }
 
   addOrUpdateRating() {
-    // Ha a validátorok mindegyik helyes csak akkor fut le!
     if (this.ratingsForm.valid) {
       const username = this.user?.username;
       if (username && this.ratingsForm.get('rating') && this.actProduct?.id) {       

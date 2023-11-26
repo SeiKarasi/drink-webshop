@@ -101,7 +101,6 @@ export class BlogContentComponent implements OnInit {
       this.ratingService.getRatingsByProductId(this.blog.id).subscribe(ratings => {
         ratings.forEach(rating => {
           this.ratingService.delete(rating.id).then(() => {
-
           }).catch(() => {
             this.toastr.error("Hiba adódott a bejegyzés értékeléseinek törlésekor!");
           });

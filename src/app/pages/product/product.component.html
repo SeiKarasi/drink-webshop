@@ -1,4 +1,4 @@
-<div class="pt-[50px] pl-[200px] pr-[200px]" *ngIf="isCorrectProduct()">
+<div class="pt-[50px] pl-[200px] pr-[200px] plexi-layer" *ngIf="isCorrectProduct()">
     <mat-card class="bg-gray-600">
         <span>
             <mat-card-header>
@@ -91,32 +91,6 @@
                     </div>
                 </div>
             </span>
-            <mat-card-actions id="addComment">
-                <fieldset [disabled]="!this.user">
-                    <form class="text-center" [formGroup]="commentsForm" (ngSubmit)="addComment()">
-                        <div>
-                            <mat-form-field class="text-[140%]">
-                                <mat-label for="username">Felhasználónév:</mat-label>
-                                <input matInput type="text" formControlName="username" readonly />
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field>
-                                <mat-label for="comment">Komment: </mat-label>
-                                <textarea matInput id="comment" rows="7" formControlName="comment"></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <button mat-raised-button color="accent" type="submit"
-                                [disabled]="!this.user">Hozzáadás</button>
-                        </div>
-                    </form>
-                </fieldset>
-                <div *ngIf="!this.user" id="loginButton">
-                    <button mat-raised-button color="accent" routerLink="/login">Jelentkezz be, hogy hozzászólást
-                        írj</button>
-                </div>
-            </mat-card-actions>
         </span>
     </mat-card>
     <div>
@@ -124,48 +98,40 @@
         <div class="no_comment" *ngIf="comments.length == 0">
             Ehhez a termékhez még nem szóltak hozzá, légy te az első!
         </div>
+        <mat-card class="mt-[2%] w-[95%] block m-auto border-[6px]">
+            <form *ngIf="this.addComment" [formGroup]="commentsForm" (ngSubmit)="onAddComment()">
+                <div class="flex flex-col items-center">
+                    <mat-form-field class="text-[140%]" appearance="fill">
+                        <mat-label for="username">Felhasználónév:</mat-label>
+                        <input matInput type="text" formControlName="username" readonly />
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col">
+                    <mat-form-field appearance="fill">
+                        <mat-label for="comment">Komment:</mat-label>
+                        <textarea rows="8" matInput id="comment" formControlName="comment"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="flex justify-center">
+                    <span>
+                        <button class="hoverButton" mat-raised-button color="accent" type="submit">Hozzáad</button>
+                    </span>
+                    <span class="pl-[1%]">
+                        <button class="hoverButton" mat-raised-button color="accent" (click)="onAddCommentCancel()">Mégse</button>
+                    </span>
+                </div>
+            </form>
+            <div *ngIf="!this.user && this.addComment" id="loginButton">
+                <button mat-raised-button color="accent" routerLink="/login">
+                    Jelentkezz be, hogy hozzászólást írj
+                </button>
+            </div>
+            <button *ngIf="!this.addComment" mat-raised-button color="accent" class="w-[100%]" (click)="onAddComment()"><mat-icon>add_circle</mat-icon></button>
+        </mat-card>
         <div *ngIf="comments.length">
-            <table class="w-[100%]">
-                <tr>
-                    <th class="text-black text-[150%] bg-[#dfdbdb] p-3 rounded-md">Felhasználók:</th>
-                    <th></th>
-                    <th *ngIf="this.user" class="text-black text-[100%] bg-[#dfdbdb] p-3 rounded-md">Gombok:</th>
-                </tr>
-                <tr *ngFor="let comment of comments">
-                    <td class="text-white bg-[#696969] w-[12%] font-bold border-[12px] border-[#dfdbdb]">
-                        <div>{{comment.username}}</div> ({{comment.date | dateFormat }})
-                        <img *ngIf="getImageUrl(comment.username) !== undefined" class="h-[120px] w-[160px] block m-auto border-[3px]" [src]="getImageUrl(comment.username)" alt="{{this.user?.username}}">
-                        <img *ngIf="getImageUrl(comment.username) === undefined" src="https://placehold.co/420x300" alt="profilPicture">
-                    </td>
-                    <td class="commentdescription">
-                        <span class="float-left" *ngIf="!comment.isEditing">{{ comment.comment }}</span>
-                        <textarea cols="100" rows="8" *ngIf="comment.isEditing" value="{{comment.comment}}" [(ngModel)]="comment.comment" class="float-left" ></textarea>       
-                    </td>
-                    <td *ngIf="this.user" class="bg-[#696969] w-[6%] border-[12px] border-[#dfdbdb]">
-                        <span>
-                            <button mat-raised-button color="accent"
-                            *ngIf="this.user && (this.user.username == comment.username || this.user.admin) && !showLabels"
-                            (click)="showLabels = true">...</button>
-                            <button mat-raised-button color="accent"
-                                *ngIf="this.user && this.user.username == comment.username && showLabels" 
-                                (click)="updateComment(comment)"><span *ngIf="!comment.isEditing">Szerkesztés</span>
-                                <span *ngIf="comment.isEditing">Mentés</span>
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button mat-raised-button color="accent"
-                                *ngIf="this.user && (this.user.username == comment.username || this.user.admin) && showLabels && !comment.isEditing" 
-                                (click)="deleteComment(comment.id, comment.username)">Törlés
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                            <button mat-raised-button color="accent"
-                                *ngIf="this.user && this.user.username == comment.username && showLabels && comment.isEditing" 
-                                (click)="updateCancelComment(comment)">Mégse
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </span>
-                    </td>
-                </tr>
-            </table>
+            <span *ngFor="let comment of this.comments">
+                <app-comment [comment]="comment" [productId]="this.actProduct?.id"></app-comment>
+            </span>
         </div>      
     </div>
 </div>

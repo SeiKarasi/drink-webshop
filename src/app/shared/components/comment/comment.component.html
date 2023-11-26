@@ -1,0 +1,43 @@
+<mat-card class="mt-[2%] w-[95%] block m-auto border-[6px]">
+    <mat-card-header class="mb-[2%]">
+        <div class="pr-[3%]">
+            <mat-card-title>{{this.comment!.username}}</mat-card-title>
+        </div>
+        <div>Értékelés:
+            <span class="text-[25px]" *ngFor="let star of ratingStars">
+                <i class="fa-star" [class.selected]="ratingValue >= star"></i>
+            </span>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngIf="!this.isEditing">
+            <div class="flex flex-row items-center">
+                <img *ngIf="getImageUrl(this.comment!.username) !== undefined" class="h-[140px] w-[140px] border-[3px]" [src]="getImageUrl(this.comment!.username)" alt="{{this.comment?.username}}">
+                <span class="break-all pl-[2%]">
+                    {{this.comment!.comment}}
+                </span>
+            </div>
+            <div class="flex justify-center">
+                <span *ngIf="this.user?.username === this.comment!.username">
+                    <button class="hoverButton" mat-button (click)="onUpdateComment()">Szerkesztés</button>
+                </span>
+                <span *ngIf="this.user?.username === this.comment!.username || this.user?.admin">
+                    <button class="hoverButton" mat-button (click)="onDeleteComment()">Törlés</button>
+                </span>    
+            </div>
+        </div>
+        <div *ngIf="this.isEditing">
+            <div class="flex flex-row items-center">
+                <img *ngIf="getImageUrl(this.comment!.username) !== undefined" class="h-[140px] w-[140px] border-[3px]" [src]="getImageUrl(this.comment!.username)" alt="{{this.comment?.username}}">
+                <textarea class="text-black ml-[2%]" cols="150" rows="6" value="{{this.comment!.comment}}" [(ngModel)]="this.comment!.comment"></textarea>
+            </div>
+            <div class="flex justify-center" *ngIf="this.user?.username === this.comment!.username">
+                <button class="hoverButton" mat-button (click)="onUpdateComment()">Mentés</button>
+                <button class="hoverButton" mat-button (click)="onUpdateCommentCancel()">Mégse</button>
+            </div>
+        </div>  
+    </mat-card-content>
+    <mat-card-footer class="float-right">
+        <div>{{this.comment!.date | dateFormat}}</div>
+    </mat-card-footer>
+</mat-card>

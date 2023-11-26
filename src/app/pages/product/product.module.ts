@@ -11,11 +11,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DateFormatPipe } from '../../shared/pipes/date-format.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes/shared-pipes.module';
+import { CommentComponent } from '../../shared/components/comment/comment.component';
 
 @NgModule({
   declarations: [
     ProductComponent,
-    DateFormatPipe
+    DateFormatPipe,
+    CommentComponent
   ],
   imports: [
     CommonModule,

@@ -1,14 +1,14 @@
 .hoverButton:hover {
-    transition: transform 0.75s;
-    transform: scale(1.1);
-  }
+  transition: transform 0.75s;
+  transform: scale(1.1);
+}
   
   
-  .fa-star::before {
-    content: '\2605';
-    color: #c2bdbd;
-  }
+.fa-star::before {
+  content: '\2605';
+  color: #c2bdbd;
+}
   
-  .fa-star.selected::before {
-    color: #f1f509;
-  }
+.fa-star.selected::before {
+  color: #f1f509;
+}
