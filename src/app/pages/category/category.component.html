@@ -36,7 +36,7 @@
             <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
                 <div class='productdata' *ngFor='let product of productObject'>
                     <button class="zoom-button" (click)="navigateThisProduct()"
-                        [routerLink]="'/main/product/' + product.id">
+                        [routerLink]="'/product/' + product.id">
                         <div class="productname">{{product.name}}</div>
                         <img [src]="getImageUrl(product)" alt='{{product.name}}'>
                         <button *ngIf="product.marker === 'soon'" mat-fab class="marker">HAMAROSAN<br />ÉRKEZIK</button>

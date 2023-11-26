@@ -82,7 +82,7 @@
                 <div class="image-container">
                     <div *ngFor='let product of similarProducts; let i = index' [ngClass]="{'second-row': i >= 4}">
                         <button class="w-[100px]" (click)="navigateThisProduct()"
-                            [routerLink]="'/main/product/' + product.id">
+                            [routerLink]="'/product/' + product.id">
                             <span *ngFor='let loadedImage of similarLoadedImages'>
                                 <img class="similarImage" *ngIf="this.loadedImage.includes(product.id)"
                                     [src]="this.loadedImage" alt='Image'>

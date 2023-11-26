@@ -46,7 +46,7 @@ admin.initializeApp();
 exports.scheduledFunction = functions.pubsub
   .schedule('every 1440 minutes') 
   .timeZone('Europe/Budapest')
-  .onRun(async (context) => {
+  .onRun(async (_) => {
     const db = admin.firestore();
     
     const collectionRef = db.collection('Users');

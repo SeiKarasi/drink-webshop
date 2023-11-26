@@ -59,10 +59,14 @@
                         <input type="file" (change)="onFileSelected($event)" accept="image/*"/>
                     </div>
                     <div class="button-container">
-                        <span class="buttons"><button mat-raised-button color="accent"
-                                type="submit">Hozzáad</button></span>
-                        <span class="buttons"><button mat-raised-button color="accent"
-                                (click)="goBack()">Mégse</button></span>
+                        <span class="buttons">
+                            <button mat-raised-button color="accent" type="submit">Hozzáad
+                            </button>
+                        </span>
+                        <span class="buttons">
+                            <button mat-raised-button color="accent" (click)="goBack()">Mégse
+                            </button>
+                        </span>
                     </div>
                 </form>
             </mat-card-content>

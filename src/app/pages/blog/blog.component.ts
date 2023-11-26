@@ -53,7 +53,6 @@ export class BlogComponent implements OnInit {
 
   createBlogForm(model: Blog) {
     let formGroup = this.fBuilder.group(model);
-    // Validátorokat rendelünk az egyes elemekhez!
     formGroup.get('title')?.addValidators([Validators.required, Validators.maxLength(100)]);
     formGroup.get('text')?.addValidators([Validators.required, Validators.minLength(200)]);
     return formGroup;

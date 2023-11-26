@@ -13,7 +13,6 @@ import { SharedPipesModule } from '../../shared/pipes/shared-pipes/shared-pipes.
   declarations: [
     MainComponent,
     ProductListComponent
-    
   ],
   imports: [
     CommonModule,

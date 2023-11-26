@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)
   },
   { 
+    path: 'product',
+    loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule) 
+  },
+  { 
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule),
     canActivate: [NotAuthGuard]

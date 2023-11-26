@@ -92,14 +92,11 @@ export class NewProductComponent implements OnInit {
         console.log('Hiba történt a feltöltés során:', error);
       }
       await this.productService.create(product).then(_ => {
-
-        console.log('Termék hozzáadása sikeres');
         this.router.navigateByUrl('/main');
         this.toastr.success("Sikeres termék felvitel!", "Termék");
         this.loginLoading = false;
-      }).catch(error => {
+      }).catch(_ => {
         this.toastr.error("Sikertelen termék felvitel!", "Termék");
-        console.error(error);
         this.loginLoading = false;
       });
     } else {
