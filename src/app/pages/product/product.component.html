@@ -99,7 +99,7 @@
             Ehhez a termékhez még nem szóltak hozzá, légy te az első!
         </div>
         <mat-card class="mt-[2%] w-[95%] block m-auto border-[6px]">
-            <form *ngIf="this.addComment" [formGroup]="commentsForm" (ngSubmit)="onAddComment()">
+            <form *ngIf="this.user && this.addComment" [formGroup]="commentsForm" (ngSubmit)="onAddComment()">
                 <div class="flex flex-col items-center">
                     <mat-form-field class="text-[140%]" appearance="fill">
                         <mat-label for="username">Felhasználónév:</mat-label>
