@@ -68,10 +68,8 @@ export class BlogContentComponent implements OnInit {
                 this.totalRatingValue += rat.rating;
               });
               this.totalRatingValue /= ratings.length;
-            }
-            
+            }   
           });
-
         }
       }, error => {
         console.error(error);

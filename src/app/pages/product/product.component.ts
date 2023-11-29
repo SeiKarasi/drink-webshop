@@ -49,12 +49,12 @@ export class ProductComponent implements OnInit {
 
   ratingStars: number[] = [1, 2, 3, 4, 5];
   selectedStar: number = 0;
+  totalRatingValue: number = 0;
 
   productQuantity: number = 1;
 
-  showLabels = false;
-  quantityInput = false;
-  descriptionInput = false;
+  quantityInput: boolean = false;
+  descriptionInput: boolean = false;
 
   addComment: boolean = false;
 
@@ -84,8 +84,7 @@ export class ProductComponent implements OnInit {
               this.similarProducts = data.slice(0, 8);
             } else {
               this.similarProducts = data;
-            }
-            
+            } 
             if (this.similarProducts) {
               for (let i = 0; i < this.similarProducts.length; i++) {
                 this.productService.loadImage(this.similarProducts[i].photo_url).subscribe(data => {
@@ -98,7 +97,6 @@ export class ProductComponent implements OnInit {
           });
         }
         
-
         if (this.actProduct?.id) {
           this.commentsForm.get('productId')?.setValue(this.actProduct.id);
           this.ratingsForm.get('productId')?.setValue(this.actProduct.id);
@@ -107,10 +105,18 @@ export class ProductComponent implements OnInit {
           });
           this.commentService.getCommentsByProductId(this.actProduct.id).subscribe(comments => {
             this.comments = comments;
-          })
-        }
+          });
 
-        
+          this.ratingService.getRatingsByProductId(this.actProduct.id).pipe(take(1)).subscribe(ratings => {
+            if(ratings.length > 0){
+              ratings.forEach(rat => {
+                this.totalRatingValue += rat.rating;
+              });
+              this.totalRatingValue /= ratings.length;
+            }   
+          });
+        }
+    
         if (user != null) {
           this.userService.getById(user.uid).subscribe(data => {
             this.user = data;
@@ -131,33 +137,11 @@ export class ProductComponent implements OnInit {
             console.error(error);
           });
         }
-
       }); 
     });
   }
 
-
-  onDeleteProduct(){
-    if(confirm("Biztos törölni szeretnéd ezt a terméket?") && this.actProduct && this.user?.admin){
-        this.productService.delete(this.actProduct?.id);
-        this.commentService.getCommentsByProductId(this.actProduct?.id).subscribe(comments => {
-          comments.forEach(comment => {
-            this.commentService.delete(comment.id);
-          });
-        });
-        this.ratingService.getRatingsByProductId(this.actProduct?.id).subscribe(ratings => {
-          ratings.forEach(rating => {
-            this.ratingService.delete(rating.id);
-          })
-        });
-        this.productService.deleteImage(this.actProduct.photo_url);
-        this.router.navigateByUrl("/main");
-    }
-  }
-
-  navigateThisProduct() {
-
-  }
+  navigateThisProduct(): void {}
 
   // Arra kell, hogy garantálni tudjuk a Comment típust
   // simán az fBuilder.grouppal ez nem tehető meg!
@@ -169,7 +153,25 @@ export class ProductComponent implements OnInit {
     return formGroup;
   }
 
-  onAddComment() {
+  onDeleteProduct(): void {
+    if(confirm("Biztos törölni szeretnéd ezt a terméket?") && this.actProduct && this.user?.admin){
+      this.productService.delete(this.actProduct?.id);
+      this.commentService.getCommentsByProductId(this.actProduct?.id).subscribe(comments => {
+        comments.forEach(comment => {
+          this.commentService.delete(comment.id);
+        });
+      });
+      this.ratingService.getRatingsByProductId(this.actProduct?.id).subscribe(ratings => {
+        ratings.forEach(rating => {
+          this.ratingService.delete(rating.id);
+        })
+      });
+      this.productService.deleteImage(this.actProduct.photo_url);
+      this.router.navigateByUrl("/main");
+    }
+  }
+
+  onAddComment(): void {
     if(this.addComment){
       if (this.commentsForm.valid) {
         this.commentsForm.get('date')?.setValue(new Date().getTime());
@@ -194,7 +196,7 @@ export class ProductComponent implements OnInit {
     this.addComment = false;
   }
 
-  updateQuantity(){
+  updateQuantity(): void {
     if(!this.quantityInput){
       this.quantityInput = true;
     } else {
@@ -214,7 +216,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  updateDescription() {
+  updateDescription(): void {
     if(!this.descriptionInput){
       this.descriptionInput = true;
     } else {
@@ -225,7 +227,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  cancelUpdate(){
+  cancelUpdate(): void {
     this.descriptionInput = false;
     this.quantityInput = false;
   }
@@ -236,7 +238,7 @@ export class ProductComponent implements OnInit {
     return formGroup;
   }
 
-  addOrUpdateRating() {
+  addOrUpdateRating(): void {
     if (this.ratingsForm.valid) {
       const username = this.user?.username;
       if (username && this.ratingsForm.get('rating') && this.actProduct?.id) {       
@@ -266,7 +268,7 @@ export class ProductComponent implements OnInit {
     this.selectedStar = star;
   }
 
-  increaseCount(productStorageQuantity: number | undefined) {
+  increaseCount(productStorageQuantity: number | undefined): void {
     if (!this.productQuantity) {
       this.productQuantity = 1;
     }
@@ -277,7 +279,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  decreaseCount() {
+  decreaseCount(): void {
     if (this.productQuantity > 1) {
       this.productQuantity--;
     }
@@ -285,7 +287,7 @@ export class ProductComponent implements OnInit {
 
   onAddToCart(product: Product | undefined): void {
     const quantity = this.productQuantity || 0;
-    if(product !== undefined){
+    if(product !== undefined) {
       if(product.quantity !== 0){
         this.cartService.addToCart({
           product : product.photo_url,
@@ -306,16 +308,13 @@ export class ProductComponent implements OnInit {
         this.toastr.error("Sajnáljuk, de a(z) " + product.name + ' nevezetű termék jelenleg nem elérhető!', 'Kosár');
       }
     }
-      
   }
 
-  isCorrectProduct(){
-    if(this.actProduct)
-    {
+  isCorrectProduct(): boolean {
+    if(this.actProduct){
       return true;
     } else {
       return false;
     }
   }
-
 }
