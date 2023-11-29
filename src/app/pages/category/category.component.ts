@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../shared/services/cart.service';
 import { UserService } from '../../shared/services/user.service';
 import { User } from '../../shared/models/User';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -16,10 +17,13 @@ export class CategoryComponent implements OnInit {
 
   user?: User;
 
-  productObject?: Array<Product>;
+  products?: Array<Product>;
   loadedImages: Array<string> = [];
   category?: string;
   productQuantity: { [productId: string]: number } = {};
+
+  allProducts?: Array<Product>;
+  searchTerm: string = '';
 
   ascSortAccordingToABC: boolean | undefined;
   ascSortAccordingToPrice: boolean | undefined;
@@ -36,16 +40,17 @@ export class CategoryComponent implements OnInit {
       this.actRoute.params.subscribe((param: any) => {
         this.category = param.category as string;
         console.log(this.category);
-        this.productObject = [];
+        this.products = [];
         this.loadedImages = [];
         if(this.category === 'All'){
           this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
-            if(this.productObject !== data){
-              this.productObject = data;
+            if(this.products !== data){
+              this.products = data;
+              this.allProducts = data;
             }
-            if (this.productObject) {
-              for (let i = 0; i < this.productObject.length; i++) {
-                this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
+            if (this.products) {
+              for (let i = 0; i < this.products.length; i++) {
+                this.productService.loadImage(this.products[i].photo_url).pipe(take(1)).subscribe(data => {
                   if(!this.loadedImages.includes(data)){
                     this.loadedImages?.push(data);
                   }     
@@ -55,12 +60,12 @@ export class CategoryComponent implements OnInit {
           });
         } else {
         this.productService.loadImageMetaByCategory(this.category).subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }   
-          if (this.productObject) {
-            for (let i = 0; i < this.productObject.length; i++) {
-              this.productService.loadImage(this.productObject[i].photo_url).subscribe(data => {
+          if (this.products) {
+            for (let i = 0; i < this.products.length; i++) {
+              this.productService.loadImage(this.products[i].photo_url).subscribe(data => {
                 if(!this.loadedImages.includes(data)){
                   this.loadedImages?.push(data);
                 } 
@@ -93,28 +98,29 @@ export class CategoryComponent implements OnInit {
 
   onSortAccordingToABC(){
     this.ascSortAccordingToPrice = undefined;
+    this.searchTerm = '';
     if(this.ascSortAccordingToABC){
       if(this.category === 'All'){
         this.productService.loadImageMeta('asc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, 'asc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       }
     } else {
       if(this.category === 'All'){
         this.productService.loadImageMeta('desc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, 'desc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       }
     }
@@ -123,28 +129,29 @@ export class CategoryComponent implements OnInit {
 
   onSortAccordingToPrice(){
     this.ascSortAccordingToABC = undefined;
+    this.searchTerm = '';
     if(this.ascSortAccordingToPrice){
       if(this.category === 'All'){
         this.productService.loadImageMeta('', 'asc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, '', 'asc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       }
     } else {
       if(this.category === 'All'){
         this.productService.loadImageMeta('', 'desc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, '', 'desc').subscribe((data: Array<Product>) => {
-          if(this.productObject !== data){
-            this.productObject = data;
+          if(this.products !== data){
+            this.products = data;
           }});
       }
     }
@@ -156,14 +163,14 @@ export class CategoryComponent implements OnInit {
     this.ascSortAccordingToPrice = undefined;
     if(this.category === 'All'){
       this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
-        if(this.productObject !== data){
-          this.productObject = data;
+        if(this.products !== data){
+          this.products = data;
         }
       });
     } else {
       this.productService.loadImageMetaByCategory(this.category!).subscribe((data: Array<Product>) => {
-        if(this.productObject !== data){
-          this.productObject = data;
+        if(this.products !== data){
+          this.products = data;
         }  
       });
     }
@@ -215,6 +222,15 @@ export class CategoryComponent implements OnInit {
 
     getImageUrl(product: Product): string | undefined{
       let loadedImage = this.loadedImages.find(imageUrl => imageUrl.includes(product.id));
+      console.log(loadedImage);
       return loadedImage;
-    } 
+    }
+    
+    onSearch(){
+      if(this.searchTerm === ''){
+        this.products = this.allProducts;
+      } else {
+        this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      }
+    }
 }

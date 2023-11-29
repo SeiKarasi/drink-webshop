@@ -126,11 +126,6 @@ textarea {
     grid-template-columns: repeat(4, 50fr);
 }
 
-// A második sorba helyezi fixen az elemeket (5. product-tól)
-.second-row {
-    margin-top: 10%;
-    grid-row-start: 2;
-}
   
  .fa-star::before {
     content: '\2605';

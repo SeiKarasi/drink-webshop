@@ -11,7 +11,13 @@
             <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
             <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
             <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
-            <div class='sort'>
+            <div class="flex justify-center mb-[2%] text-[140%]">
+                <input matInput class="p-[0.5%] text-black" type="text" placeholder="Keresés..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+                <button mat-raised-button disabled="disabled">
+                    <mat-icon>search</mat-icon>
+                </button> 
+            </div>
+            <div class="sort">
                 <span class="mr-[1%] mt-[0.5%] underline">Rendezés: </span>
                 <span class="mr-[0.5%]">
                     <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
@@ -34,7 +40,7 @@
                 </span>
             </div>    
             <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
-                <div class='productdata' *ngFor='let product of productObject'>
+                <div class='productdata' *ngFor='let product of products'>
                     <button class="zoom-button" (click)="navigateThisProduct()"
                         [routerLink]="'/product/' + product.id">
                         <div class="productname">{{product.name}}</div>

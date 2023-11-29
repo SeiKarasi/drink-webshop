@@ -91,7 +91,7 @@
             <span>
                 <h2 class="similarProductTitle">Hasonló termékek</h2>
                 <div class="gap-5 image-container">
-                    <div *ngFor='let product of similarProducts; let i = index' [ngClass]="{'second-row': i >= 4}">
+                    <div *ngFor='let product of similarProducts;'>
                         <button class="w-[100px]" (click)="navigateThisProduct()"
                             [routerLink]="'/product/' + product.id">
                             <span *ngFor='let loadedImage of similarLoadedImages'>
