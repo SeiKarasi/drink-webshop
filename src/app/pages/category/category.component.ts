@@ -227,9 +227,8 @@ export class CategoryComponent implements OnInit {
     }
     
     onSearch(){
-      if(this.searchTerm === ''){
-        this.products = this.allProducts;
-      } else {
+      this.products = this.allProducts;
+      if(this.searchTerm !== ''){
         this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
       }
     }
