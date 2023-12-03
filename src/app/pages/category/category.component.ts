@@ -164,6 +164,7 @@ export class CategoryComponent implements OnInit {
   onCancelSort(){
     this.ascSortAccordingToABC = undefined;
     this.ascSortAccordingToPrice = undefined;
+    this.searchNullPcsProduct = false;
     if(this.category === 'All'){
       this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
         if(this.products !== data){

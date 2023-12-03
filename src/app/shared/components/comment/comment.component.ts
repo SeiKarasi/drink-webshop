@@ -42,8 +42,9 @@ export class CommentComponent implements OnInit {
     }
     if(this.productId && this.comment){
       this.ratingService.getRatingByProductIdAndUsername(this.productId, this.comment.username).pipe(take(1)).subscribe((rating) => {
-        console.log(rating[0]);
-        this.ratingValue = rating[0].rating;
+        if(rating.length !== 0){
+          this.ratingValue = rating[0].rating;
+        }       
       });
     }
     
