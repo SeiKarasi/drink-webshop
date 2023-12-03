@@ -240,9 +240,8 @@ export class ProductComponent implements OnInit {
 
   addOrUpdateRating(): void {
     if (this.ratingsForm.valid) {
-      const username = this.user?.username;
-      if (username && this.ratingsForm.get('rating') && this.actProduct?.id) {       
-        this.ratingService.getRatingByProductIdAndUsername(this.actProduct.id, username).pipe(take(1)).subscribe((ratings) => {
+      if (this.user?.username && this.ratingsForm.get('rating') && this.actProduct?.id) {       
+        this.ratingService.getRatingByProductIdAndUsername(this.actProduct.id, this.user.username).pipe(take(1)).subscribe((ratings) => {
           if(ratings.length === 0){
             this.ratingService.create(this.ratingsForm.value).then(() => {
               this.toastr.success("Sikeresen értékelted a terméket! Köszönjük!", "Értékelés");
@@ -259,6 +258,8 @@ export class ProductComponent implements OnInit {
             });
           }
         }); 
+      } else {
+        this.toastr.info("Jelentkezz be, hogy értékelni tudd a termékeket!", "Értékelés");
       }
     }
   }
