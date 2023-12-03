@@ -244,18 +244,18 @@ export class ProductComponent implements OnInit {
       if (username && this.ratingsForm.get('rating') && this.actProduct?.id) {       
         this.ratingService.getRatingByProductIdAndUsername(this.actProduct.id, username).pipe(take(1)).subscribe((ratings) => {
           if(ratings.length === 0){
-            this.ratingService.create(this.ratingsForm.value).then(_ => {
-              console.log('Sikeres értékelés hozzáadás!');
-            }).catch(error => {
-              console.error(error);
+            this.ratingService.create(this.ratingsForm.value).then(() => {
+              this.toastr.success("Sikeresen értékelted a terméket! Köszönjük!", "Értékelés");
+            }).catch(() => {
+              this.toastr.error("A termék értékelése sikertelen!", "Értékelés");
             })
           } else {
             const existingRating = ratings[0];
             existingRating.rating = this.ratingsForm.get('rating')?.value;
-            this.ratingService.update(existingRating).then(_ => {
-              console.log('Sikeres értékelés frissítés!');
-            }).catch(error => {
-              console.error(error);
+            this.ratingService.update(existingRating).then(() => {
+              this.toastr.success("Sikeresen frissítetted az értékelésedet ehhez a termékhez! Köszönjük!", "Értékelés");
+            }).catch(() => {
+              this.toastr.error("A termék értékelésének frissítése sikertelen!", "Értékelés");
             });
           }
         }); 
