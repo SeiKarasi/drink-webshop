@@ -2,9 +2,9 @@
     <mat-card-header>
         <span *ngIf="!this.isEditing" class="mat-card-title">
             <mat-card-title>{{this.blog!.title}}</mat-card-title>
-            <div *ngIf="this.user?.username === this.blog!.author">
+            <div *ngIf="this.user?.username === this.blog!.author || this.user?.admin">
                 <button class="hoverButton" mat-button (click)="onDeleteBlog()">Törlés</button>
-                <button class="hoverButton" mat-button (click)="onUpdateBlog()">Szerkesztés</button>
+                <button *ngIf="this.user?.username === this.blog!.author" class="hoverButton" mat-button (click)="onUpdateBlog()">Szerkesztés</button>
             </div>
             <div class="text-[14px]">Összértékelés:
                 <span class="text-[25px]" *ngFor="let star of ratingStars">
