@@ -24,6 +24,7 @@ export class CategoryComponent implements OnInit {
 
   allProducts?: Array<Product>;
   searchTerm: string = '';
+  searchNullPcsProduct: boolean = false;
 
   ascSortAccordingToABC: boolean | undefined;
   ascSortAccordingToPrice: boolean | undefined;
@@ -98,6 +99,7 @@ export class CategoryComponent implements OnInit {
 
   onSortAccordingToABC(){
     this.ascSortAccordingToPrice = undefined;
+    this.searchNullPcsProduct = false;
     this.searchTerm = '';
     if(this.ascSortAccordingToABC){
       if(this.category === 'All'){
@@ -129,6 +131,7 @@ export class CategoryComponent implements OnInit {
 
   onSortAccordingToPrice(){
     this.ascSortAccordingToABC = undefined;
+    this.searchNullPcsProduct = false;
     this.searchTerm = '';
     if(this.ascSortAccordingToPrice){
       if(this.category === 'All'){
@@ -222,7 +225,6 @@ export class CategoryComponent implements OnInit {
 
     getImageUrl(product: Product): string | undefined{
       let loadedImage = this.loadedImages.find(imageUrl => imageUrl.includes(product.id));
-      console.log(loadedImage);
       return loadedImage;
     }
     
@@ -230,6 +232,11 @@ export class CategoryComponent implements OnInit {
       this.products = this.allProducts;
       if(this.searchTerm !== ''){
         this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        if(this.products?.length == 0){
+          this.searchNullPcsProduct = true;
+        } else {
+          this.searchNullPcsProduct = false;
+        }
       }
     }
 }

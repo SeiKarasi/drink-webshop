@@ -39,7 +39,14 @@
                     </button>
                 </span>
             </div>    
-            <div class='image-container' fxLayout="row wrap" fxLayoutGap="20px">
+            <div class='image-container'>
+                <div *ngIf="this.searchNullPcsProduct" class='productdata'>
+                    <button class="zoom-button addProductButton" disabled="disabled">
+                        <span class="flex justify-center transform -rotate-45 text-red-500 font-bold text-[220%]">
+                            Nincs ilyen termék!
+                        </span>
+                    </button>
+                </div>
                 <div class='productdata' *ngFor='let product of products'>
                     <button class="zoom-button" (click)="navigateThisProduct()"
                         [routerLink]="'/product/' + product.id">
@@ -69,7 +76,7 @@
                     </button>
                 </div>
                 <div *ngIf="this.user?.admin" class='productdata'>
-                    <button class="zoom-button" id="addProductButton" routerLink="/newProduct">
+                    <button class="zoom-button addProductButton" routerLink="/newProduct">
                         <span>
                             <mat-icon id="addProduct">add_circle</mat-icon>
                         </span>
