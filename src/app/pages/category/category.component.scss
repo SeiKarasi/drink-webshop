@@ -154,6 +154,12 @@
     background-color: lightgray;
 }
 
+.searchButton:disabled {
+    background-color: white;
+    color: black;
+    border-radius: 0;
+}
+
 @media (max-width: 1100px) {
     .title {
         font-size: 70px;

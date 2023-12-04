@@ -12,8 +12,8 @@
             <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
             <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
             <div class="flex justify-center mb-[2%] text-[140%]">
-                <input matInput class="p-[0.5%] text-black" type="text" placeholder="Keresés..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
-                <button mat-raised-button disabled="disabled">
+                <input matInput class="p-[0.5%] text-black w-[12%]" type="text" placeholder="Keresés..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+                <button class="searchButton" mat-raised-button disabled="disabled">
                     <mat-icon>search</mat-icon>
                 </button> 
             </div>
