@@ -99,18 +99,32 @@ export class CategoryComponent implements OnInit {
 
   onSortAccordingToABC(){
     this.ascSortAccordingToPrice = undefined;
-    this.searchNullPcsProduct = false;
-    this.searchTerm = '';
     if(this.ascSortAccordingToABC){
       if(this.category === 'All'){
         this.productService.loadImageMeta('asc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, 'asc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       }
     } else {
@@ -118,11 +132,27 @@ export class CategoryComponent implements OnInit {
         this.productService.loadImageMeta('desc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, 'desc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       }
     }
@@ -131,18 +161,32 @@ export class CategoryComponent implements OnInit {
 
   onSortAccordingToPrice(){
     this.ascSortAccordingToABC = undefined;
-    this.searchNullPcsProduct = false;
-    this.searchTerm = '';
     if(this.ascSortAccordingToPrice){
       if(this.category === 'All'){
         this.productService.loadImageMeta('', 'asc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, '', 'asc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       }
     } else {
@@ -150,11 +194,27 @@ export class CategoryComponent implements OnInit {
         this.productService.loadImageMeta('', 'desc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       } else {
         this.productService.loadImageMetaByCategory(this.category!, '', 'desc').subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            if(this.searchTerm !== ''){
+              this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+              if(this.products?.length == 0){
+                this.searchNullPcsProduct = true;
+              } else {
+                this.searchNullPcsProduct = false;
+              }
+            }
           }});
       }
     }
@@ -164,17 +224,32 @@ export class CategoryComponent implements OnInit {
   onCancelSort(){
     this.ascSortAccordingToABC = undefined;
     this.ascSortAccordingToPrice = undefined;
-    this.searchNullPcsProduct = false;
     if(this.category === 'All'){
       this.productService.loadImageMeta().subscribe((data: Array<Product>) => {
         if(this.products !== data){
           this.products = data;
+          if(this.searchTerm !== ''){
+            this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+            if(this.products?.length == 0){
+              this.searchNullPcsProduct = true;
+            } else {
+              this.searchNullPcsProduct = false;
+            }
+          }
         }
       });
     } else {
       this.productService.loadImageMetaByCategory(this.category!).subscribe((data: Array<Product>) => {
         if(this.products !== data){
           this.products = data;
+          if(this.searchTerm !== ''){
+            this.products = this.products?.filter(product => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+            if(this.products?.length == 0){
+              this.searchNullPcsProduct = true;
+            } else {
+              this.searchNullPcsProduct = false;
+            }
+          }
         }  
       });
     }
