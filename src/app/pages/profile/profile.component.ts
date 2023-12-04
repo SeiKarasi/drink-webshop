@@ -123,8 +123,8 @@ export class ProfileComponent implements OnInit {
           this.toastr.success("A jelszó sikeresen frissítve!", "Jelszó változtatás");
           this.passwordChange = false; 
         })
-        .catch((error) => {
-          this.toastr.error("A jelszó frissítése meghiúsult (Legalább 6 karakter hossz meg van követelve)!", "Jelszó változtatás");
+        .catch(() => {
+          this.toastr.error("A jelszó frissítése meghiúsult (Legalább 6 karakter hossz meg van követelve)! Avagy jelentkezz be újra!", "Jelszó változtatás");
         });
       } else {
         this.toastr.error("A jelszó és a jelszó ismét nem egyezik meg vagy üres!", "Jelszó változtatás");
@@ -147,21 +147,31 @@ export class ProfileComponent implements OnInit {
         this.usernameInput = false;
         this.commentService.getAllByUsername(this.oldUsername!).subscribe(comments => {
           comments.forEach(comment => {
-            this.commentService.updateUsername(comment.id, this.user!.username);
+            this.commentService.updateUsername(comment.id, this.user!.username).catch(() => {
+              this.toastr.error("A felhasználóhoz tartozó kommentek frissítése meghiúsult!", "Komment");
+            });;
           });
         });
         this.ratingService.getAllByUsername(this.oldUsername!).subscribe(ratings => {
           ratings.forEach(rating => {
-            this.ratingService.updateUsername(rating.id, this.user!.username);
+            this.ratingService.updateUsername(rating.id, this.user!.username).catch(() => {
+              this.toastr.error("A felhasználóhoz tartozó értékelések frissítése meghiúsult!", "Értékelés");
+            });;
           });
         });
         this.blogService.getAllByAuthor(this.oldUsername!).subscribe(blogs => {
           blogs.forEach(blog => {
-            this.blogService.updateAuthor(blog.id, this.user!.username);
+            this.blogService.updateAuthor(blog.id, this.user!.username).catch(() => {
+              this.toastr.error("A felhasználóhoz tartozó blogbejegyzések frissítése meghiúsult!", "Blog");
+            });
           })
         })
         
-        this.userService.create(this.user);
+        this.userService.updateUsername(this.user.id, this.user.username).then(()=> {
+          this.toastr.success("A felhasználónév frissítése sikeres volt!", "Profil");
+        }).catch(() => {
+          this.toastr.error("A felhasználónév frissítése meghiúsult!", "Profil");
+        });
       }
     }
   }
@@ -172,7 +182,11 @@ export class ProfileComponent implements OnInit {
     } else {
       if(confirm("Biztos, hogy módosítani szeretnéd a vezetékneved?") && this.user){
         this.lastnameInput = false;  
-        this.userService.create(this.user);
+        this.userService.updateFirstAndLastname(this.user.id,this.user.name.firstname, this.user.name.lastname).then(() => {
+          this.toastr.success("A vezetéknév frissítése sikeres volt!", "Profil");
+        }).catch(() => {
+          this.toastr.error("A vezetéknév frissítése meghiúsult!", "Profil");
+        });
       }
     }
   }
@@ -183,7 +197,11 @@ export class ProfileComponent implements OnInit {
     } else {
       if(confirm("Biztos, hogy módosítani szeretnéd a keresztneved?") && this.user){
         this.firstnameInput = false;  
-        this.userService.create(this.user);
+        this.userService.updateFirstAndLastname(this.user.id,this.user.name.firstname, this.user.name.lastname).then(() => {
+          this.toastr.success("A keresztnév frissítése sikeres volt!", "Profil");
+        }).catch(() => {
+          this.toastr.error("A keresztnév frissítése meghiúsult!", "Profil");
+        });
       }
     }
   }

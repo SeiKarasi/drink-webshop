@@ -54,6 +54,21 @@ export class UserService {
     return userRef.update({ photo_url: imageFilePath });
   }
 
+  updateUsername(userId: string, userUsername: string){
+    const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
+    return userRef.update({ username: userUsername });
+  }
+
+  updateFirstAndLastname(userId: string, userFirstname: string, userLastname: string){
+    const userRef = this.afs.collection<User>(this.collectionName).doc(userId);
+    return userRef.update({
+      name: {
+          firstname: userFirstname,
+          lastname: userLastname
+      }
+  });
+}
+
   // Delete
   // NINCS HASZNÁLVA
   delete(id: string){
