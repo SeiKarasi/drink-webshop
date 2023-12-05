@@ -24,7 +24,7 @@ export class SuccessPaymentComponent implements OnInit {
               if(data[0].quantity <= 10){
                 data[0].marker = "sale";
               }
-              this.productService.update(data[0]).catch(error => {
+              this.productService.updateQuantity(data[0].id, data[0].quantity).catch(error => {
                 console.error(error);
               });
           })

@@ -58,6 +58,13 @@ export class ProductService {
     return this.afs.collection<Product>(this.collectionName).doc(product.id).set(product);
   }
 
+  updateQuantity(productId: string, productQuantiy: number){
+    const productRef = this.afs.collection<Product>(this.collectionName).doc(productId);
+    return productRef.update({ quantity: productQuantiy });
+  }
+
+
+
   delete(id: string){
     return this.afs.collection<Product>(this.collectionName).doc(id).delete();
   }
