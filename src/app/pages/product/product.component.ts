@@ -106,7 +106,7 @@ export class ProductComponent implements OnInit {
           this.commentService.getCommentsByProductId(this.actProduct.id).subscribe(comments => {
             this.comments = comments;
           });
-
+          this.totalRatingValue = 0;
           this.ratingService.getRatingsByProductId(this.actProduct.id).pipe(take(1)).subscribe(ratings => {
             if(ratings.length > 0){
               ratings.forEach(rat => {
