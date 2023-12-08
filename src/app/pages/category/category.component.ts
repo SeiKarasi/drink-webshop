@@ -313,6 +313,8 @@ export class CategoryComponent implements OnInit {
         } else {
           this.searchNullPcsProduct = false;
         }
+      } else {
+        this.searchNullPcsProduct = false;
       }
     }
 }
