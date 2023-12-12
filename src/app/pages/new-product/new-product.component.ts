@@ -88,8 +88,8 @@ export class NewProductComponent implements OnInit {
       const task = this.storage.upload(this.imageFilePath, this.imageFile);
       try {
         await task;
-      } catch (error) {
-        console.log('Hiba történt a feltöltés során:', error);
+      } catch {
+        this.toastr.error("Hiba a képfeltöltés során!", "Termékkép");
       }
       await this.productService.create(product).then(_ => {
         this.router.navigateByUrl('/main');
