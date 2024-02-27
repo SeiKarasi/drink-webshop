@@ -18,8 +18,6 @@ body { margin: 0; font-family: 'Courier New', Courier, monospace; }
   right: 0;
 }
 
-
-
 // szürkíteni a hátteret amikor töltődés van
 .loading-spinner::before {
   content: '';
@@ -32,4 +30,14 @@ body { margin: 0; font-family: 'Courier New', Courier, monospace; }
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0, 0.3);
+}
+
+@font-face {
+  font-family: 'Wooden';
+  src: url('assets/fonts/Driftwood.ttf');
+}
+
+@font-face {
+  font-family: 'LoggerWooden';
+  src: url('assets/fonts/Logger.ttf');
 }
