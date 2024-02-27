@@ -58,8 +58,6 @@ export class BlogComponent implements OnInit {
     return formGroup;
   }
 
-
-
   onAddBlog(): void {
     if(!this.addBlog){
       this.addBlog = true;
@@ -68,12 +66,9 @@ export class BlogComponent implements OnInit {
         this.blogsForm.get('author')?.setValue(this.user?.username);
         this.blogService.create(this.blogsForm.value).then(_ => {
           this.toastr.success("Sikeresen rögzítetted a blog bejegyzésedet!", "Blog");
-          this.blogsForm.get('title')?.reset();
-          this.blogsForm.get('text')?.reset();
-          this.addBlog = false;
-        }).catch(error => {
+          this.onAddBlogCancel();
+        }).catch(() => {
           this.toastr.error("Sikertelen a blog bejegyzés hozzáadása!", "Blog");
-          console.error(error);
         })
       } else {
         this.toastr.error("Túl rövid blog bejegyzést írtál! A minimum elvárás legalább 200 karakter!", "Blog")
@@ -86,5 +81,4 @@ export class BlogComponent implements OnInit {
     this.blogsForm.get('text')?.reset();
     this.addBlog = false;
   }
-
 }

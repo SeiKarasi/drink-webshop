@@ -1,131 +1,151 @@
 <mat-sidenav-container>
-        <mat-sidenav #sidenav>
-                <app-menu (selectedPage)="switchPage($event)" [currentPage]="page"
-                        (onCloseSidenav)="onCloseSidenav($event, sidenav)" [loggedInUser]="loggedInUser"
-                        (onLogout)="logout($event)"></app-menu>
-        </mat-sidenav>
-        <mat-sidenav-content>
-                <mat-toolbar color="secondary" class="app-toolbar">
-                        <div fxFlex fxLayout="row" fxLayoutGap="60px" fxLayoutGap.xs="35px"
-                                fxLayoutAlign.md="center center" fxLayoutAlign.sm="center center"
-                                fxLayoutAlign.xs="start start">
-                                <div fxHide.gt-md>
-                                        <button mat-icon-button (click)="onToggleSidenav(sidenav)">
-                                                <mat-icon id="menuicon">menu</mat-icon>
-                                        </button>
-                                </div>
-                                <div id="title">
-                                        <span class="highlight">T</span>rinky<span class="highlight">D</span>rinky
-                                        <mat-icon id="liquor">liquor</mat-icon>
-                                </div>
-                        </div>
-                        <div fxFlex fxLayout="column" fxHide.md fxHide.sm fxHide.xs>
-                                <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="flex-end" class="navigation-items"
-                                        id="nav-item1">
-                                        <li><a routerLink="/game" routerLinkActive="active" id="game">Játék</a>
-                                        </li>
-                                        <li><button mat-icon-button [matMenuTriggerFor]="menu">
-                                                        <mat-icon id="shopping_bag"
-                                                                (click)="setActiveLink('/')"
-                                                                [matBadge]='itemsQuantity'
-                                                                [matBadgeHidden]="!itemsQuantity"
-                                                                matBadgeColor="warn">
-                                                                shopping_cart
-                                                        </mat-icon>
-                                                </button>
-                                                <mat-menu #menu="matMenu">
-                                                        <div class="p-3 divide-y divide-solid bg-white">
-                                                            <div class="pb-3 flex justify-between">
-                                                                <span class="mr-16">{{itemsQuantity}} Termék</span>
-                                                                <a routerLink="/shopping_bag" routerLinkActive="active">Kosár</a>
-                                                            </div>
-                                                            <div *ngIf="_cart.items.length" class="py-3">
-                                                                <div
-                                                                *ngFor="let item of _cart.items" 
-                                                                class="flex justify-between font-light mb-3">
-                                                                    <span class="mr-4">{{item.name}} x {{item.quantity}}</span>
-                                                                    <span class="font-bold">{{item.price * item.quantity}} Ft</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="flex justify-between py-3 font-light">Teljes ár: 
-                                                                <span class="font-bold">{{getTotal(_cart.items)}} Ft</span>
-                                                            </div>
-                                                            <div class="pt-3 flex justify-between">
-                                                                <button
-                                                                (click)="onClearCart()"
-                                                                class="bg-rose-600 text-white rounded-full w-9 h-9">
-                                                                    <mat-icon>remove_shopping_cart</mat-icon>
-                                                                </button>
-                                                                <button routerLink="/shopping_bag" routerLinkActive="active" class="bg-green-600 text-white rounded-full w-9 h-9">
-                                                                    <mat-icon>shopping_cart</mat-icon>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                </mat-menu>
-                                        </li>
-                                        <li><a routerLink="/main" routerLinkActive="active"
-                                                        (click)="setActiveLink('/')">Főoldal</a></li>
-                                        <li><a routerLink="/aboutus" routerLinkActive="active"
-                                                        (click)="setActiveLink('/')">Rólunk</a></li>
-                                        <li><a routerLink="/blog" [ngClass]="{'disabled-link': !loggedInUser}"
-                                                        routerLinkActive="active" (click)="setActiveLink('/')">Blog</a>
-                                        </li>
-                                        <li *ngIf="loggedInUser"><a routerLink="/profile" routerLinkActive="active"
-                                                (click)="setActiveLink('/')">Profil</a></li>
-                                        <li *ngIf="!(loggedInUser)"><a routerLink="/login" routerLinkActive="active"
-                                                        (click)="setActiveLink('/')">Bejelentkezés</a></li>
-                                        <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()"
-                                                        routerLinkActive="active"
-                                                        (click)="setActiveLink('/')">Kijelentkezés</a></li>
-                                        <li *ngIf="!(loggedInUser)"><a routerLink="/registration"
-                                                        routerLinkActive="active"
-                                                        (click)="setActiveLink('/')">Regisztráció</a></li>
-                                </ul>
-                                <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="center" class="navigation-items"
-                                        id="nav-item2">
-                                        <li><a [routerLink]="'/category/' + 'All'"
-                                                        (click)="setActiveLink('/category/All')"
-                                                        [ngClass]="{'active': activeLink === '/category/All'}">Minden</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Beer'"
-                                                        (click)="setActiveLink('/category/Beer')"
-                                                        [ngClass]="{'active': activeLink === '/category/Beer'}">Sörök</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Wine'"
-                                                        (click)="setActiveLink('/category/Wine')"
-                                                        [ngClass]="{'active': activeLink === '/category/Wine'}">Borok</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Champagne'"
-                                                        (click)="setActiveLink('/category/Champagne')"
-                                                        [ngClass]="{'active': activeLink === '/category/Champagne'}">Pezsgők</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Whisky'"
-                                                        (click)="setActiveLink('/category/Whisky')"
-                                                        [ngClass]="{'active': activeLink === '/category/Whisky'}">Whisky-k</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Vodka'"
-                                                        (click)="setActiveLink('/category/Vodka')"
-                                                        [ngClass]="{'active': activeLink === '/category/Vodka'}">Vodkák</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Gin'"
-                                                        (click)="setActiveLink('/category/Gin')"
-                                                        [ngClass]="{'active': activeLink === '/category/Gin'}">Ginek</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Firewater'"
-                                                        (click)="setActiveLink('/category/Firewater')"
-                                                        [ngClass]="{'active': activeLink === '/category/Firewater'}">Pálinkák</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Bitter'"
-                                                        (click)="setActiveLink('/category/Bitter')"
-                                                        [ngClass]="{'active': activeLink === '/category/Bitter'}">Keserűk</a>
-                                        </li>
-                                        <li><a [routerLink]="'/category/' + 'Drink'"
-                                                        (click)="setActiveLink('/category/Drink')"
-                                                        [ngClass]="{'active': activeLink === '/category/Drink'}">Üdítők</a>
-                                        </li>
-                                </ul>
-                        </div>
-                </mat-toolbar>
-                <router-outlet></router-outlet>
-        </mat-sidenav-content>
+  <mat-sidenav #sidenav>
+    <app-menu (selectedPage)="switchPage($event)" [currentPage]="page"
+            (onCloseSidenav)="onCloseSidenav($event, sidenav)" [loggedInUser]="loggedInUser"
+            (onLogout)="logout($event)"></app-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="secondary" class="app-toolbar">
+      <div fxFlex fxLayout="row" fxLayoutGap="60px" fxLayoutGap.xs="35px"
+          fxLayoutAlign.md="center center" fxLayoutAlign.sm="center center"
+          fxLayoutAlign.xs="start start">
+        <div fxHide.gt-md>
+          <button mat-icon-button (click)="onToggleSidenav(sidenav)">
+                  <mat-icon id="menuicon">menu</mat-icon>
+          </button>
+        </div>
+        <div id="title">
+          <span class="highlight">T</span>rinky<span class="highlight">D</span>rinky
+          <mat-icon id="liquor">liquor</mat-icon>
+        </div>
+      </div>
+      <div fxFlex fxLayout="column" fxHide.md fxHide.sm fxHide.xs>
+        <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="flex-end" class="navigation-items"
+                id="nav-item1">
+          <li><a routerLink="/game" routerLinkActive="active" id="game">Játék</a></li>
+          <li>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon id="shopping_bag"
+                      (click)="setActiveLink('/')"
+                      [matBadge]='itemsQuantity'
+                      [matBadgeHidden]="!itemsQuantity"
+                      matBadgeColor="warn">
+                      shopping_cart
+              </mat-icon>
+            </button>
+              <mat-menu #menu="matMenu">
+                <div class="p-3 divide-y divide-solid bg-white">
+                    <div class="pb-3 flex justify-between">
+                      <span class="mr-16">{{itemsQuantity}} Termék</span>
+                      <a routerLink="/shopping_bag" routerLinkActive="active">Kosár</a>
+                    </div>
+                    <div *ngIf="_cart.items.length" class="py-3">
+                      <div
+                      *ngFor="let item of _cart.items" 
+                      class="flex justify-between font-light mb-3">
+                          <span class="mr-4">{{item.name}} x {{item.quantity}}</span>
+                          <span class="font-bold">{{item.price * item.quantity}} Ft</span>
+                      </div>
+                    </div>
+                    <div class="flex justify-between py-3 font-light">Teljes ár: 
+                      <span class="font-bold">{{getTotal(_cart.items)}} Ft</span>
+                    </div>
+                    <div class="pt-3 flex justify-between">
+                      <button
+                      (click)="onClearCart()"
+                      class="bg-rose-600 text-white rounded-full w-9 h-9">
+                          <mat-icon>remove_shopping_cart</mat-icon>
+                      </button>
+                      <button routerLink="/shopping_bag" routerLinkActive="active" class="bg-green-600 text-white rounded-full w-9 h-9">
+                          <mat-icon>shopping_cart</mat-icon>
+                      </button>
+                  </div>
+                </div>
+              </mat-menu>
+          </li>
+          <li><a routerLink="/main" routerLinkActive="active"
+                          (click)="setActiveLink('/')">Főoldal</a></li>
+          <li><a routerLink="/aboutus" routerLinkActive="active"
+                          (click)="setActiveLink('/')">Rólunk</a></li>
+          <li><a routerLink="/blog" [ngClass]="{'disabled-link': !loggedInUser}"
+                          routerLinkActive="active" (click)="setActiveLink('/')">Blog</a>
+          </li>
+          <li *ngIf="loggedInUser"><a routerLink="/profile" routerLinkActive="active"
+                  (click)="setActiveLink('/')">Profil</a></li>
+          <li *ngIf="!(loggedInUser)"><a routerLink="/login" routerLinkActive="active"
+                          (click)="setActiveLink('/')">Bejelentkezés</a></li>
+          <li *ngIf="loggedInUser"><a routerLink="/login" (click)="logout()"
+                          routerLinkActive="active"
+                          (click)="setActiveLink('/')">Kijelentkezés</a></li>
+          <li *ngIf="!(loggedInUser)"><a routerLink="/registration"
+                          routerLinkActive="active"
+                          (click)="setActiveLink('/')">Regisztráció</a></li>
+        </ul>
+        <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="center" class="navigation-items"
+                id="nav-item2">
+          <li>
+            <a [routerLink]="'/category/' + 'All'"
+              (click)="setActiveLink('/category/All')"
+              [ngClass]="{'active': activeLink === '/category/All'}">Minden
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Beer'"
+              (click)="setActiveLink('/category/Beer')"
+              [ngClass]="{'active': activeLink === '/category/Beer'}">Sörök
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Wine'"
+              (click)="setActiveLink('/category/Wine')"
+              [ngClass]="{'active': activeLink === '/category/Wine'}">Borok
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Champagne'"
+              (click)="setActiveLink('/category/Champagne')"
+              [ngClass]="{'active': activeLink === '/category/Champagne'}">Pezsgők
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Whisky'"
+              (click)="setActiveLink('/category/Whisky')"
+              [ngClass]="{'active': activeLink === '/category/Whisky'}">Whisky-k
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Vodka'"
+              (click)="setActiveLink('/category/Vodka')"
+              [ngClass]="{'active': activeLink === '/category/Vodka'}">Vodkák
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Gin'"
+              (click)="setActiveLink('/category/Gin')"
+              [ngClass]="{'active': activeLink === '/category/Gin'}">Ginek
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Firewater'"
+              (click)="setActiveLink('/category/Firewater')"
+              [ngClass]="{'active': activeLink === '/category/Firewater'}">Pálinkák
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Bitter'"
+              (click)="setActiveLink('/category/Bitter')"
+              [ngClass]="{'active': activeLink === '/category/Bitter'}">Keserűk
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="'/category/' + 'Drink'"
+              (click)="setActiveLink('/category/Drink')"
+              [ngClass]="{'active': activeLink === '/category/Drink'}">Üdítők
+            </a>
+          </li>
+        </ul>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

@@ -31,12 +31,10 @@ export class AboutusComponent implements OnInit {
       this.router.navigate(['/main']).then(() => {
         this.toastr.success("Gratulálunk! Minden termékre 5% kedvezményt kaptál!", "Kedvezmény")
       });
+    } else {
+      this.router.navigate(['/login']).then(() => {
+        this.toastr.info("Jelentkezz be, hogy megkapd a kedvezményt!", "Kedvezmény")
+      });
     }
-  }
-
-  LoginToDiscount() {
-    this.router.navigate(['/login']).then(() => {
-      this.toastr.info("Jelentkezz be, hogy megkapd a kedvezményt!", "Kedvezmény")
-    });
   }
 }

@@ -16,17 +16,16 @@
         </div>
     </div>
     <div class="bg-black">
-        <div class="pt-[2%] h-[8vh] text-center z-[2] sizeDescription">
+        <div class="pt-[2%] h-[8vh] text-center z-[2] font-size-grow">
             Újszerűségünk okán ezen linkre kattintva 5% kedvezményt biztosítunk minden 
             regisztrált felhasználónak minden termékünkre a feltüntetett és a játékkal
             szerzett akciókhoz bónuszként!<br>
             <p class="pt-[0.5%]">
-                <a class="text-white font-black cursor-pointer underline hover:text-cyan-400" *ngIf='this.user' (click)="Discount()">Kattints az akcióhoz!</a>
-                <a class="text-white font-black cursor-pointer underline hover:text-cyan-400" *ngIf='!this.user' (click)="LoginToDiscount()">Kattints az akcióhoz!</a>
+                <a class="text-white font-black cursor-pointer underline hover:text-cyan-400" (click)="Discount()">Kattints az akcióhoz!</a>
             </p>
         </div>
         
-        <footer class="pt-[0.5%] h-[5vh] text-center z-[2] sizeFooter">
+        <footer class="pt-[0.5%] h-[5vh] text-center z-[2] font-size-grow">
             <mat-icon>sell</mat-icon>
             Köszönjük, hogy elolvastad a bemutatkozásunkat. Kellemes vásárlást kívánunk.
             <mat-icon>sell</mat-icon>
