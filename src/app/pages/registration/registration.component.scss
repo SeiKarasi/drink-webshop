@@ -1,28 +1,27 @@
 .div-flex {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 100%;
-    background-color: #696969;
+    height: 70vh;
+    padding-top: 10%;
 }
 
-.registration_component {
-    height: 100vh;
-    margin: 0 auto;
+.plexi-layer {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
-mat-card {
-    width: 50%;
+.mat-card-background {
+    background-image: url('/../assets/img/wooden_wall_with_nails.jpg');
+    background-size: cover;
 }
 
 .mat-card-title {
-    font-size: 150%;
-}
-
-form div {
-    padding: 5px;
+    margin-top: 5%;
+    font-size: 170%;
+    font-family: 'LoggerWooden';
+    color:burlywood;
 }
 
 form {
@@ -36,44 +35,40 @@ form {
     display: inline-grid;
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
+.signup-button {
+    color: burlywood; 
+    background-image: url('/../assets/img/wooden_wall_with_nails.jpg');
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    font-family:cursive;
 }
 
-.buttons {
-    padding: 10px;
-}
-
-button:hover {
+.signup-button:hover {
     transition: transform 0.75s;
     transform: scale(1.1);
 }
 
-button {
-    width: 130px;
+::ng-deep .mat-focused .mat-form-field-ripple {
+    background-color: burlywood !important;
 }
 
-// aláhúzás a kommentnél
-::ng-deep .mat-focused .mat-form-field-ripple  {
-    background-color: grey !important;
-}
-
-mat-label {
-    color: white;
+.label {
+    font-family:cursive;
+    color: burlywood;
 }
 
 // kurzus szín
 input {
-    caret-color: #14d8e6;
+    caret-color: burlywood;
 }
 
 @media (max-width: 900px) {
-    mat-card {
+    .mat-card-background {
         width: 70%;
     }
 
-    button:hover {
+    .signup-button:hover {
         transition: transform 0.3s;
         transform: scale(1.05);
     }
@@ -86,16 +81,7 @@ input {
         display: block;
     }
 
-    .buttons {
-        padding: 5px;
-    }
-
-    button {
+    .signup-button {
         width: 110px;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: flex-start;
     }
 }

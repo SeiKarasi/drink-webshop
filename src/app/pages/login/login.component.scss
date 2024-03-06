@@ -9,7 +9,12 @@
 .plexi-layer {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
-  }
+}
+
+.mat-card-background {
+    background-image: url('/../assets/img/wooden_wall_with_nails.jpg');
+    background-size: cover;
+}
 
 .mat-card-title {
     margin-top: 5%;
@@ -55,11 +60,11 @@ input {
 
 
 @media (max-width: 900px) {
-    mat-card {
+    .mat-card-background {
         width: 70%;
     }
 
-    button:hover {
+    .login-button:hover {
         transition: transform 0.3s;
         transform: scale(1.05);
     }
@@ -72,17 +77,8 @@ input {
         display: block;
     }
 
-    .buttons {
-        padding: 5px;
-    }
-
-    button {
+    .login-button {
         width: 110px;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: flex-start;
     }
 
 }
