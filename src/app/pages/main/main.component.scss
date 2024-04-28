@@ -7,7 +7,7 @@
 .plexi-layer {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(90, 20, 0, 0.25);
     z-index: 1;
 }
 
@@ -17,6 +17,10 @@
     font-family: 'Rubik Wet Paint';
     font-size: 600%;
     z-index: 2;
+
+    color: #663b00;
+    -webkit-text-stroke: 6px #ff9600; /* Körvonal színe és vastagsága */
+    text-shadow: 15px 15px 5px #ff9600;
 }
 
 

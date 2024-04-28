@@ -61,9 +61,9 @@
     position: relative;
     overflow: hidden;
     padding: 0;
-    border: 10px solid grey;
+    border: 10px solid #663b00;
     border-radius: 10px;
-    background-color: #F3F3F3;
+    background-color: burlywood;
     color: black;
 }
 
@@ -75,11 +75,25 @@
 .cart {
     margin-top: 10%;
     height: 120px;
+    background-color: #663b00;
+    color: burlywood;
 }
 
 .cart:hover {
     transition: transform 0.4s;
     transform: scale(1.05);
+}
+
+.increase-button {
+    background-color: #663b00;
+    color: burlywood;
+    margin-bottom: 3%;
+}
+
+.decrease-button {
+    background-color: #663b00;
+    color: burlywood;
+    margin-top: 3%; 
 }
 
 .button-container {
@@ -112,6 +126,7 @@
     transform: scale(4);
     font-weight: bolder;
     position: relative;
+    color: #663b00;
     
 }
 
@@ -125,7 +140,7 @@
     right: 3%;
     width: 140px;
     height: 140px;
-    background-color: red;
+    background-color: orangered;
 }
 
 @media (max-width: 1100px) {

@@ -5,7 +5,7 @@
             (onLogout)="logout($event)"></app-menu>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="secondary" class="app-toolbar">
+    <mat-toolbar class="app-toolbar">
       <div fxFlex fxLayout="row" fxLayoutGap="60px" fxLayoutGap.xs="35px"
           fxLayoutAlign.md="center center" fxLayoutAlign.sm="center center"
           fxLayoutAlign.xs="start start">
@@ -81,8 +81,7 @@
                           routerLinkActive="active"
                           (click)="setActiveLink('/')">Regisztráció</a></li>
         </ul>
-        <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="center" class="navigation-items"
-                id="nav-item2">
+        <ul fxLayout fxLayoutGap="15px" fxLayoutAlign="center" class="navigation-items">
           <li>
             <a [routerLink]="'/category/' + 'All'"
               (click)="setActiveLink('/category/All')"

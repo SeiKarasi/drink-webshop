@@ -1,19 +1,23 @@
 mat-sidenav-container {
-    background-image: url('../assets/img/woodBackground.jpg');
+    background-image: url('../assets/img/wood_background.jpg');
     background-size: 1200px;
 }
 
+a {
+    color: lightgray;
+}
+
 a:hover {
-    color:#acdfe2
+    color: #FFECB3
 }
 
 .navigation-items a.active {
-    color: #14d8e6;
+    color: #FFB300;
 }
 
 #nav-item1 {
     font-size: 120%;
-    padding-bottom: 40px;
+    padding-bottom: 2%;
 }
 
 mat-sidenav {
@@ -28,12 +32,14 @@ mat-sidenav {
 
 .app-toolbar {
     height: 15vh;
+    background-image: url('../assets/img/menu_background.jpg');
 }
 
 #title {
     font-family: 'Rubik Wet Paint';
     font-weight: bolder;
     font-size: 300%;
+    color: lightgray;
 }
 
 .highlight {
@@ -63,11 +69,10 @@ mat-sidenav {
     font-family: 'Rubik Wet Paint';
     letter-spacing: 10px;
     transform: rotate(-10deg);
-    
 }
 
 #game:hover, #game:active {
-    text-shadow: 5px 5px whitesmoke;
+    text-shadow: 5px 5px orange;
     transform: scale(1.3);
 }
 
