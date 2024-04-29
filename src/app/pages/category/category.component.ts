@@ -63,6 +63,7 @@ export class CategoryComponent implements OnInit {
         this.productService.loadImageMetaByCategory(this.category).subscribe((data: Array<Product>) => {
           if(this.products !== data){
             this.products = data;
+            this.allProducts = data;
           }   
           if (this.products) {
             for (let i = 0; i < this.products.length; i++) {

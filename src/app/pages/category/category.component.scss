@@ -15,8 +15,22 @@
     text-align: center;
     padding: 4%;
     font-family: 'Rubik Wet Paint';
-    font-size: 85px;
+    font-size: 600%;
     z-index: 2;
+
+    color: #663b00;
+    -webkit-text-stroke: 6px #ff9600;
+    text-shadow: 15px 15px 5px #ff9600;
+}
+
+.sort-title {
+    font-family: 'Rubik Wet Paint';
+    font-size: 100%;
+    z-index: 2;
+
+    color: #663b00;
+    -webkit-text-stroke: 2px #ff9600;
+    text-shadow: 10px 10px 5px #ff9600;
 }
 
 .optionalCategories {
@@ -43,7 +57,13 @@
 }
 
 .selectedSort {
-    background-color: aqua;
+    background-color: #663b00;
+    color: white;
+}
+
+.sort-cancel {
+    background-color: orangered;
+    color: black;
 }
 
 
@@ -99,7 +119,7 @@
     font-size: 245%;
     font-weight: bolder;
     font-family: 'Courier New', Courier, monospace;
-    color: red;
+    color: orangered;
 }
 
 .zoom-button {
@@ -109,9 +129,9 @@
     position: relative;
     overflow: hidden;
     padding: 0;
-    border: 10px solid grey;
+    border: 10px solid #663b00;
     border-radius: 10px;
-    background-color: #F3F3F3;
+    background-color: burlywood;
     color: black;
 }
 
@@ -120,9 +140,27 @@
     transform: scale(1.075);
 }
 
+.cart {
+    height: 120px;
+    background-color: #663b00;
+    color: burlywood;
+}
+
 .cart:hover {
     transition: transform 0.4s;
     transform: scale(1.05);
+}
+
+.increase-button {
+    background-color: #663b00;
+    color: burlywood;
+    margin-bottom: 3%;
+}
+
+.decrease-button {
+    background-color: #663b00;
+    color: burlywood;
+    margin-top: 3%; 
 }
 
 .button-container {
@@ -138,11 +176,11 @@
     color: white;
     transform: rotate(-20deg);
     position: absolute;
-    bottom: 27%;
+    bottom: 28%;
     right: 3%;
     width: 140px;
     height: 140px;
-    background-color: red;
+    background-color: orangered;
 }
 
 #addProduct {
@@ -154,9 +192,9 @@
     background-color: lightgray;
 }
 
-.searchButton:disabled {
-    background-color: white;
-    color: black;
+.search-button:disabled {
+    background-color: burlywood;
+    color: #663b00;
     border-radius: 0;
 }
 

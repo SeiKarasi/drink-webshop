@@ -1,4 +1,4 @@
-#div-flex {
+.div-flex {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,7 +19,7 @@
     z-index: 2;
 
     color: #663b00;
-    -webkit-text-stroke: 6px #ff9600; /* Körvonal színe és vastagsága */
+    -webkit-text-stroke: 6px #ff9600;
     text-shadow: 15px 15px 5px #ff9600;
 }
 

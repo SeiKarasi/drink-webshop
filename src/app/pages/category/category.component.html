@@ -1,48 +1,48 @@
 <div class="div-flex">
     <span class="plexi-layer">
         <span *ngIf="isCorrectCategory()">
-            <div class='title' *ngIf="this.category === 'All'">Minden</div>
-            <div class='title' *ngIf="this.category === 'Beer'">Sörök</div>
-            <div class='title' *ngIf="this.category === 'Wine'">Borok</div>
-            <div class='title' *ngIf="this.category === 'Champagne'">Pezsgők</div>
-            <div class='title' *ngIf="this.category === 'Whisky'">Whisky-k</div>
-            <div class='title' *ngIf="this.category === 'Vodka'">Vodkák</div>
-            <div class='title' *ngIf="this.category === 'Gin'">Ginek</div>
-            <div class='title' *ngIf="this.category === 'Firewater'">Pálinkák</div>
-            <div class='title' *ngIf="this.category === 'Bitter'">Keserűk</div>
-            <div class='title' *ngIf="this.category === 'Drink'">Üdítők</div>
+            <div class="title" *ngIf="this.category === 'All'">Minden</div>
+            <div class="title" *ngIf="this.category === 'Beer'">Sörök</div>
+            <div class="title" *ngIf="this.category === 'Wine'">Borok</div>
+            <div class="title" *ngIf="this.category === 'Champagne'">Pezsgők</div>
+            <div class="title" *ngIf="this.category === 'Whisky'">Whisky-k</div>
+            <div class="title" *ngIf="this.category === 'Vodka'">Vodkák</div>
+            <div class="title" *ngIf="this.category === 'Gin'">Ginek</div>
+            <div class="title" *ngIf="this.category === 'Firewater'">Pálinkák</div>
+            <div class="title" *ngIf="this.category === 'Bitter'">Keserűk</div>
+            <div class="title" *ngIf="this.category === 'Drink'">Üdítők</div>
             <div class="flex justify-center mb-[2%] text-[140%]">
-                <input matInput class="p-[0.5%] text-black w-[12%]" type="text" placeholder="Keresés..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
-                <button class="searchButton" mat-raised-button disabled="disabled">
+                <input matInput class="p-[0.5%] text-orange-900 w-[12%] bg-orange-200" type="text" placeholder="Keresés..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+                <button class="search-button" mat-raised-button disabled="disabled">
                     <mat-icon>search</mat-icon>
                 </button> 
             </div>
             <div class="sort">
-                <span class="mr-[1%] mt-[0.5%] underline">Rendezés: </span>
+                <span class="mr-[1%] mt-[0.5%] underline sort-title">Rendezés: </span>
                 <span class="mr-[0.5%]">
-                    <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
+                    <button class="bg-orange-300 text-black" mat-raised-button [ngClass]="this.ascSortAccordingToPrice === undefined && this.ascSortAccordingToABC !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToABC()">
                         Név:
                         <span *ngIf="this.ascSortAccordingToABC">A-Z</span>
                         <span *ngIf="!this.ascSortAccordingToABC">Z-A</span>
                     </button>
                 </span>
                 <span class="mr-[0.5%]">
-                    <button mat-raised-button color="accent" [ngClass]="this.ascSortAccordingToABC === undefined && this.ascSortAccordingToPrice !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToPrice()">
+                    <button class="bg-orange-300 text-black" mat-raised-button [ngClass]="this.ascSortAccordingToABC === undefined && this.ascSortAccordingToPrice !== undefined ? 'selectedSort' : ''" (click)="onSortAccordingToPrice()">
                         Ár:
                         <span *ngIf="this.ascSortAccordingToPrice">növekvő</span>
                         <span *ngIf="!this.ascSortAccordingToPrice">csökkenő</span>
                     </button>
                 </span>
                 <span>
-                    <button *ngIf="this.ascSortAccordingToABC !== undefined || this.ascSortAccordingToPrice !== undefined" mat-raised-button color="accent" (click)="onCancelSort()">
+                    <button class="sort-cancel" *ngIf="this.ascSortAccordingToABC !== undefined || this.ascSortAccordingToPrice !== undefined" mat-raised-button (click)="onCancelSort()">
                         Mégse <mat-icon>cancel</mat-icon>
                     </button>
                 </span>
             </div>    
             <div class='image-container'>
                 <div *ngIf="this.searchNullPcsProduct" class='productdata'>
-                    <button class="zoom-button addProductButton" disabled="disabled">
-                        <span class="flex justify-center transform -rotate-45 text-red-500 font-bold text-[220%]">
+                    <button class="zoom-button" disabled="disabled">
+                        <span class="flex justify-center transform -rotate-45 text-orange-800 font-bold text-[220%]">
                             Nincs ilyen termék!
                         </span>
                     </button>
@@ -62,15 +62,15 @@
                         <div class="button-container">
                             <div>
                                 <p class="productcount">Mennyiség</p>
-                                <div><button type="button" mat-raised-button color="accent"
+                                <div><button class="increase-button" type="button" mat-raised-button
                                         (click)="increaseCount(product.id, product.quantity); $event.stopPropagation()"><mat-icon>add</mat-icon></button>
                                 </div>
                                 <div class="productcount">{{this.productQuantity[product.id] || 1}}</div>
-                                <div><button type="button" mat-raised-button color="accent"
+                                <div><button class="decrease-button" type="button" mat-raised-button
                                         (click)="decreaseCount(product.id); $event.stopPropagation()"><mat-icon>remove</mat-icon></button>
                                 </div>
                             </div>
-                            <button class="cart" type="button" mat-raised-button color="accent"
+                            <button class="cart" type="button" mat-raised-button
                                 (click)="onAddToCart(product); $event.stopPropagation()">Kosárba<mat-icon>shopping_bag</mat-icon></button>
                         </div>
                     </button>
